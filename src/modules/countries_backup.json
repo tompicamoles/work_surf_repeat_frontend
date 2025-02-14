@@ -1,0 +1,2466 @@
+{
+  "Albania": {
+    "code": "AL",
+    "continent": "EU",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Algeria": {
+    "code": "DZ",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "March",
+      "April",
+      "May",
+      "October",
+      "November"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Angola": {
+    "code": "AO",
+    "surfSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Antigua & Deps": {
+    "code": "AG",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Argentina": {
+    "code": "AR",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "timeZone": "UTC���3"
+  },
+  "Australia": {
+    "code": "AU",
+    "surfSeason": [
+      "All year round"
+    ],
+    "goodWeatherSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "timeZone": "UTC+10"
+  },
+  "Bahamas": {
+    "code": "BS",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [],
+    "timeZone": "UTC−5"
+  },
+  "Bangladesh": {
+    "code": "BD",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "goodWeatherSeason": [],
+    "timeZone": "UTC+6"
+  },
+  "Barbados": {
+    "code": "BB",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [],
+    "timeZone": "UTC−4"
+  },
+  "Belgium": {
+    "code": "BE",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Belize": {
+    "code": "BZ",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Brazil": {
+    "code": "BR",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC−3"
+  },
+  "Brunei": {
+    "code": "BN",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "February",
+      "March",
+      "April",
+      "May",
+      "June"
+    ],
+    "timeZone": "UTC+8"
+  },
+  "Bulgaria": {
+    "code": "BG",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Cambodia": {
+    "code": "KH",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+7"
+  },
+  "Cameroon": {
+    "code": "CM",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Canada": {
+    "code": "CA",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC−5 to UTC−8"
+  },
+  "Chile": {
+    "code": "CL",
+    "surfSeason": [
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "China": {
+    "code": "CN",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+8"
+  },
+  "Colombia": {
+    "code": "CO",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Costa Rica": {
+    "code": "CR",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Croatia": {
+    "code": "HR",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Cuba": {
+    "code": "CU",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Cyprus": {
+    "code": "CY",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Denmark": {
+    "code": "DK",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Dominica": {
+    "code": "DM",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Dominican Republic": {
+    "code": "DO",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "East Timor": {
+    "code": "TL",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+9"
+  },
+  "Ecuador": {
+    "code": "EC",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Egypt": {
+    "code": "EG",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "El Salvador": {
+    "code": "SV",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Equatorial Guinea": {
+    "code": "GQ",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Estonia": {
+    "code": "EE",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Fiji": {
+    "code": "FJ",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Finland": {
+    "code": "FI",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "France": {
+    "code": "FR",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Gabon": {
+    "code": "GA",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Gambia": {
+    "code": "GM",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Germany": {
+    "code": "DE",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Ghana": {
+    "code": "GH",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Greece": {
+    "code": "GR",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Grenada": {
+    "code": "GD",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Guatemala": {
+    "code": "GT",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Guyana": {
+    "code": "GY",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Haiti": {
+    "code": "HT",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Honduras": {
+    "code": "HN",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Iceland": {
+    "code": "IS",
+    "surfSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "India": {
+    "code": "IN",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+5:30"
+  },
+  "Indonesia": {
+    "code": "ID",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+7"
+  },
+  "Ireland {Republic}": {
+    "code": "IE",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Israel": {
+    "code": "IL",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "March",
+      "April",
+      "May",
+      "October",
+      "November"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Italy": {
+    "code": "IT",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Ivory Coast": {
+    "code": "CI",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [],
+    "timeZone": "UTC+0"
+  },
+  "Jamaica": {
+    "code": "JM",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Japan": {
+    "code": "JP",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "March",
+      "April",
+      "May",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+9"
+  },
+  "Kenya": {
+    "code": "KE",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "January",
+      "February",
+      "March",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Kiribati": {
+    "code": "KI",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Korea South": {
+    "code": "KR",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+9"
+  },
+  "Latvia": {
+    "code": "LV",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Lebanon": {
+    "code": "LB",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "March",
+      "April",
+      "May",
+      "October",
+      "November"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Liberia": {
+    "code": "LR",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Libya": {
+    "code": "LY",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Lithuania": {
+    "code": "LT",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Madagascar": {
+    "code": "MG",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Malaysia": {
+    "code": "MY",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+8"
+  },
+  "Maldives": {
+    "code": "MV",
+    "surfSeason": [
+      "March",
+      "April",
+      "October",
+      "November"
+    ],
+    "goodWeatherSeason": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "October",
+      "November",
+      "December"
+    ],
+    "timeZone": "UTC+5"
+  },
+  "Malta": {
+    "code": "MT",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Marshall Islands": {
+    "code": "MH",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Mauritania": {
+    "code": "MR",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Mauritius": {
+    "code": "MU",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+4"
+  },
+  "Mexico": {
+    "code": "MX",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Micronesia": {
+    "code": "FM",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+10"
+  },
+  "Montenegro": {
+    "code": "ME",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Morocco": {
+    "code": "MA",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "September",
+      "October",
+      "November"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Mozambique": {
+    "code": "MZ",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Myanmar {Burma}": {
+    "code": "MM",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+6:30"
+  },
+  "Namibia": {
+    "code": "NA",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Nauru": {
+    "code": "NR",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Netherlands": {
+    "code": "NL",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "New Zealand": {
+    "code": "NZ",
+    "surfSeason": [
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Nicaragua": {
+    "code": "NI",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−6"
+  },
+  "Nigeria": {
+    "code": "NG",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Norway": {
+    "code": "NO",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Oman": {
+    "code": "OM",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+4"
+  },
+  "Pakistan": {
+    "code": "PK",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+5"
+  },
+  "Palau": {
+    "code": "PW",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+9"
+  },
+  "Panama": {
+    "code": "PA",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Papua New Guinea": {
+    "code": "PG",
+    "surfSeason": [
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+10"
+  },
+  "Peru": {
+    "code": "PE",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC−5"
+  },
+  "Philippines": {
+    "code": "PH",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC+8"
+  },
+  "Poland": {
+    "code": "PL",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Portugal": {
+    "code": "PT",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Romania": {
+    "code": "RO",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Russian Federation": {
+    "code": "RU",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+3 to UTC+12"
+  },
+  "Saint Vincent & the Grenadines": {
+    "code": "VC",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Samoa": {
+    "code": "WS",
+    "surfSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+13"
+  },
+  "Sao Tome & Principe": {
+    "code": "ST",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Saudi Arabia": {
+    "code": "SA",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Senegal": {
+    "code": "SN",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Seychelles": {
+    "code": "SC",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+4"
+  },
+  "Sierra Leone": {
+    "code": "SL",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Slovenia": {
+    "code": "SI",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Solomon Islands": {
+    "code": "SB",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+11"
+  },
+  "Somalia": {
+    "code": "SO",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "South Africa": {
+    "code": "ZA",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Spain": {
+    "code": "ES",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Sri Lanka": {
+    "code": "LK",
+    "surfSeason": [
+      "All year round"
+    ],
+    "goodWeatherSeason": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "timeZone": "UTC+5:30"
+  },
+  "Sudan": {
+    "code": "SD",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Sweden": {
+    "code": "SE",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Syria": {
+    "code": "SY",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "March",
+      "April",
+      "May",
+      "October",
+      "November"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "Taiwan": {
+    "code": "TW",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+8"
+  },
+  "Tanzania": {
+    "code": "TZ",
+    "surfSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Thailand": {
+    "code": "TH",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+7"
+  },
+  "Togo": {
+    "code": "TG",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "Tonga": {
+    "code": "TO",
+    "surfSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+13"
+  },
+  "Trinidad & Tobago": {
+    "code": "TT",
+    "surfSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Tunisia": {
+    "code": "TN",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+1"
+  },
+  "Turkey": {
+    "code": "TR",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Tuvalu": {
+    "code": "TV",
+    "surfSeason": [
+      "May",
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "May",
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+12"
+  },
+  "Ukraine": {
+    "code": "UA",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+2"
+  },
+  "United Arab Emirates": {
+    "code": "AE",
+    "surfSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+4"
+  },
+  "United Kingdom": {
+    "code": "GB",
+    "surfSeason": [
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC+0"
+  },
+  "United States": {
+    "code": "US",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October"
+    ],
+    "goodWeatherSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "timeZone": "UTC−5 to UTC−10"
+  },
+  "Uruguay": {
+    "code": "UY",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "December",
+      "January",
+      "February",
+      "March",
+      "April"
+    ],
+    "timeZone": "UTC−3"
+  },
+  "Vanuatu": {
+    "code": "VU",
+    "surfSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "goodWeatherSeason": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September"
+    ],
+    "timeZone": "UTC+11"
+  },
+  "Venezuela": {
+    "code": "VE",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May"
+    ],
+    "timeZone": "UTC−4"
+  },
+  "Vietnam": {
+    "code": "VN",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+7"
+  },
+  "Yemen": {
+    "code": "YE",
+    "surfSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "timeZone": "UTC+3"
+  },
+  "Benin": {
+    "code": "BJ",
+    "surfSeason": [
+      "June",
+      "July",
+      "August"
+    ],
+    "goodWeatherSeason": [
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "timeZone": "UTC+1"
+  }
+}
+
