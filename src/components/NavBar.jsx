@@ -16,15 +16,14 @@ import { Link as RouterLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LogInButton } from "./LogInButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "./userSlice";
 // const pages = ["Explore", "Blog"];
 
 function NavBar() {
   // const [ setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { logout, isAuthenticated } = useAuth0();
-
-  console.log("isAuthenticated", isAuthenticated);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   // const handleOpenNavMenu = (event) => {
   //   setAnchorElNav(event.currentTarget);
@@ -163,9 +162,7 @@ function NavBar() {
                   <Typography
                     textAlign="center"
                     onClick={() =>
-                      logout({
-                        logoutParams: { returnTo: window.location.origin },
-                      })
+                      console.log("logOut")
                     }
                   >
                     Log Out

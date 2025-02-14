@@ -1,12 +1,23 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Button } from "@mui/material";
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
+import AuthPopup from './AuthPopup';
 
+export const LogInButton = ({ context }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-export const LogInButton = ({context}) => {
-    const {loginWithRedirect} = useAuth0();
-
-
-    return(
-        <Button  color={context === "navBar" ? "secondary" : "primary"} variant="contained" onClick={() => loginWithRedirect()} >Log In</Button>
-    )
-}
+  return (
+    <>
+      <Button 
+        onClick={() => setIsPopupOpen(true)}
+        variant={context === "navBar" ? "contained" : "outlined"}
+        color="primary"
+      >
+        Log In
+      </Button>
+      <AuthPopup 
+        isOpen={isPopupOpen} 
+        onClose={() => setIsPopupOpen(false)} 
+      />
+    </>
+  );
+};
