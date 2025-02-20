@@ -18,9 +18,12 @@ import { LogInButton } from "./LogInButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "./userSlice";
+import { logoutUser } from "./userSlice";
+import { useDispatch } from "react-redux";
 // const pages = ["Explore", "Blog"];
 
 function NavBar() {
+  const dispatch = useDispatch();
   // const [ setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -39,6 +42,10 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const logOut = () => {
+      dispatch(logoutUser());
+    };
 
   return (
     <AppBar position="static">
@@ -158,7 +165,7 @@ function NavBar() {
                   </Link>
                 </MenuItem>
 
-                <MenuItem key={"logOut"} onClick={handleCloseUserMenu}>
+                <MenuItem key={"logOut"} onClick={logOut}>
                   <Typography
                     textAlign="center"
                     onClick={() =>

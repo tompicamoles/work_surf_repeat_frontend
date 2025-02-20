@@ -228,7 +228,7 @@ export const loadSpots = createAsyncThunk(
         numberOfLikes: record.fields.likes.split(",").length,
       };
 
-    
+
       return spots;
     }, {});
 
@@ -236,29 +236,20 @@ export const loadSpots = createAsyncThunk(
   }
 );
 
-export const likeSpot = createAsyncThunk("spots/likeSpot", async (likeData) => {
-  const { id, likes } = likeData;
+export const likeSpot = createAsyncThunk("spots/likeSpot", async (spotId) => {
 
-  const urlWithSpotId = `${url}/${id}`;
-
-  const data = {
-    fields: {
-      likes: likes.toString(),
-    },
-  };
-
-  const response = await fetch(urlWithSpotId, {
-    method: "PATCH",
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`, {
+    method: "post",
     headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
+      "x-api-key": process.env.REACT_APP_BACKEND_API_KEY
     },
-    body: JSON.stringify(data),
+    credentials: "include",
   });
 
   const json = await response.json();
+  console.log('json', json)
 
-  return { id: id, likes: likes };
+  return { json };
 });
 
 export const spotsSlice = createSlice({
@@ -325,7 +316,7 @@ export const spotsSlice = createSlice({
       .addCase(likeSpot.fulfilled, (state, action) => {
         state.isLoadingLikeSpot = false;
         state.failedToLikeSpot = false;
-        state.spots[action.payload.id].likes = action.payload.likes;
+        //state.spots[action.payload.id].likes = action.payload.likes;
       });
   },
 });
