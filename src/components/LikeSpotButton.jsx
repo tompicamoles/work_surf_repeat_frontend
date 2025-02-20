@@ -1,7 +1,5 @@
-import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpots, likeSpot } from "./spotsSlice";
-import { useAuth0 } from "@auth0/auth0-react";
 
 import {
   Box,
@@ -19,42 +17,39 @@ import {
   House,
   ThumbUpAlt,
 } from "@mui/icons-material";
-import { commaSeparator } from "../modules/commaSeparator";
-import { wifiLabels } from "./formCompents/WifiRating";
-import { lifeCostLabels } from "./formCompents/LifeCost";
 
-import { GiMapleLeaf, GiSprout } from "react-icons/gi";
-import { FaSun, FaSnowman } from "react-icons/fa";
-
-import { GiWaveSurfer } from "react-icons/gi";
+import AuthPopup from "./AuthPopup";
+import { useState } from "react";
+import { selectIsAuthenticated, selectCurrentUser } from "./userSlice";
 
 function LikeSpotButton({ id }) {
+  const [isLikePopupOpen, setIsLikePopupOpen] = useState(false);
+
   const dispatch = useDispatch();
-  const { user, isAuthenticated } = useAuth0();
+  const user = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const spot = useSelector(selectSpots)[id];
   const numberOfLikes = spot.likes.length;
 
   const handleLikeButton = () => {
     if (isAuthenticated) {
-      let newListOfLikes = [...spot.likes];
-      !spot.likes.includes(user.email)
-        ? newListOfLikes.push(user.email)
-        : (newListOfLikes = newListOfLikes.filter(
-            (like) => like !== user.email
-          ));
-      newListOfLikes.length === 0 && newListOfLikes.push("tom");
+      // let newListOfLikes = [...spot.likes];
+      // !spot.likes.includes(user.email)
+      //   ? newListOfLikes.push(user.email)
+      //   : (newListOfLikes = newListOfLikes.filter(
+      //       (like) => like !== user.email
+      //     ));
+      // newListOfLikes.length === 0 && newListOfLikes.push("tom");
 
-      const likeData = {
-        id: id,
-        likes: newListOfLikes,
-      };
+      // const likeData = {
+      //   id: id,
+      //   likes: newListOfLikes,
+      // };
 
-      dispatch(likeSpot(likeData));
+      dispatch(likeSpot(id));
     } else {
-      alert(
-        "you must log in to like a spot and add it to your liked spots list"
-      );
+      setIsLikePopupOpen(true)
     }
   };
 
@@ -67,6 +62,7 @@ function LikeSpotButton({ id }) {
   }
 
   return (
+    <>
    
         <Tooltip
           title={
@@ -77,7 +73,7 @@ function LikeSpotButton({ id }) {
             size="small"
             color="secondary"
             aria-label="add"
-            onClick={() => isAuthenticated && handleLikeButton()}
+            onClick={() => handleLikeButton()}
           >
             <ThumbUpAlt color={userLikedDestination ? "primary" : "disabled"} />
             <Typography marginLeft={-1} marginTop={2.5} color="black">
@@ -85,6 +81,14 @@ function LikeSpotButton({ id }) {
             </Typography>
           </Fab>
         </Tooltip>
+
+        <AuthPopup 
+        isOpen={isLikePopupOpen} 
+        onClose={() => setIsLikePopupOpen(false)} 
+      />
+
+        </>
+        
       
   );
 }

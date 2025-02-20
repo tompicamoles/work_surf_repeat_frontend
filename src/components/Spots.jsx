@@ -4,13 +4,12 @@ import { selectSpots } from "./spotsSlice";
 import { useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import { isLoadingSpots } from "./spotsSlice";
-
+import { selectCurrentUser } from "./userSlice";  
 import { useSearchParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { SpotCardSkeleton } from "./SpotCardSkeleton";
 
 const Spots = ({ context }) => {
-  const { user } = useAuth0();
+  const user = useSelector(selectCurrentUser);
   console.log("love");
 
   let spots = useSelector(selectSpots);

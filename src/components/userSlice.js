@@ -44,6 +44,7 @@ export const loginUser = createAsyncThunk(
     }
 
     const data = await response.json();
+    console.log("data received from login", data);
     return data;
   }
 );
@@ -85,7 +86,8 @@ export const checkAuth = createAsyncThunk(
       throw new Error(errorData.message || "Auth check failed");
     }
 
-    const data = await response.json();
+    const responseData = await response.json();
+    const data = responseData.data;
     return data;
   }
 );
