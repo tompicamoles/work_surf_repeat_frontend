@@ -17,7 +17,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { LogInButton } from "./LogInButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "./userSlice";
+import { selectIsAuthenticated, selectCurrentUser } from "./userSlice";
 import { logoutUser } from "./userSlice";
 import { useDispatch } from "react-redux";
 // const pages = ["Explore", "Blog"];
@@ -27,6 +27,9 @@ function NavBar() {
   // const [ setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectCurrentUser);
+  console.log("user", user);
+
 
   // const handleOpenNavMenu = (event) => {
   //   setAnchorElNav(event.currentTarget);

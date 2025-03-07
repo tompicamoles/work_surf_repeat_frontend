@@ -7,9 +7,12 @@ import { Link as RouterLink } from "react-router-dom";
 import Spots from "../components/Spots";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../components/spotsSlice";
-
+import { selectIsAuthenticated, selectCurrentUser } from "../components/userSlice";
 export const Profile = () => {
-  const { user, isAuthenticated, isLoading, user_metadata } = useAuth0();
+  const {isLoading, user_metadata } = useAuth0();
+  const user = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   console.log("user info:", 
     user, 
     //user_metadata, isAuthenticated, isLoading
@@ -51,11 +54,11 @@ export const Profile = () => {
         <Grid item xs={12}>
           <Typography variant="h3" gutterBottom sx={{ display: { xs: "none", sm: "block" } }}>
             {" "}
-            Welcome {user.nickname}!
+            Welcome {user.name}!
           </Typography>
           <Typography variant="h4" gutterBottom sx={{ display: { xs: "block", sm: "none" } }}>
             {" "}
-            Hi {user.nickname}!
+            Hi {user.name}!
           </Typography>
         </Grid>
 
