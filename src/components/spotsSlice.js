@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { generateImage } from "../api/unsplash";
 import { getGeolocation } from "../api/googleMapsApi";
-import { getCountryLifecost, getCountrySurfSeason } from "../modules/countriesData";
-
-const url = "https://api.airtable.com/v0/appEifpsElq8TYpAy/spots";
+const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots`;
 const token = process.env.REACT_APP_AIRTABLE_API_KEY;
+
 
 export const createSpot = createAsyncThunk(
   "spots/createSpot",
@@ -63,6 +62,7 @@ export const createSpot = createAsyncThunk(
     });
 
     const json = await response.json();
+
     const spot = json.records[0];
 
     // get spot ID and Create new spot object in the current slice
@@ -83,6 +83,7 @@ export const createSpot = createAsyncThunk(
       latitude,
       longitude,
     };
+    console.log("newSpot", newSpot);
 
     return newSpot;
   }
@@ -90,167 +91,99 @@ export const createSpot = createAsyncThunk(
 
 export const loadSpots = createAsyncThunk(
   "spots/loadSpots",
-  async (filters = null) => {
-    const generatFilterFormula = (filters) => {
-      if (!filters) {
-        return "";
-      } else {
-        let isFirstFilter = true;
+  async (filters = {}) => {
+    console.log("trying to load spots", filters);
 
-        let globalFormula = `filterByFormula=AND(`;
+    // Extract filters safely with default empty values
+    const {
+      lifeCost,
+      hasColiving,
+      hasCoworking,
+      wifiQuality,
+      country,
+      surfSeason = []
+    } = filters || {};
 
-        if (filters.country) {
-          const countryFormula = `%7Bcountry%7D%3D%22${filters.country}%22`;
-          globalFormula += countryFormula;
-          isFirstFilter = false;
-        }
+    console.log("filters", filters);
 
-        if (filters.wifiQuality) {
-          let wifiFormula = `%7Bwifi_quality%7D%3E%3D${filters.wifiQuality}`;
+    // Convert filters to URL query parameters instead of using a request body
+    const queryParams = new URLSearchParams();
 
-          if (!isFirstFilter) {
-            wifiFormula = `%2C${wifiFormula}`;
-          } else {
-            isFirstFilter = false;
-          }
+    if (lifeCost) queryParams.append('lifeCost', lifeCost);
+    if (hasColiving) queryParams.append('hasColiving', hasColiving);
+    if (hasCoworking) queryParams.append('hasCoworking', hasCoworking);
+    if (wifiQuality) queryParams.append('wifiQuality', wifiQuality);
+    if (country) queryParams.append('country', country);
+    if (surfSeason && surfSeason.length) {
+      surfSeason.forEach(season => queryParams.append('surfSeason', season));
+    }
 
-          globalFormula += wifiFormula;
-        }
+    const queryString = queryParams.toString();
+    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots${queryString ? `?${queryString}` : ''}`;
 
-        if (filters.lifeCost) {
-          let lifeCostFormula = `%7Blife_cost%7D%3C%3D${filters.lifeCost}`;
-          if (!isFirstFilter) {
-            lifeCostFormula = `%2C${lifeCostFormula}`;
-          } else {
-            isFirstFilter = false;
-          }
+    console.log("requesting URL:", url);
 
-          globalFormula += lifeCostFormula;
-        }
-
-        if (filters.hasCoworking) {
-          let coworkingFormula = `%7Bhas_coworking%7D%3DTRUE()`;
-          if (!isFirstFilter) {
-            coworkingFormula = `%2C${coworkingFormula}`;
-          } else {
-            isFirstFilter = false;
-          }
-
-          globalFormula += coworkingFormula;
-        }
-
-        if (filters.hasColiving) {
-          let colivingFormula = `%7Bhas_coliving%7D%3DTRUE()`;
-          if (!isFirstFilter) {
-            colivingFormula = `%2C${colivingFormula}`;
-          } else {
-            isFirstFilter = false;
-          }
-
-          globalFormula += colivingFormula;
-        }
-
-        // if (filters.level.length !== 0) {
-        //   let levelFormula = "";
-        //   if (filters.level.length === 1) {
-        //     levelFormula = `FIND(%22${filters.level[0]}%22%2C+%7Blevel%7D)`;
-        //   } else {
-        //     filters.level.map((level) => {
-        //       levelFormula += `FIND(%22${level}%22%2C+%7Blevel%7D)%2C`;
-        //       return levelFormula;
-        //     });
-        //     levelFormula = levelFormula.slice(0, -3); // removes the last comma, encoded as %2C
-        //     levelFormula = `OR(${levelFormula})`; // wraps the whole thing in the OR()
-        //   }
-        //   if (!isFirstFilter) {
-        //     levelFormula = `%2C${levelFormula}`;
-        //   } else {
-        //     isFirstFilter = false;
-        //   }
-
-        //   globalFormula += levelFormula;
-        // }
-
-        if (filters.surfSeason.length !== 0) {
-          let surfSeasonFormula = "";
-          if (filters.surfSeason.length === 1) {
-            surfSeasonFormula = `FIND(%22${filters.surfSeason[0]}%22%2C+%7Bsurf_season%7D)`;
-          } else {
-            filters.surfSeason.map((surfSeason) => {
-              surfSeasonFormula += `FIND(%22${surfSeason}%22%2C+%7Bsurf_season%7D)%2C`;
-              return surfSeasonFormula;
-            });
-            surfSeasonFormula = surfSeasonFormula.slice(0, -3); // removes the last comma, encoded as %2C
-            surfSeasonFormula = `OR(${surfSeasonFormula})`; // wraps the whole thing in the OR()
-          }
-          if (!isFirstFilter) {
-            surfSeasonFormula = `%2C${surfSeasonFormula}`;
-          } else {
-            isFirstFilter = false;
-          }
-
-          globalFormula += surfSeasonFormula;
-        }
-
-        globalFormula += ")&";
-
-        return globalFormula;
-      }
-    };
-
-    const filterFormula = generatFilterFormula(filters);
-
-    const getUrl = `${url}?${filterFormula}maxRecords=70`;
-    const response = await fetch(getUrl, {
+    const response = await fetch(url, {
+      method: "GET",
       headers: {
-        Authorization: token,
-      },
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+        "Content-Type": "application/json"
+      }
+      // Remove the body property - GET requests shouldn't have a body
     });
-    const json = await response.json();
 
-    const cardsData = json.records.reduce((spots, record) => {
-      spots[record.id] = {
-        id: record.id,
-        name: record.fields.name,
-        country: record.fields.country,
+    const json = await response.json();
+    console.log("json", json);
+
+    const cardsData = json.reduce((spots, spot) => {
+      spots[spot.id] = {
+        id: spot.id,
+        name: spot.name,
+        country: spot.country,
         // level: record.fields.level,
-        image: record.fields.image,
-        surfSeason: record.fields.surf_season,
-        wifiQuality: record.fields.wifi_quality,
-        hasCoworking: record.fields.has_coworking,
-        hasColiving: record.fields.has_coliving,
-        lifeCost: record.fields.life_cost,
-        submitedBy: record.fields.submited_by,
-        creatorNickname: record.fields.creator_nickname,
-        likes: record.fields.likes.split(","),
-        latitude: parseFloat(record.fields.latitude),
-        longitude: parseFloat(record.fields.longitude),
-        numberOfLikes: record.fields.likes.split(",").length,
+        image: spot.image_link,
+        surfSeason: spot.surf_season.split(","),
+        wifiQuality: spot.wifi_quality,
+        hasCoworking: spot.has_coworking,
+        hasColiving: spot.has_coliving,
+        lifeCost: spot.life_cost,
+        submitedBy: spot.submited_by,
+        latitude: parseFloat(spot.latitude),
+        longitude: parseFloat(spot.longitude),
+        likeUserIds: spot.like_user_ids ?? [],
+        totalLikes: spot.total_likes ?? 0,
       };
 
 
       return spots;
     }, {});
-
+    console.log("cardsData", cardsData);
     return cardsData;
   }
 );
 
-export const likeSpot = createAsyncThunk("spots/likeSpot", async (spotId) => {
+export const likeSpot = createAsyncThunk(
+  "spots/likeSpot",
+  async (spotId) => {
 
-  const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`, {
-    method: "post",
-    headers: {
-      "x-api-key": process.env.REACT_APP_BACKEND_API_KEY
-    },
-    credentials: "include",
-  });
 
-  const json = await response.json();
-  console.log('json', json)
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`, {
+      method: "post",
+      headers: {
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY
+      },
+      credentials: "include",
+    });
 
-  return { json };
-});
+    const json = await response.json();
+    console.log('json', json);
+
+    const status = response.status;
+    const userId = json.userId;
+
+    return { json, status, spotId, userId };
+  }
+);
 
 export const spotsSlice = createSlice({
   name: "spots",
@@ -316,7 +249,18 @@ export const spotsSlice = createSlice({
       .addCase(likeSpot.fulfilled, (state, action) => {
         state.isLoadingLikeSpot = false;
         state.failedToLikeSpot = false;
-        //state.spots[action.payload.id].likes = action.payload.likes;
+
+        const { spotId, status, userId } = action.payload;
+        const spot = state.spots[spotId];
+
+        if (status === 201) {
+          spot.likeUserIds.push(userId);
+        } else {
+          spot.likeUserIds = spot.likeUserIds.filter(id => id !== userId);
+        }
+
+        spot.totalLikes = spot.likeUserIds.length;
+
       });
   },
 });

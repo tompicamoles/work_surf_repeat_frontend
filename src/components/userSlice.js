@@ -8,7 +8,7 @@ export const signupUser = createAsyncThunk(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.REACT_APP_BACKEND_API_URL
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY
       },
       credentials: "include",
       body: JSON.stringify(userData),
