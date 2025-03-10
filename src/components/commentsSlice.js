@@ -69,7 +69,6 @@ export const loadComments = createAsyncThunk(
     });
 
     const json = await response.json();
-    console.log(json);
 
     const commentsData = json.records.reduce((comments, record) => {
       comments[record.id] = {
@@ -113,7 +112,6 @@ export const commentsSlice = createSlice({
         state.isLoadingComments = false;
         state.failedToLoadComments = false;
         state.comments = action.payload;
-        console.log("Comments", action.payload);
       })
       .addCase(createComment.pending, (state) => {
         state.isLoadingCommentCreation = true;

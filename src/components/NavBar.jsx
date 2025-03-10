@@ -28,7 +28,6 @@ function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectCurrentUser);
-  console.log("user", user);
 
 
   // const handleOpenNavMenu = (event) => {
@@ -171,9 +170,6 @@ function NavBar() {
                 <MenuItem key={"logOut"} onClick={logOut}>
                   <Typography
                     textAlign="center"
-                    onClick={() =>
-                      console.log("logOut")
-                    }
                   >
                     Log Out
                   </Typography>{" "}

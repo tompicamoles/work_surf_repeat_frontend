@@ -2,7 +2,6 @@ import { Button, Grid } from "@mui/material";
 import React from "react";
 
 export const SurfLine = ({ url }) => {
-  console.log("surfline URL," , url)
   return (
     <Grid
     

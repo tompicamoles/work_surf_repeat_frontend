@@ -44,7 +44,6 @@ export const loginUser = createAsyncThunk(
     }
 
     const data = await response.json();
-    console.log("data received from login", data);
     return data;
   }
 );

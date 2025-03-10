@@ -1,4 +1,3 @@
-
 const generateImage = async (name) => {
   // Generate image URL based on name and country
   const query = ` ${name}  surfing `;
@@ -21,7 +20,6 @@ const generateImage = async (name) => {
 
     const data = await response.json();
     const imgUrl = data.urls.regular;
-    console.log("image url", imgUrl)
     return imgUrl;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -130,7 +128,6 @@ const updateSpots = async () => {
       const firstThirtySpots = spotsArray.slice(50)
 
       firstThirtySpots.forEach(async([id, spot]) =>  {
-        console.log("getting image for " , spot.name)
           const imageUrl = await generateImage(spot.name)
           updateSpotImage(id, imageUrl)
           

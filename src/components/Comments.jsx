@@ -6,7 +6,6 @@ import { CommentCreationPopup } from "./CommentCreationPopup";
 
 export const Comments = ({ id }) => {
   const comments = useSelector(selectComments);
-  console.log("comments", comments);
 
   return (
     <>

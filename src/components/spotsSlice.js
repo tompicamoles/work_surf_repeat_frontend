@@ -83,7 +83,6 @@ export const createSpot = createAsyncThunk(
       latitude,
       longitude,
     };
-    console.log("newSpot", newSpot);
 
     return newSpot;
   }
@@ -92,8 +91,6 @@ export const createSpot = createAsyncThunk(
 export const loadSpots = createAsyncThunk(
   "spots/loadSpots",
   async (filters = {}) => {
-    console.log("trying to load spots", filters);
-
     // Extract filters safely with default empty values
     const {
       lifeCost,
@@ -103,8 +100,6 @@ export const loadSpots = createAsyncThunk(
       country,
       surfSeason = []
     } = filters || {};
-
-    console.log("filters", filters);
 
     // Convert filters to URL query parameters instead of using a request body
     const queryParams = new URLSearchParams();
@@ -121,8 +116,6 @@ export const loadSpots = createAsyncThunk(
     const queryString = queryParams.toString();
     const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots${queryString ? `?${queryString}` : ''}`;
 
-    console.log("requesting URL:", url);
-
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -133,7 +126,6 @@ export const loadSpots = createAsyncThunk(
     });
 
     const json = await response.json();
-    console.log("json", json);
 
     const cardsData = json.reduce((spots, spot) => {
       spots[spot.id] = {
@@ -157,7 +149,6 @@ export const loadSpots = createAsyncThunk(
 
       return spots;
     }, {});
-    console.log("cardsData", cardsData);
     return cardsData;
   }
 );
@@ -176,7 +167,6 @@ export const likeSpot = createAsyncThunk(
     });
 
     const json = await response.json();
-    console.log('json', json);
 
     const status = response.status;
     const userId = json.userId;

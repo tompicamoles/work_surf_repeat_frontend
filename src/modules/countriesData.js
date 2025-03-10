@@ -26,7 +26,6 @@ const countries = require("./countries.json")
   export function getCountriesList() {
     const countriesList = Object.keys(countries).sort()
     
-    console.log("countries list :" ,countriesList)
     return countriesList || "country not found"
     
   }
