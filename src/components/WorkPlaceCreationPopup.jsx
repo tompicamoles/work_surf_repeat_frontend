@@ -108,7 +108,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     dispatch(
       createWorkPlace({
         ...formData,
-        submited_by: user.email,
+        submitted_by: user.email,
         destination_id: id,
         creatorNickname: user.nickname,
         likes: user.email,

@@ -9,7 +9,7 @@ export const createComment = createAsyncThunk(
     const {
       content,
       destination_id,
-      submited_by,
+      submitted_by,
       rating,
       date,
       creatorNickname,
@@ -21,7 +21,7 @@ export const createComment = createAsyncThunk(
           fields: {
             content: content,
             destination_id: destination_id,
-            submited_by: submited_by,
+            submitted_by: submitted_by,
             creator_nickname: creatorNickname,
             rating: parseInt(rating),
             date: date,
@@ -48,7 +48,7 @@ export const createComment = createAsyncThunk(
       content: content,
       destination_id: destination_id,
       creatorNickname: creatorNickname,
-      submitedBy: submited_by,
+      submittedBy: submitted_by,
       rating: rating,
       date: date,
     };
@@ -75,7 +75,7 @@ export const loadComments = createAsyncThunk(
         id: record.id,
         content: record.fields.content,
         destinationId: record.fields.destination_id,
-        submitedBy: record.fields.submited_by,
+        submittedBy: record.fields.submitted_by,
         creatorNickname: record.fields.creator_nickname,
         rating: record.fields.rating,
         date: record.fields.date,

@@ -27,7 +27,7 @@ export const Profile = () => {
     for (let key in spots) {
       console.log(key);
       // Check if the search parameter is included in the name or country
-      if (spots[key].submitedBy === user.email) {
+      if (spots[key].submittedBy === user.email) {
         // If it matches, add the spot to the filteredSpots array
         console.log(key, "was created by user");
         filteredSpots[key] = spots[key];

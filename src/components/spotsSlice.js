@@ -17,53 +17,47 @@ export const createSpot = createAsyncThunk(
       hasCoworking,
       hasColiving,
       lifeCost,
-      submitedBy,
+      submittedBy,
       creatorNickname,
       likes,
     } = spotData;
 
-    const image = await generateImage(name, country);
-    console.log("image", image);
+    const image_link = await generateImage(name, country);
 
     const geolocation = await getGeolocation(name, country);
     const latitude = geolocation.latitude;
     const longitude = geolocation.longitude;
 
     const data = {
-      records: [
-        {
-          fields: {
-            name,
-            country,
-            // level,
-            image,
-            surf_season: surfSeason,
-            wifi_quality: parseInt(wifiQuality),
-            has_coworking: hasCoworking,
-            has_coliving: hasColiving,
-            life_cost: parseInt(lifeCost),
-            submited_by: submitedBy,
-            creator_nickname: creatorNickname,
-            likes: likes.toString(),
-            latitude: latitude.toString(),
-            longitude: longitude.toString(),
-          },
-        },
-      ],
+
+      name,
+      country,
+      // level,
+      image_link,
+      //surf_season: surfSeason,
+      wifi_quality: parseInt(wifiQuality),
+      has_coworking: hasCoworking,
+      has_coliving: hasColiving,
+      //life_cost: parseInt(lifeCost),
+      //submitted_by: submittedBy,
+      //creator_nickname: creatorNickname,
+      //likes: likes.toString(),
+      latitude: latitude,
+      longitude: longitude,
+
     };
 
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots`, {
       method: "POST",
       headers: {
-        Authorization: token,
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
-    const json = await response.json();
-
-    const spot = json.records[0];
+    const spot = await response.json();
 
     // get spot ID and Create new spot object in the current slice
     const newSpot = {
@@ -71,14 +65,14 @@ export const createSpot = createAsyncThunk(
       name,
       country,
       // level,
-      image,
+      image_link,
       surfSeason,
       wifiQuality,
       hasCoworking,
       hasColiving,
       lifeCost,
-      submitedBy,
-      creatorNickname,
+      submittedBy: spot.submitted_by,
+      //creatorNickname,
       likes,
       latitude,
       longitude,
@@ -139,7 +133,7 @@ export const loadSpots = createAsyncThunk(
         hasCoworking: spot.has_coworking,
         hasColiving: spot.has_coliving,
         lifeCost: spot.life_cost,
-        submitedBy: spot.submited_by,
+        submittedBy: spot.submitted_by,
         latitude: parseFloat(spot.latitude),
         longitude: parseFloat(spot.longitude),
         likeUserIds: spot.like_user_ids ?? [],
@@ -186,19 +180,7 @@ export const spotsSlice = createSlice({
     isLoadingLikeSpot: false,
     failedToLikeSpot: false,
   },
-  // reducers: {
-  //   updateSpot: (state, action) => {
-  //     console.log("spot updated");
-  //   },
 
-  //   deleteSpot: (state, action) => {
-  //     console.log("spot deleted");
-  //   },
-
-  //   likeSpot: (state, action) => {
-  //     console.log("spot liked");
-  //   },
-  // },
 
   extraReducers: (builder) => {
     builder

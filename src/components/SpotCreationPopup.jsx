@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { selectSpots } from "./spotsSlice";
 import { getCountryLifecost, getCountrySurfSeason } from "../modules/countriesData";
@@ -28,6 +27,8 @@ import LifeCost from "./formCompents/LifeCost";
 import MonthSelector from "./formCompents/MonthSelector";
 import AddIcon from "@mui/icons-material/Add";
 import { LogInButton } from "./LogInButton";
+import { selectIsAuthenticated, selectCurrentUser } from "./userSlice";
+
 
 const style = {
   position: "absolute",
@@ -46,7 +47,9 @@ const style = {
 function SpotCreationPopup() {
   let spots = useSelector(selectSpots);
 
-  const { user, isAuthenticated } = useAuth0();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectCurrentUser);
+
   const dispatch = useDispatch();
   
 
@@ -84,7 +87,6 @@ function SpotCreationPopup() {
     let destinationExists = false
     // Iterate over the keys of the spots object
     for (let key in spots) {
-      console.log(key);
       // Check if the search parameter is included in the name or country
       if (
         (spots[key].name.toLowerCase().includes(formData.name.toLowerCase())) &&(
@@ -99,7 +101,6 @@ function SpotCreationPopup() {
       
       }
     }
-    console.log(destinationExists)
 
     return destinationExists
   };
@@ -145,18 +146,17 @@ function SpotCreationPopup() {
       name: formData.name,
       country: formData.country,
       // level: formData.level,
-      surfSeason: getCountrySurfSeason(formData.country),
+      //surfSeason: getCountrySurfSeason(formData.country),
       wifiQuality: formData.wifiQuality,
       hasCoworking: formData.hasCoworking,
       hasColiving: formData.hasColiving,
-      lifeCost: getCountryLifecost(formData.country),
-      submitedBy: user.email,
-      creatorNickname: user.nickname,
-      likes: [user.email],
+      //lifeCost: getCountryLifecost(formData.country),
+      //submittedBy: user.email,
+      //creatorNickname: user.nickname,
+      //likes: [user.email],
     };
     dispatch(createSpot(spotData));
-    console.log("creator:", spotData.creatorNickname);
-    console.log("submitedBy: ", spotData.submitedBy);
+    
 
     handleClose();
   };
