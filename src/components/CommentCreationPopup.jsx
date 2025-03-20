@@ -89,7 +89,7 @@ export const CommentCreationPopup = ({ id }) => {
         ...formData,
         submitted_by: user.email,
         destination_id: id,
-        creatorNickname: user.nickname,
+        creatorName: user.nickname,
         date: date,
       })
     );

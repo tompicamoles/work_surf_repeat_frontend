@@ -25,7 +25,7 @@ export const CommentCard = ({ id }) => {
         <CardContent component={"div"}>
           <Grid item container xs={12} justifyContent={"space-between"} pb={.5}>
             <Typography variant="subtitle2">
-              {comment.date}, by <i>{comment.creatorNickname}</i>.
+              {comment.date}, by <i>{comment.creatorName}</i>.
             </Typography>
 
             <Rating

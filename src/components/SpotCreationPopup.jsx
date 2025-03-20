@@ -152,7 +152,7 @@ function SpotCreationPopup() {
       hasColiving: formData.hasColiving,
       //lifeCost: getCountryLifecost(formData.country),
       //submittedBy: user.email,
-      //creatorNickname: user.nickname,
+      //creatorName: user.nickname,
       //likes: [user.email],
     };
     dispatch(createSpot(spotData));

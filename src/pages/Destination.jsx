@@ -56,7 +56,7 @@ const Destinations = () => {
             backgroundSize: "cover", // Adjust the size of the background image
             backgroundPosition: "center", // Center the background image
             backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${spot.image})`,
+            backgroundImage: `url(${spot.image_link})`,
             minHeight:{ xs: 150, sm: 300 }
           }}
         >
@@ -67,7 +67,7 @@ const Destinations = () => {
             sx={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5) ", padding: { xs: 1, sm: 3 } }}
           >
             {" "}
-            Destination submitted by {spot.creatorNickname}
+            Destination submitted by {spot.creatorName}
           </Typography>
           
          

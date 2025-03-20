@@ -13,6 +13,8 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createWorkPlace } from "./workPlacesSlice";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated, selectCurrentUser } from "./userSlice";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LogInButton } from "./LogInButton";
 import { GoogleMapsWorkspaceIdFinder } from "./formCompents/GoogleMapsWorkspaceIdFinder";
@@ -32,13 +34,16 @@ const style = {
 };
 
 export const WorkPlaceCreationPopup = ({ id }) => {
-  const { user, isAuthenticated } = useAuth0();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectCurrentUser);
 
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
+
+  console.log("now spot id is:", id);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -108,10 +113,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     dispatch(
       createWorkPlace({
         ...formData,
-        submitted_by: user.email,
-        destination_id: id,
-        creatorNickname: user.nickname,
-        likes: user.email,
+        spotId: id,
       })
     );
 

@@ -6,9 +6,8 @@ import { selectWorkPlaces } from "./workPlacesSlice";
 
 function WorkPlaceCard({ type, id }) {
   const place = useSelector(selectWorkPlaces)[type][id];
-  const numberOfLikes = place.likes.length;
-
-  console.log("num likes for : ", place.name, place.likes, numberOfLikes);
+  console.log("place rating is:", place.rating);
+  // = place.likes.length;
 
   return (
     <Grid id="place" container item p={2} spacing={1} xs={12} width="100%">
@@ -21,7 +20,7 @@ function WorkPlaceCard({ type, id }) {
             backgroundSize: "cover", // Adjust the size of the background image
             backgroundPosition: "center", // Center the background image
             backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${place.image})`,
+            backgroundImage: `url(${place.image_link})`,
             display: "flex",
             minHeight: 100,
             width: 150,
@@ -90,7 +89,7 @@ function WorkPlaceCard({ type, id }) {
             </Typography>
           </Fab>
         </Grid> */}
-        <Typography variant="caption"> by {place.creatorNickname}</Typography>
+        <Typography variant="caption"> by {place.creatorName}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Divider />

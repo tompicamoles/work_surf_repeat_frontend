@@ -9,12 +9,9 @@ export const createWorkPlace = createAsyncThunk(
     const {
       name,
       type,
-      destination_id,
-      submitted_by,
-      creatorNickname,
+      spotId,
       adress,
       rating,
-      likes,
       googleId,
       longitude,
       latitude,
@@ -47,52 +44,49 @@ export const createWorkPlace = createAsyncThunk(
       }
     };
 
-    const image = await generateImage(name); //
+    const image_link = await generateImage(name);
+
     const data = {
-      records: [
-        {
-          fields: {
-            name: name,
-            type: type,
-            destination_id: destination_id,
-            image: image,
-            submitted_by: submitted_by,
-            creator_nickname: creatorNickname,
-            adress: adress,
-            rating: rating,
-            likes: likes.toString(),
-            google_id: googleId,
-            longitude: longitude.toString(),
-            latitude: latitude.toString(),
-          },
-        },
-      ],
+      name: name,
+      type: type,
+      spot_id: parseInt(spotId),
+      image_link,
+      adress: adress,
+      rating: parseInt(rating),
+      google_id: googleId,
+      longitude: longitude,
+      latitude: latitude,
     };
 
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/workplaces`, {
       method: "POST",
       headers: {
-        Authorization: token,
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
-    const json = await response.json();
-    const place = json.records[0];
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: "Unknown error occurred" }));
+      throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+    }
+
+    const place = await response.json();
 
     // get spot ID and Create new spot object in the current slice
     const newWorkPlace = {
       id: place.id,
       name: name,
       type: type,
-      destination_id: destination_id,
-      image: image,
-      submittedBy: submitted_by,
-      creatorNickname : creatorNickname,
+      spotId: spotId,
+      image_link,
+      submittedBy: place.submitted_by,
+      creatorName: place.creatorName,
       adress: adress,
       rating: rating,
-      likes: likes,
+      //likes: likes,
       googleid: googleId,
       longitude: longitude,
       latitude: latitude,
@@ -104,44 +98,44 @@ export const createWorkPlace = createAsyncThunk(
 
 export const loadWorkPlaces = createAsyncThunk(
   "workPlaces/loadWorkPlaces",
-  async (id) => {
-    const getUrl = `${url}?filterByFormula=%7Bdestination_id%7D%3D%22${id}%22&maxRecords=15`;
-
-    const response = await fetch(getUrl, {
+  async (spotId) => {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/workplaces`, {
+      method: "GET",
       headers: {
-        Authorization: token,
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+        "Content-Type": "application/json",
       },
     });
 
     const json = await response.json();
-    console.log(json);
+    console.log("workplace json is:", json);
 
-    const workPlacesData = json.records.reduce(
-      (workPlaces, record) => {
-        const type = record.fields.type;
+    const workPlacesData = json.reduce(
+      (workPlaces, place) => {
+        const type = place.type;
 
         const workPlace = {
-          id: record.id,
-          name: record.fields.name,
-          type: record.fields.type,
-          destinationId: record.fields.destination_id,
-          submittedBy: record.fields.submitted_by,
-          creatorNickname: record.fields.creator_nickname,
-          adress: record.fields.adress,
-          rating: record.fields.rating,
-          likes: record.fields.likes.split(","),
-          image: record.fields.image,
-          googleId: record.fields.google_id,
-          longitude: parseFloat(record.fields.longitude),
-          latitude: parseFloat(record.fields.latitude)
+          id: place.id,
+          name: place.name,
+          type: place.type,
+          destinationId: place.destination_id,
+          submittedBy: place.submitted_by,
+          creatorName: place.creator_name,
+          adress: place.adress,
+          rating: place.rating,
+          likes: place.likes ? place.likes.split(",") : [],
+          image_link: place.image_link,
+          googleId: place.google_id,
+          longitude: parseFloat(place.longitude),
+          latitude: parseFloat(place.latitude)
         };
 
         if (type === "coworking") {
-          workPlaces.coworking[record.id] = workPlace;
+          workPlaces.coworking[place.id] = workPlace;
         } else if (type === "café") {
-          workPlaces.café[record.id] = workPlace;
+          workPlaces.café[place.id] = workPlace;
         } else if (type === "coliving") {
-          workPlaces.coliving[record.id] = workPlace;
+          workPlaces.coliving[place.id] = workPlace;
         }
 
         return workPlaces;

@@ -78,7 +78,7 @@ function SpotCard({ id }) {
           backgroundSize: "cover", // Adjust the size of the background image
           backgroundPosition: "center", // Center the background image
           backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${spot.image})`,
+          backgroundImage: `url(${spot.image_link})`,
           display: "flex",
           minHeight: 200,
           width: "100%",
