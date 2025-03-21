@@ -19,7 +19,7 @@ import {
   House,
   ThumbUpAlt,
 } from "@mui/icons-material";
-import { commaSeparator } from "../modules/commaSeparator";
+import { displayListOfMonths } from "../modules/utils";
 import { wifiLabels } from "./formCompents/WifiRating";
 import { lifeCostLabels } from "./formCompents/LifeCost";
 
@@ -176,7 +176,7 @@ function SpotCard({ id }) {
             justifyContent="flex-start"
           >
             <Tooltip
-              title={`Best surf season : ${commaSeparator(spot.surfSeason)}.`}
+              title={`Best surf season : ${displayListOfMonths(spot.surfSeason)}.`}
             >
               <Box
                 sx={{
@@ -193,7 +193,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      ["June", "July", "August", "All year round"].includes(
+                      ["6", "7", "8", "All year round"].includes(
                         month
                       )
                     )
@@ -206,9 +206,9 @@ function SpotCard({ id }) {
                   color={
                     spot.surfSeason.some((month) =>
                       [
-                        "September",
-                        "October",
-                        "November",
+                        "9",
+                        "10",
+                        "11",
                         "All year round",
                       ].includes(month)
                     )
@@ -221,9 +221,9 @@ function SpotCard({ id }) {
                   color={
                     spot.surfSeason.some((month) =>
                       [
-                        "December",
-                        "January",
-                        "February",
+                        "12",
+                        "1",
+                        "2",
                         "All year round",
                       ].includes(month)
                     )
@@ -235,7 +235,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      ["March", "April", "May", "All year round"].includes(
+                      ["3", "4", "5", "All year round"].includes(
                         month
                       )
                     )

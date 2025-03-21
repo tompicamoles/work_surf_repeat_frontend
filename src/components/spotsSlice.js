@@ -4,6 +4,26 @@ import { getGeolocation } from "../api/googleMapsApi";
 const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots`;
 const token = process.env.REACT_APP_AIRTABLE_API_KEY;
 
+const createSpotObject = (spot) => {
+  return {
+    id: spot.id,
+    name: spot.name,
+    country: spot.country,
+    // level: record.fields.level,
+    image_link: spot.image_link,
+    surfSeason: spot.surf_season.split(","),
+    wifiQuality: spot.wifi_quality,
+    hasCoworking: spot.has_coworking,
+    hasColiving: spot.has_coliving,
+    lifeCost: spot.life_cost,
+    submittedBy: spot.submitted_by,
+    latitude: parseFloat(spot.latitude),
+    longitude: parseFloat(spot.longitude),
+    likeUserIds: spot.like_user_ids ?? [],
+    totalLikes: spot.total_likes ?? 0,
+  };
+};
+
 
 export const createSpot = createAsyncThunk(
   "spots/createSpot",
@@ -60,23 +80,7 @@ export const createSpot = createAsyncThunk(
     const spot = await response.json();
 
     // get spot ID and Create new spot object in the current slice
-    const newSpot = {
-      id: spot.id,
-      name,
-      country,
-      // level,
-      image_link,
-      surfSeason,
-      wifiQuality,
-      hasCoworking,
-      hasColiving,
-      lifeCost,
-      submittedBy: spot.submitted_by,
-      //creatorName,
-      likes,
-      latitude,
-      longitude,
-    };
+    const newSpot = createSpotObject(spot);
 
     return newSpot;
   }
@@ -122,23 +126,7 @@ export const loadSpots = createAsyncThunk(
     const json = await response.json();
 
     const cardsData = json.reduce((spots, spot) => {
-      spots[spot.id] = {
-        id: spot.id,
-        name: spot.name,
-        country: spot.country,
-        // level: record.fields.level,
-        image_link: spot.image_link,
-        surfSeason: spot.surf_season.split(","),
-        wifiQuality: spot.wifi_quality,
-        hasCoworking: spot.has_coworking,
-        hasColiving: spot.has_coliving,
-        lifeCost: spot.life_cost,
-        submittedBy: spot.submitted_by,
-        latitude: parseFloat(spot.latitude),
-        longitude: parseFloat(spot.longitude),
-        likeUserIds: spot.like_user_ids ?? [],
-        totalLikes: spot.total_likes ?? 0,
-      };
+      spots[spot.id] = createSpotObject(spot);
 
 
       return spots;
