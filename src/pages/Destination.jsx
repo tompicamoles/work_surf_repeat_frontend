@@ -1,22 +1,16 @@
-import { Grid, Typography, Button, Divider, Fab,Tooltip  } from "@mui/material";
+import { Grid, Typography, Button, Divider, Fab, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { loadWorkPlaces } from "../components/workPlacesSlice";
-import { loadComments } from "../components/commentsSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { selectSpots } from "../components/spotsSlice";
-import { WorkPlaces } from "../components/WorkPlaces";
-import {Comments} from "../components/Comments"
-import LikeSpotButton from "../components/LikeSpotButton";
-
-
-
-
+import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
+import { loadComments } from "../features/comments/commentsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSpots } from "../features/spots/spotsSlice";
+import { WorkPlaces } from "../features/workplaces/components/WorkPlaces";
+import { Comments } from "../features/comments/components/Comments";
+import LikeSpotButton from "../features/spots/components/LikeSpotButton";
+import { useTheme } from "@mui/material/styles";
 
 const Destinations = () => {
-
-  
 
   let { id } = useParams();
   const [buttonState, setButtonState] = useState("work");
@@ -29,8 +23,6 @@ const Destinations = () => {
     dispatch(loadWorkPlaces(id));
     dispatch(loadComments(id))
   }, [dispatch, id]);
-
-  
 
   const handleButtonClick = (state) => {
     state === "work" ? setButtonState("work") : setButtonState("comments");

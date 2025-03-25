@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./app/App";
+import App from "./app/App.js";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./app/store";
@@ -16,14 +16,14 @@ const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 root.render(
-  
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    ><APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}>
+  <Auth0Provider
+    domain={domain}
+    clientId={clientId}
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
+  >
+    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <App />

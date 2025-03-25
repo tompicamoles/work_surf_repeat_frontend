@@ -1,11 +1,11 @@
 import "./App.css";
-import Root from "./Root";
-import HomePage from "../pages/Homepage";
-import Destinations from "../pages/Destination";
+import Root from "./Root.js";
+import HomePage from "../pages/Homepage.jsx";
+import Destinations from "../pages/Destination.jsx";
 import { useDispatch } from "react-redux";
-import { loadSpots } from "../components/spotsSlice";
+import { loadSpots } from "../features/spots/spotsSlice";
 import { useSelector } from "react-redux";
-import { selectIsAuthenticated, selectCurrentUser } from "../components/userSlice";
+import { selectIsAuthenticated, selectCurrentUser, checkAuth } from "../features/user/userSlice";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -14,7 +14,7 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import { Profile } from "../pages/Profile";
-import { checkAuth } from "../components/userSlice";
+
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
