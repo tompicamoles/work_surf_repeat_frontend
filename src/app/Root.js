@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/NavBar";
 import { Stack } from "@mui/material";
+import NavBar from "../common/components/NavBar";
 
 function Root() {
   return (
@@ -11,7 +11,7 @@ function Root() {
       alignItems="center"
       spacing={2}
     >
-      <Navbar />
+      <NavBar />
       <Outlet />
     </Stack>
   );

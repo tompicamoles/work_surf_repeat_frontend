@@ -1,12 +1,14 @@
-import Spots from "../components/Spots.jsx";
+import Spots from "../features/spots/components/Spots";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Tab, Tabs, Typography } from "@mui/material";
-import SearchPanel from "../components/SearchPanel.jsx";
+
 import { useNavigate, useSearchParams } from "react-router-dom";
-import SideBar from "../components/SideBar.jsx";
-import SpotCreationPopup from "../components/SpotCreationPopup.jsx";
+
+import SpotCreationPopup from "../features/spots/components/SpotCreationPopup";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import SpotsMap from "../components/SpotsMap.jsx";
+import SpotsMap from "../features/spots/components/SpotsMap";
+import SearchPanel from "../common/components/SearchPanel";
+import SideBar from "../common/components/SideBar";
 
 function HomePage() {
   const navigate = useNavigate();

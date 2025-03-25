@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import spotsReducer from "../components/spotsSlice";
-import workPlacesReducer from "../components/workPlacesSlice";
-import commentsReducer from "../components/commentsSlice"
-import userReducer from "../components/userSlice"
+import spotsReducer from "../features/spots/spotsSlice";
+import workPlacesReducer from "../features/workplaces/workPlacesSlice";
+import commentsReducer from "../features/comments/commentsSlice";
+import userReducer from "../features/user/userSlice";
 
 export default configureStore({
     reducer: {
     spots: spotsReducer,
-    workPlaces : workPlacesReducer,
+    workPlaces: workPlacesReducer,
     comments: commentsReducer,
     user: userReducer,
     },
-  });
+});

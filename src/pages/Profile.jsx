@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 
-import Spots from "../components/Spots";
+import Spots from "../features/spots/components/Spots";
 import { useSelector } from "react-redux";
-import { selectSpots } from "../components/spotsSlice";
-import { selectIsAuthenticated, selectCurrentUser, selectIsLoading } from "../components/userSlice";
+import { selectSpots } from "../features/spots/spotsSlice";
+import { selectIsAuthenticated, selectCurrentUser, selectIsLoading } from "../features/user/userSlice";
 
 export const Profile = () => {
   const user = useSelector(selectCurrentUser);
