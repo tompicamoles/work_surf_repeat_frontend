@@ -16,11 +16,12 @@ const createSpotObject = (spot) => {
     hasCoworking: spot.has_coworking,
     hasColiving: spot.has_coliving,
     lifeCost: spot.life_cost,
-    submittedBy: spot.submitted_by,
+    submittedBy: parseInt(spot.submitted_by),
     latitude: parseFloat(spot.latitude),
     longitude: parseFloat(spot.longitude),
     likeUserIds: spot.like_user_ids ?? [],
     totalLikes: spot.total_likes ?? 0,
+    creatorName: spot.creator_name
   };
 };
 

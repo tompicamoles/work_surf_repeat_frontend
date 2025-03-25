@@ -1,7 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const url = "https://api.airtable.com/v0/appEifpsElq8TYpAy/work_places";
+const url = "";
 const token = process.env.REACT_APP_AIRTABLE_API_KEY;
+
+const createWorkPlaceObject = (place) => {
+  return {
+    id: place.id,
+    name: place.name,
+    type: place.type,
+    spotId: place.spot_id || place.destination_id,
+    submittedBy: place.submitted_by,
+    creatorName: place.creator_name,
+    adress: place.adress,
+    rating: parseInt(place.rating),
+    likes: place.likes ? (typeof place.likes === 'string' ? place.likes.split(",") : place.likes) : [],
+    image_link: place.image_link,
+    googleId: place.google_id,
+    longitude: parseFloat(place.longitude),
+    latitude: parseFloat(place.latitude)
+  };
+};
 
 export const createWorkPlace = createAsyncThunk(
   "workPlaces/createWorkPlace",
@@ -74,25 +92,7 @@ export const createWorkPlace = createAsyncThunk(
     }
 
     const place = await response.json();
-
-    // get spot ID and Create new spot object in the current slice
-    const newWorkPlace = {
-      id: place.id,
-      name: name,
-      type: type,
-      spotId: spotId,
-      image_link,
-      submittedBy: place.submitted_by,
-      creatorName: place.creatorName,
-      adress: adress,
-      rating: rating,
-      //likes: likes,
-      googleid: googleId,
-      longitude: longitude,
-      latitude: latitude,
-    };
-
-    return newWorkPlace;
+    return createWorkPlaceObject(place);
   }
 );
 
@@ -113,22 +113,7 @@ export const loadWorkPlaces = createAsyncThunk(
     const workPlacesData = json.reduce(
       (workPlaces, place) => {
         const type = place.type;
-
-        const workPlace = {
-          id: place.id,
-          name: place.name,
-          type: place.type,
-          destinationId: place.destination_id,
-          submittedBy: place.submitted_by,
-          creatorName: place.creator_name,
-          adress: place.adress,
-          rating: place.rating,
-          likes: place.likes ? place.likes.split(",") : [],
-          image_link: place.image_link,
-          googleId: place.google_id,
-          longitude: parseFloat(place.longitude),
-          latitude: parseFloat(place.latitude)
-        };
+        const workPlace = createWorkPlaceObject(place);
 
         if (type === "coworking") {
           workPlaces.coworking[place.id] = workPlace;

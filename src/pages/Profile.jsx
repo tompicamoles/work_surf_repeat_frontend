@@ -7,37 +7,23 @@ import { Link as RouterLink } from "react-router-dom";
 import Spots from "../components/Spots";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../components/spotsSlice";
-import { selectIsAuthenticated, selectCurrentUser } from "../components/userSlice";
+import { selectIsAuthenticated, selectCurrentUser, selectIsLoading } from "../components/userSlice";
+
 export const Profile = () => {
-  const {isLoading, user_metadata } = useAuth0();
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isLoading = useSelector(selectIsLoading);
 
-  console.log("user info:", 
-    user, 
-    //user_metadata, isAuthenticated, isLoading
-    );
+  console.log("user info:", user);
   const navigate = useNavigate();
   let spots = useSelector(selectSpots);
 
-  function filterCreatedSpots() {
-    let filteredSpots = {};
-
-    // Iterate over the keys of the spots object
-    for (let key in spots) {
-      console.log(key);
-      // Check if the search parameter is included in the name or country
-      if (spots[key].submittedBy === user.email) {
-        // If it matches, add the spot to the filteredSpots array
-        console.log(key, "was created by user");
-        filteredSpots[key] = spots[key];
-      }
+  const createdSpots = Object.entries(spots).reduce((filteredSpots, [key, spot]) => {
+    if (spot.submittedBy === user.id) {
+      filteredSpots[key] = spot;
     }
-    console.log(filteredSpots);
     return filteredSpots;
-  }
-
-  const createdSpots = filterCreatedSpots();
+  }, {});
 
   useEffect(() => {
     if (!isAuthenticated) {

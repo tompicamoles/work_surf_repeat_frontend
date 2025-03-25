@@ -345,7 +345,7 @@ function SpotCard({ id }) {
               </Typography>
               <Typography variant="h8" gutterBottom color={"grey"}>
                 {" "}
-                by {spot.submittedBy}
+                by {spot.creatorName}
               </Typography>
             </Grid>
           </Link>
