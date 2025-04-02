@@ -14,8 +14,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createWorkPlace } from "../workPlacesSlice";
 import { useSelector } from "react-redux";
-import { selectIsAuthenticated, selectCurrentUser } from "../../user/userSlice";
-import { useAuth0 } from "@auth0/auth0-react";
+import { selectIsAuthenticated } from "../../user/userSlice";
 import { LogInButton } from "../../user/components/LogInButton";
 import { GoogleMapsWorkspaceIdFinder } from "./forms/GoogleMapsWorkspaceIdFinder";
 import { WorkPlaceGoogleInfo } from "./forms/WorkPlaceGoogleInfo";
@@ -35,7 +34,6 @@ const style = {
 
 export const WorkPlaceCreationPopup = ({ id }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectCurrentUser);
 
   const dispatch = useDispatch();
 

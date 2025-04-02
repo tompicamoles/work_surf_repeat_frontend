@@ -9,20 +9,18 @@ export const WorkPlaces = ({ id }) => {
   return (
     <>
       {" "}
-      
-        <Grid item lg={7} xs={12} id="workPlacesLists" minHeight={500}>
-          <Grid item container justifyContent={"center"}>
-            <WorkPlaceCreationPopup id={id} />
-          </Grid>
+      <Grid item lg={7} xs={12} id="workPlacesLists" minHeight={500}>
+        <Grid item container justifyContent={"center"}>
+          <WorkPlaceCreationPopup id={id} />
+        </Grid>
 
-          <WorkPlacesList type="café" />
-          <WorkPlacesList type="coworking" />
-          <WorkPlacesList type="coliving" />
-        </Grid>
-        <Grid item container xs={12} lg={5}>
-          <WorkPlacesMap id={id} />
-        </Grid>
-      
+        <WorkPlacesList type="café" />
+        <WorkPlacesList type="coworking" />
+        <WorkPlacesList type="coliving" />
+      </Grid>
+      <Grid item container xs={12} lg={5}>
+        <WorkPlacesMap id={id} />
+      </Grid>
       {/* <Grid
         item
         container

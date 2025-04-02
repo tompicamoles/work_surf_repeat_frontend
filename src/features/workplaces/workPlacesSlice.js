@@ -1,8 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const url = "";
-const token = process.env.REACT_APP_AIRTABLE_API_KEY;
-
 const createWorkPlaceObject = (place) => {
   return {
     id: place.id,
@@ -35,7 +32,7 @@ export const createWorkPlace = createAsyncThunk(
       latitude,
     } = workPlaceData;
 
-    const generateImage = async (name) => {
+    const generateImage = async () => {
       // Generate image URL based on name and country
       const query = ` café`;
       const url = `https://api.unsplash.com/photos/random?query=${query}`;

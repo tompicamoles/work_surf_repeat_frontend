@@ -5,7 +5,7 @@ import Destinations from "../pages/Destination.jsx";
 import { useDispatch } from "react-redux";
 import { loadSpots } from "../features/spots/spotsSlice";
 import { useSelector } from "react-redux";
-import { selectIsAuthenticated, selectCurrentUser, checkAuth } from "../features/user/userSlice";
+import { selectCurrentUser, checkAuth } from "../features/user/userSlice";
 import {
   RouterProvider,
   createBrowserRouter,

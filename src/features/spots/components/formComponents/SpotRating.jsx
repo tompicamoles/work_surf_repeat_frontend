@@ -1,13 +1,9 @@
-import { Rating, Box, Typography } from "@mui/material";
+import { Rating, Box } from "@mui/material";
 import { StarRate } from "@mui/icons-material";
 import { useState } from "react";
 
-
-
 export const SpotRating = ({ value, handleInputChange }) => {
   const [hover, setHover] = useState(-1);
-
-  
 
   return (
     <Box
@@ -21,7 +17,6 @@ export const SpotRating = ({ value, handleInputChange }) => {
         name="rating"
         icon={<StarRate color="primary" fontSize="inherit" />}
         emptyIcon={<StarRate color="disabled" fontSize="inherit" />}
-        
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
@@ -36,4 +31,3 @@ export const SpotRating = ({ value, handleInputChange }) => {
     </Box>
   );
 };
-

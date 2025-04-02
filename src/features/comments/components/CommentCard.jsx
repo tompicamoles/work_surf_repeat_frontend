@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
   Typography,
   Grid,
@@ -23,7 +23,13 @@ export const CommentCard = ({ id }) => {
     <Grid p={1} container xs={12} lg={6}>
       <Card sx={{ width: "100%" }}>
         <CardContent component={"div"}>
-          <Grid item container xs={12} justifyContent={"space-between"} pb={.5}>
+          <Grid
+            item
+            container
+            xs={12}
+            justifyContent={"space-between"}
+            pb={0.5}
+          >
             <Typography variant="subtitle2">
               {comment.date}, by <i>{comment.creatorName}</i>.
             </Typography>
@@ -39,7 +45,11 @@ export const CommentCard = ({ id }) => {
 
           <Grid item xs={10}>
             <Typography variant="body">
-              "{showMore ? comment.content : `${comment.content.slice(0, 200)}...`}"
+              "
+              {showMore
+                ? comment.content
+                : `${comment.content.slice(0, 200)}...`}
+              "
             </Typography>
             {comment.content.length > 200 && (
               <Button onClick={handleShowMore}>

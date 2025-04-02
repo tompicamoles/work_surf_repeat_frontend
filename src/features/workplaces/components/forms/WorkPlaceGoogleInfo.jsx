@@ -1,11 +1,9 @@
-import React, { useEffect} from "react";
+import { useEffect } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { Rating, Typography } from "@mui/material";
 
 export const WorkPlaceGoogleInfo = ({ id, savePlaceDetails, formData }) => {
   const places = useMapsLibrary("places");
-
-
 
   const saveDetails = (placeId) => {
     const service = new places.PlacesService(document.createElement("div")); // it is mandatory to pass a "map" as an argument for some wierd reasons
@@ -18,7 +16,6 @@ export const WorkPlaceGoogleInfo = ({ id, savePlaceDetails, formData }) => {
 
   useEffect(() => {
     saveDetails(id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

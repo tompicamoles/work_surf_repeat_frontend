@@ -1,4 +1,4 @@
-import { Typography, Grid, Button, Divider } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectComments } from "../commentsSlice";
 import { CommentCard } from "./CommentCard";
@@ -9,7 +9,7 @@ export const Comments = ({ id }) => {
 
   return (
     <>
-      <Grid container >
+      <Grid container>
         <Grid container item>
           <Typography variant="h6">Comments</Typography>
         </Grid>

@@ -1,23 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpots, likeSpot } from "../spotsSlice";
-import { selectIsAuthenticated, selectCurrentUser } from "../../../features/user/userSlice";
+import {
+  selectIsAuthenticated,
+  selectCurrentUser,
+} from "../../../features/user/userSlice";
 
-import {
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Link,
-  Fab,
-  Tooltip,
-} from "@mui/material";
-import {
-  Wifi,
-  AttachMoney,
-  LaptopMac,
-  House,
-  ThumbUpAlt,
-} from "@mui/icons-material";
+import { Typography, Fab, Tooltip } from "@mui/material";
+import { ThumbUpAlt } from "@mui/icons-material";
 
 import AuthPopup from "../../../features/user/components/AuthPopup";
 import { useState } from "react";
@@ -40,7 +29,8 @@ function LikeSpotButton({ id }) {
     }
   };
 
-  let userLikedDestination = isAuthenticated && spot.likeUserIds?.includes(user.id);
+  let userLikedDestination =
+    isAuthenticated && spot.likeUserIds?.includes(user.id);
   // if (isAuthenticated) {
   //   // if (spot.likes.includes(user.email)) {
   //   if (false) {

@@ -47,7 +47,9 @@ function WorkPlacesList({ type }) {
         justifyContent="space-between"
       >
         <Grid item>
-          <Typography marginBottom={1} variant="h6">{title}</Typography>
+          <Typography marginBottom={1} variant="h6">
+            {title}
+          </Typography>
         </Grid>
 
         {Object.entries(workPlaces)
@@ -56,7 +58,11 @@ function WorkPlacesList({ type }) {
             <WorkPlaceCard type={type} id={id} />
           ))}
         <Grid item container justifyContent={"flex-end"}>
-          <Button sx={{marginTop:-2}} variant="text" onClick={handleShowMore}>
+          <Button
+            sx={{ marginTop: -2 }}
+            variant="text"
+            onClick={handleShowMore}
+          >
             Show more
           </Button>
         </Grid>

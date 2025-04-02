@@ -40,7 +40,10 @@ function WorkPlaceCard({ type, id }) {
         <Grid item container xs={12} alignItems="center">
           <Grid item xs={1}>
             {" "}
-            <LocationOnIcon id="icon" sx={{ display: { xs: "none", sm: "block" } }} />
+            <LocationOnIcon
+              id="icon"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            />
           </Grid>
           <Grid item container justifyContent="flex-start" sm={11}>
             <Typography
@@ -61,7 +64,15 @@ function WorkPlaceCard({ type, id }) {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container direction={"column"} justifyContent="space-between" alignItems={"flex-end"} xs={4} sm={3}>
+      <Grid
+        item
+        container
+        direction={"column"}
+        justifyContent="space-between"
+        alignItems={"flex-end"}
+        xs={4}
+        sm={3}
+      >
         <Grid item xs={6}>
           <Typography
             variant="h6"
@@ -69,7 +80,7 @@ function WorkPlaceCard({ type, id }) {
           >
             {place.rating} / 5
           </Typography>
-          
+
           <Typography sx={{ display: { xs: "block", sm: "none" } }}>
             {place.rating} / 5
           </Typography>

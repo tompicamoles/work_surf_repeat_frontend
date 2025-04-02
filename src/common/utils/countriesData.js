@@ -1,5 +1,4 @@
-const countries = require("./countries.json")
-
+import countries from "./countries.json"
 
   
   export function getCountryCode(countryName) {

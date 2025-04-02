@@ -1,6 +1,6 @@
 import Spots from "../features/spots/components/Spots";
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Grid, Tab } from "@mui/material";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -32,7 +32,6 @@ function HomePage() {
         pathname: "/",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -96,15 +95,15 @@ function HomePage() {
               >
                 <Tab label="list" value="list" />
                 <Tab label="map" value="map" />
-                
               </TabList>
               <SpotCreationPopup />
             </Box>
-            <TabPanel sx={{padding : 0.5}} value="list">
+            <TabPanel sx={{ padding: 0.5 }} value="list">
               <Spots />
             </TabPanel>
-            <TabPanel value="map"><SpotsMap/> </TabPanel>
-            
+            <TabPanel value="map">
+              <SpotsMap />{" "}
+            </TabPanel>
           </TabContext>
         </Box>
       </Grid>

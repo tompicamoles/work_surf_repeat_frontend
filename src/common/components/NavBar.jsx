@@ -13,10 +13,9 @@ import { Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector, useDispatch } from "react-redux";
-import { 
-  selectIsAuthenticated, 
-  selectCurrentUser,
-  logoutUser 
+import {
+  selectIsAuthenticated,
+  logoutUser,
 } from "../../features/user/userSlice";
 import { LogInButton } from "../../features/user/components/LogInButton";
 // const pages = ["Explore", "Blog"];
@@ -26,8 +25,6 @@ function NavBar() {
   // const [ setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectCurrentUser);
-
 
   // const handleOpenNavMenu = (event) => {
   //   setAnchorElNav(event.currentTarget);
@@ -53,9 +50,15 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {" "}
-          
-          <Link item component={RouterLink} to="/" color="inherit" underline="none" sx={{ display: "flex", alignItems: "center" }}>
-            <SurfingIcon  sx={{ mr: 1,}}    />
+          <Link
+            item
+            component={RouterLink}
+            to="/"
+            color="inherit"
+            underline="none"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <SurfingIcon sx={{ mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -71,8 +74,7 @@ function NavBar() {
             >
               Work Surf Repeat
             </Typography>
-            </Link>
-       
+          </Link>
           {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -167,11 +169,7 @@ function NavBar() {
                 </MenuItem>
 
                 <MenuItem key={"logOut"} onClick={logOut}>
-                  <Typography
-                    textAlign="center"
-                  >
-                    Log Out
-                  </Typography>{" "}
+                  <Typography textAlign="center">Log Out</Typography>{" "}
                 </MenuItem>
               </Menu>{" "}
             </Box>

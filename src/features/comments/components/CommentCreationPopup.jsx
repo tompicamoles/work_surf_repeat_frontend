@@ -10,8 +10,10 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createComment } from "../commentsSlice";
-import { useAuth0 } from "@auth0/auth0-react";
 import { LogInButton } from "../../user/components/LogInButton";
+import { selectCurrentUser, selectIsAuthenticated } from "../../user/userSlice";
+import { useSelector } from "react-redux";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -27,7 +29,9 @@ const style = {
 };
 
 export const CommentCreationPopup = ({ id }) => {
-  const { user, isAuthenticated } = useAuth0();
+
+  const user = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   console.log("id in modal", id);
   console.log("user data is:", user);

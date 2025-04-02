@@ -1,17 +1,11 @@
 import { useState } from "react";
-import {
-
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-} from "@vis.gl/react-google-maps";
+import { AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 import { Grid, Typography } from "@mui/material";
 
 export const WorkPlaceMarker = ({
   latitude,
   longitude,
   name,
-  adress,
   type,
   rating,
 }) => {

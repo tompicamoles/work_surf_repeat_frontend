@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSpots, createSpot } from "../spotsSlice";
-import { selectIsAuthenticated, selectCurrentUser } from "../../user/userSlice";
+import { selectIsAuthenticated } from "../../user/userSlice";
 
 import {
   TextField,
@@ -39,10 +39,8 @@ function SpotCreationPopup() {
   let spots = useSelector(selectSpots);
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectCurrentUser);
 
   const dispatch = useDispatch();
-  
 
   const [open, setOpen] = useState(false);
 
@@ -73,27 +71,25 @@ function SpotCreationPopup() {
   });
 
   const checkAlreadyExisting = () => {
-    console.log("running checkAlreadyExistingSpot")
-    
-    let destinationExists = false
+    console.log("running checkAlreadyExistingSpot");
+
+    let destinationExists = false;
     // Iterate over the keys of the spots object
     for (let key in spots) {
       // Check if the search parameter is included in the name or country
       if (
-        (spots[key].name.toLowerCase().includes(formData.name.toLowerCase())) &&(
+        spots[key].name.toLowerCase().includes(formData.name.toLowerCase()) &&
         spots[key].country
           .toLowerCase()
           .includes(formData.country.toLowerCase())
-      )) {
+      ) {
         // If it matches, add the spot to the filteredSpots array
         console.log(key, "was already created");
-        return true
-        
-      
+        return true;
       }
     }
 
-    return destinationExists
+    return destinationExists;
   };
 
   const handleInputChange = (e) => {
@@ -122,9 +118,9 @@ function SpotCreationPopup() {
   const createDestination = (event) => {
     event.preventDefault();
 
-    if(checkAlreadyExisting() === true){
-      alert( `${formData.name}, ${formData.country} has been created already`)
-      return
+    if (checkAlreadyExisting() === true) {
+      alert(`${formData.name}, ${formData.country} has been created already`);
+      return;
     }
 
     if (!formData.wifiQuality) {
@@ -147,14 +143,20 @@ function SpotCreationPopup() {
       //likes: [user.email],
     };
     dispatch(createSpot(spotData));
-    
 
     handleClose();
   };
 
   return (
     <Box>
-      <Button variant="contained" color="primary" aria-label="add" onClick={handleOpen} >Add a new destination</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        aria-label="add"
+        onClick={handleOpen}
+      >
+        Add a new destination
+      </Button>
       {/* <Fab color="primary" aria-label="add" onClick={handleOpen}>
         <AddIcon />
       </Fab> */}

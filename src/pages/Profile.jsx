@@ -1,5 +1,4 @@
 import { Grid, Link, Typography } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -7,23 +6,28 @@ import { Link as RouterLink } from "react-router-dom";
 import Spots from "../features/spots/components/Spots";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../features/spots/spotsSlice";
-import { selectIsAuthenticated, selectCurrentUser, selectIsLoading } from "../features/user/userSlice";
+import {
+  selectIsAuthenticated,
+  selectCurrentUser,
+} from "../features/user/userSlice";
 
 export const Profile = () => {
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const isLoading = useSelector(selectIsLoading);
 
   console.log("user info:", user);
   const navigate = useNavigate();
   let spots = useSelector(selectSpots);
 
-  const createdSpots = Object.entries(spots).reduce((filteredSpots, [key, spot]) => {
-    if (spot.submittedBy === user.id) {
-      filteredSpots[key] = spot;
-    }
-    return filteredSpots;
-  }, {});
+  const createdSpots = Object.entries(spots).reduce(
+    (filteredSpots, [key, spot]) => {
+      if (spot.submittedBy === user.id) {
+        filteredSpots[key] = spot;
+      }
+      return filteredSpots;
+    },
+    {}
+  );
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -31,18 +35,25 @@ export const Profile = () => {
         pathname: "/",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     isAuthenticated && (
       <Grid container p={3}>
         <Grid item xs={12}>
-          <Typography variant="h3" gutterBottom sx={{ display: { xs: "none", sm: "block" } }}>
+          <Typography
+            variant="h3"
+            gutterBottom
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
             {" "}
             Welcome {user.name}!
           </Typography>
-          <Typography variant="h4" gutterBottom sx={{ display: { xs: "block", sm: "none" } }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ display: { xs: "block", sm: "none" } }}
+          >
             {" "}
             Hi {user.name}!
           </Typography>

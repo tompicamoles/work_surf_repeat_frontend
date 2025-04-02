@@ -1,30 +1,19 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectSpots } from "../spotsSlice";
-import {
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Link,
-  Tooltip,
-} from "@mui/material";
-import {
-  Wifi,
-  AttachMoney,
-  LaptopMac,
-  House,
-} from "@mui/icons-material";
-import { displayListOfMonths } from "../../../common/utils/utils";
-import { wifiLabels } from "./formComponents/WifiRating";
-import { lifeCostLabels } from "./formComponents/LifeCost";
+import { Box, Grid, Paper, Typography, Link, Tooltip } from "@mui/material";
+import { Wifi, AttachMoney, LaptopMac, House } from "@mui/icons-material";
 import { GiMapleLeaf, GiSprout } from "react-icons/gi";
 import { FaSun, FaSnowman } from "react-icons/fa";
+
+import { selectSpots } from "../spotsSlice";
+import { displayListOfMonths } from "../../../common/utils/utils";
+
+import { wifiLabels } from "./formComponents/WifiRating";
+import { lifeCostLabels } from "./formComponents/LifeCost";
 import LikeSpotButton from "./LikeSpotButton";
 
 function SpotCard({ id }) {
   // const dispatch = useDispatch();
-  // const { user, isAuthenticated } = useAuth0();
 
   const spot = useSelector(selectSpots)[id];
 
@@ -169,7 +158,9 @@ function SpotCard({ id }) {
             justifyContent="flex-start"
           >
             <Tooltip
-              title={`Best surf season : ${displayListOfMonths(spot.surfSeason)}.`}
+              title={`Best surf season : ${displayListOfMonths(
+                spot.surfSeason
+              )}.`}
             >
               <Box
                 sx={{
@@ -186,9 +177,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      ["6", "7", "8", "All year round"].includes(
-                        month
-                      )
+                      ["6", "7", "8", "All year round"].includes(month)
                     )
                       ? "#05668D"
                       : "rgba(74,74,74,0.38)"
@@ -198,12 +187,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      [
-                        "9",
-                        "10",
-                        "11",
-                        "All year round",
-                      ].includes(month)
+                      ["9", "10", "11", "All year round"].includes(month)
                     )
                       ? "#05668D"
                       : "rgba(74,74,74,0.38)"
@@ -213,12 +197,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      [
-                        "12",
-                        "1",
-                        "2",
-                        "All year round",
-                      ].includes(month)
+                      ["12", "1", "2", "All year round"].includes(month)
                     )
                       ? "#05668D"
                       : "rgba(74,74,74,0.38)"
@@ -228,9 +207,7 @@ function SpotCard({ id }) {
                   size={20}
                   color={
                     spot.surfSeason.some((month) =>
-                      ["3", "4", "5", "All year round"].includes(
-                        month
-                      )
+                      ["3", "4", "5", "All year round"].includes(month)
                     )
                       ? "#05668D"
                       : "rgba(74,74,74,0.38)"

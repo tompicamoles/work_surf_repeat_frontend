@@ -1,15 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { generateImage } from "../../tierApi/unsplash"; 
 import { getGeolocation } from "../../tierApi/googleMapsApi";
-const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots`;
-const token = process.env.REACT_APP_AIRTABLE_API_KEY;
 
 const createSpotObject = (spot) => {
   return {
     id: spot.id,
     name: spot.name,
     country: spot.country,
-    // level: record.fields.level,
     image_link: spot.image_link,
     surfSeason: spot.surf_season.split(","),
     wifiQuality: spot.wifi_quality,
@@ -32,15 +29,10 @@ export const createSpot = createAsyncThunk(
     const {
       name,
       country,
-      // level,
-      surfSeason,
       wifiQuality,
       hasCoworking,
       hasColiving,
-      lifeCost,
-      submittedBy,
-      creatorName,
-      likes,
+  
     } = spotData;
 
     const image_link = await generateImage(name, country);
@@ -53,18 +45,12 @@ export const createSpot = createAsyncThunk(
 
       name,
       country,
-      // level,
       image_link,
-      //surf_season: surfSeason,
       wifi_quality: parseInt(wifiQuality),
       has_coworking: hasCoworking,
       has_coliving: hasColiving,
-      //life_cost: parseInt(lifeCost),
-      //submitted_by: submittedBy,
-      //creator_name: creatorName,
-      //likes: likes.toString(),
-      latitude: latitude,
-      longitude: longitude,
+      latitude,
+      longitude,
 
     };
 

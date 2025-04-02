@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
   Modal,
   Box,
@@ -7,28 +7,31 @@ import {
   Button,
   Stack,
   Alert,
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, signupUser, selectError, selectIsLoading } from '../userSlice';
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginUser,
+  signupUser,
+  selectError,
+  selectIsLoading,
+} from "../userSlice";
 
 const AuthPopup = ({ isOpen, onClose }) => {
-  const theme = useTheme();
   const dispatch = useDispatch();
   const error = useSelector(selectError);
   const isLoading = useSelector(selectIsLoading);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    name: ''
+    email: "",
+    password: "",
+    name: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -36,33 +39,37 @@ const AuthPopup = ({ isOpen, onClose }) => {
     e.preventDefault();
     try {
       if (isLogin) {
-        await dispatch(loginUser({
-          email: formData.email,
-          password: formData.password
-        })).unwrap();
+        await dispatch(
+          loginUser({
+            email: formData.email,
+            password: formData.password,
+          })
+        ).unwrap();
       } else {
-        await dispatch(signupUser({
-          email: formData.email,
-          password: formData.password,
-          name: formData.name
-        })).unwrap();
+        await dispatch(
+          signupUser({
+            email: formData.email,
+            password: formData.password,
+            name: formData.name,
+          })
+        ).unwrap();
       }
       onClose(); // Close the modal on success
     } catch (err) {
       // Error handling is managed by Redux
-      console.error('Authentication error:', err);
+      console.error("Authentication error:", err);
     }
   };
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid',
-    borderColor: 'primary.main',
+    bgcolor: "background.paper",
+    border: "2px solid",
+    borderColor: "primary.main",
     borderRadius: 3,
     boxShadow: 24,
     p: 4,
@@ -77,11 +84,9 @@ const AuthPopup = ({ isOpen, onClose }) => {
     >
       <Box component="form" sx={style} onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          {error && (
-            <Alert severity="error">{error}</Alert>
-          )}
+          {error && <Alert severity="error">{error}</Alert>}
           <Typography variant="h4" color="primary">
-            {isLogin ? 'Log In' : 'Sign Up'}
+            {isLogin ? "Log In" : "Sign Up"}
           </Typography>
 
           <TextField
@@ -119,26 +124,28 @@ const AuthPopup = ({ isOpen, onClose }) => {
             />
           )}
 
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             fullWidth
             size="large"
             disabled={isLoading}
           >
-            {isLoading ? 'Processing...' : (isLogin ? 'Log In' : 'Sign Up')}
+            {isLoading ? "Processing..." : isLogin ? "Log In" : "Sign Up"}
           </Button>
 
           <Box textAlign="center">
             <Typography variant="body2" display="inline">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
+              {isLogin
+                ? "Don't have an account? "
+                : "Already have an account? "}
             </Typography>
             <Button
               onClick={() => setIsLogin(!isLogin)}
               color="primary"
-              sx={{ textTransform: 'none' }}
+              sx={{ textTransform: "none" }}
             >
-              {isLogin ? 'Sign Up' : 'Log In'}
+              {isLogin ? "Sign Up" : "Log In"}
             </Button>
           </Box>
         </Stack>
@@ -147,4 +154,4 @@ const AuthPopup = ({ isOpen, onClose }) => {
   );
 };
 
-export default AuthPopup; 
+export default AuthPopup;

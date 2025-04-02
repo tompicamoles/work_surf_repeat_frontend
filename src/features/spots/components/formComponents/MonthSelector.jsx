@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -16,8 +15,20 @@ const MenuProps = {
   },
 };
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 function getStyles(name, personName, theme) {
   return {
@@ -28,14 +39,22 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MonthSelector({surfSeason, handleInputChange, context}) {
+export default function MonthSelector({
+  surfSeason,
+  handleInputChange,
+  context,
+}) {
   const theme = useTheme();
-  
 
   return (
     <div>
-      <FormControl required={context === "popup" && true} sx={{ m: 1, width: "100%"}}>
-        <InputLabel id="demo-multiple-name-label">{context === "popup" ? "Surf Season" : "Months"}</InputLabel>
+      <FormControl
+        required={context === "popup" && true}
+        sx={{ m: 1, width: "100%" }}
+      >
+        <InputLabel id="demo-multiple-name-label">
+          {context === "popup" ? "Surf Season" : "Months"}
+        </InputLabel>
         <Select
           labelId="surfSeason"
           id="surfSeason"
