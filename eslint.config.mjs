@@ -4,6 +4,7 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
 
+
 export default [
     // Base configurations
     eslint.configs.recommended,
@@ -48,6 +49,7 @@ export default [
             'react/jsx-uses-react': 'off',
             'react/react-in-jsx-scope': 'off',
             'react/prop-types': 'off',
+            'react/jsx-no-undef': 'error',
             '@typescript-eslint/no-unused-vars': 'off',
 
             // General rules
@@ -65,3 +67,11 @@ export default [
         }
     },
 ];
+
+
+
+
+// export default defineConfig([
+//     { files: ["**/*.js"], languageOptions: { globals: globals.browser } },
+//     { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
+// ]);

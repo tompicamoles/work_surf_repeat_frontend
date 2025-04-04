@@ -12,7 +12,7 @@ import AuthPopup from "../../../features/user/components/AuthPopup";
 import { useState } from "react";
 
 function LikeSpotButton({ id }) {
-  const [isLikePopupOpen, setIsLikePopupOpen] = useState(false);
+  const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
 
   const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
@@ -25,7 +25,7 @@ function LikeSpotButton({ id }) {
     if (isAuthenticated) {
       dispatch(likeSpot(id));
     } else {
-      setIsLikePopupOpen(true);
+      setIsAuthPopupOpen(true);
     }
   };
 
@@ -58,8 +58,8 @@ function LikeSpotButton({ id }) {
       </Tooltip>
 
       <AuthPopup
-        isOpen={isLikePopupOpen}
-        onClose={() => setIsLikePopupOpen(false)}
+        isOpen={isAuthPopupOpen}
+        onClose={() => setIsAuthPopupOpen(false)}
       />
     </>
   );

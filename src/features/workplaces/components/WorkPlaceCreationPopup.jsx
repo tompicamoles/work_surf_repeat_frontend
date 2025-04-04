@@ -18,6 +18,8 @@ import { selectIsAuthenticated } from "../../user/userSlice";
 import { LogInButton } from "../../user/components/LogInButton";
 import { GoogleMapsWorkspaceIdFinder } from "./forms/GoogleMapsWorkspaceIdFinder";
 import { WorkPlaceGoogleInfo } from "./forms/WorkPlaceGoogleInfo";
+import AuthPopup from "../../user/components/AuthPopup";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,10 +39,16 @@ export const WorkPlaceCreationPopup = ({ id }) => {
 
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
+  const [isCreationPopupOpen, setIsCreationPopupOpen] = useState(false);
+  const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-
+  const handleOpen = () => {
+    if (!isAuthenticated) {
+      setIsAuthPopupOpen(true);
+    } else {
+      setIsCreationPopupOpen(true);
+    }
+  };
   console.log("now spot id is:", id);
 
   const [formData, setFormData] = useState({
@@ -65,7 +73,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
       latitude: null,
       longitude: null,
     });
-    setOpen(false);
+    setIsCreationPopupOpen(false);
   };
 
   const handleInputChange = (e) => {
@@ -124,7 +132,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
         Recommand a place to work form
       </Button>
       <Modal
-        open={open}
+        open={isCreationPopupOpen}
         onClose={handleClose}
         aria-labelledby="WorkPlace-creation-modal"
         aria-describedby="modal-to-create-workPlace"
@@ -205,6 +213,10 @@ export const WorkPlaceCreationPopup = ({ id }) => {
           )}
         </Box>
       </Modal>
+      <AuthPopup
+        isOpen={isAuthPopupOpen}
+        onClose={() => setIsAuthPopupOpen(false)}
+      />
     </Box>
   );
 };
