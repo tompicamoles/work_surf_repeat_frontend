@@ -6,9 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import SpotCreationPopup from "../features/spots/components/SpotCreationPopup";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import SpotsMap from "../features/spots/components/SpotsMap";
 import SearchPanel from "../common/components/SearchPanel";
 import SideBar from "../common/components/SideBar";
+import { SpotMap } from "../features/spots/components/SpotsMap";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function HomePage() {
   const [filterButton, setFilterButton] = useState(false);
   const [value, setValue] = React.useState("list");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
 
@@ -102,7 +102,7 @@ function HomePage() {
               <Spots />
             </TabPanel>
             <TabPanel value="map">
-              <SpotsMap />{" "}
+              <SpotMap />{" "}
             </TabPanel>
           </TabContext>
         </Box>

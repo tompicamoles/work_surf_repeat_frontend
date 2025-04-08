@@ -1,31 +1,58 @@
-"use client";
-
-import { Map } from "@vis.gl/react-google-maps";
-
+import { Icon } from "leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../../spots/spotsSlice";
 import { selectWorkPlaces } from "../workPlacesSlice";
-import { WorkPlaceMarker } from "./WorkPlaceMarker";
 
 export default function WorkPlacesMap({ id }) {
   const workPlaces = useSelector(selectWorkPlaces);
   const spot = useSelector(selectSpots)[id];
-  const spotPosition = { lat: spot.latitude, lng: spot.longitude };
+  const spotPosition = [spot.latitude, spot.longitude];
+
+  const surfIcon = new Icon({
+    iconUrl: "/spot.png",
+    iconSize: [38, 38],
+  });
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      <Map
-        defaultZoom={15}
-        defaultCenter={spotPosition}
-        mapId={process.env.REACT_APP_MAP_API}
-        disableDefaultUI
-      >
+    <MapContainer
+      center={spotPosition}
+      zoom={14}
+      style={{ height: "50vh", width: "100%" }}
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+      <MarkerClusterGroup>
         {Object.keys(workPlaces).map((category) =>
-          Object.keys(workPlaces[category]).map((id) => (
-            <WorkPlaceMarker key={id} {...workPlaces[category][id]} />
-          ))
+          Object.keys(workPlaces[category]).map((id) => {
+            const workPlace = workPlaces[category][id];
+            const workPlacePosition = [workPlace.latitude, workPlace.longitude];
+            return (
+              <Marker icon={surfIcon} position={workPlacePosition}>
+                <Popup>{workPlace.name}</Popup>
+              </Marker>
+            );
+          })
         )}
-      </Map>
-    </div>
+      </MarkerClusterGroup>
+    </MapContainer>
   );
+
+  // return (
+  //   <div style={{ height: "100vh", width: "100%" }}>
+  //     <Map
+  //       defaultZoom={15}
+  //       defaultCenter={spotPosition}
+  //       mapId={process.env.REACT_APP_MAP_API}
+  //       disableDefaultUI
+  //     >
+  //       {Object.keys(workPlaces).map((category) =>
+  //         Object.keys(workPlaces[category]).map((id) => (
+  //           <WorkPlaceMarker key={id} {...workPlaces[category][id]} />
+  //         ))
+  //       )}
+  //     </Map>
+  //   </div>
+  // );
 }
