@@ -49,7 +49,7 @@ export const GoogleMapsWorkspaceIdFinder = ({ onChange, id }) => {
         name="googleId"
         noOptionsText="type name to see suggestions"
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_event, newInputValue) => {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => (

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createWorkPlace } from "../workPlacesSlice";
+import { createWorkPlace, selectWorkPlaces } from "../workPlacesSlice";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../user/userSlice";
 import { LogInButton } from "../../user/components/LogInButton";
@@ -35,21 +35,16 @@ const style = {
 };
 
 export const WorkPlaceCreationPopup = ({ id }) => {
+  const workPlaces = useSelector(selectWorkPlaces);
+  console.log("work places are:", workPlaces);
+
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const dispatch = useDispatch();
 
   const [isCreationPopupOpen, setIsCreationPopupOpen] = useState(false);
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
-
-  const handleOpen = () => {
-    if (!isAuthenticated) {
-      setIsAuthPopupOpen(true);
-    } else {
-      setIsCreationPopupOpen(true);
-    }
-  };
-  console.log("now spot id is:", id);
+  const [isAlreadyExisting, setIsAlreadyExisting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -61,6 +56,14 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     latitude: null,
     longitude: null,
   });
+
+  const handleOpen = () => {
+    if (!isAuthenticated) {
+      setIsAuthPopupOpen(true);
+    } else {
+      setIsCreationPopupOpen(true);
+    }
+  };
 
   const handleClose = () => {
     setFormData({
@@ -92,8 +95,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   //     }));
   //   };
 
-  const saveGoogleId = (event, value) => {
-    console.log("event and value are:", event, value);
+  const saveGoogleId = (_event, value) => {
     setFormData((prevData) => ({
       ...prevData,
       googleId: value?.place_id || "",
@@ -101,10 +103,9 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   };
 
   const savePlaceDetails = (place) => {
-    console.log("latitude", place.geometry.location.lat);
     setFormData((prevData) => ({
       ...prevData,
-
+      id: place.place_id,
       name: place.name,
       adress: place.formatted_address,
       rating: place.rating,
@@ -113,8 +114,18 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     }));
   };
 
+  const checkIfWorkPlaceAlreadyExists = (type, id) => {
+    const workPlace = workPlaces[type][id];
+    return workPlace !== undefined;
+  };
+
   const createPlace = (event) => {
     event.preventDefault();
+
+    if (isAlreadyExisting) {
+      alert("work place already exists");
+      return;
+    }
 
     dispatch(
       createWorkPlace({
@@ -160,45 +171,31 @@ export const WorkPlaceCreationPopup = ({ id }) => {
                 </Select>
               </FormControl>
               {formData.type && (
-                <GoogleMapsWorkspaceIdFinder onChange={saveGoogleId} id={id} />
+                <GoogleMapsWorkspaceIdFinder
+                  onChange={(event, value) => {
+                    saveGoogleId(event, value);
+                    if (value?.place_id) {
+                      setIsAlreadyExisting(
+                        checkIfWorkPlaceAlreadyExists(
+                          formData.type,
+                          value.place_id
+                        )
+                      );
+                    }
+                  }}
+                  id={id}
+                />
               )}
-              {formData.googleId !== "" && (
+              {formData.googleId !== "" && !isAlreadyExisting && (
                 <WorkPlaceGoogleInfo
                   id={formData.googleId}
                   savePlaceDetails={savePlaceDetails}
                   formData={formData}
                 />
               )}
-              {/* <TextField
-                label="name"
-                placeholder="name"
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              /> */}
-
-              {/* <TextField
-                id="adress"
-                label="adress"
-                name="adress"
-                multiline
-                rows={2}
-                value={formData.adress}
-                onChange={handleInputChange}
-                required
-              />
-              <Typography component="legend">Rating</Typography>
-              <Rating
-                name="rating"
-                id="rating"
-                value={formData.rating}
-                onChange={handleInputChange}
-                precision={0.5}
-                min={1}
-              /> */}
+              {formData.googleId !== "" && isAlreadyExisting && (
+                <> ⚠️Spot already existing ⚠️</>
+              )}
               <Button type="submit" variant="contained">
                 Submit work place
               </Button>
