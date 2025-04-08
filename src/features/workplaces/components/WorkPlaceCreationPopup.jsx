@@ -51,7 +51,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     type: "",
     image: "",
     adress: "",
-    rating: 4,
+    rating: 3,
     googleId: "",
     latitude: null,
     longitude: null,
@@ -71,7 +71,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
       type: "",
       image: "",
       adress: "",
-      rating: 4,
+      rating: 3,
       googleId: "",
       latitude: null,
       longitude: null,
@@ -103,9 +103,9 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   };
 
   const savePlaceDetails = (place) => {
+    console.log("place rating from google:", place.rating);
     setFormData((prevData) => ({
       ...prevData,
-      id: place.place_id,
       name: place.name,
       adress: place.formatted_address,
       rating: place.rating,

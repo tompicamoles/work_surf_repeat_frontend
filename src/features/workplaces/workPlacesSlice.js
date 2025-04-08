@@ -9,10 +9,9 @@ const createWorkPlaceObject = (place) => {
     submittedBy: place.submitted_by,
     creatorName: place.creator_name,
     adress: place.adress,
-    rating: parseInt(place.rating),
+    rating: place.rating,
     likes: place.likes ? (typeof place.likes === 'string' ? place.likes.split(",") : place.likes) : [],
     image_link: place.image_link,
-    googleId: place.google_id,
     longitude: parseFloat(place.longitude),
     latitude: parseFloat(place.latitude)
   };
@@ -22,7 +21,6 @@ export const createWorkPlace = createAsyncThunk(
   "workPlaces/createWorkPlace",
   async (workPlaceData) => {
     const {
-      id,
       name,
       type,
       spotId,
@@ -32,6 +30,8 @@ export const createWorkPlace = createAsyncThunk(
       longitude,
       latitude,
     } = workPlaceData;
+
+    console.log("place rating from slice:", rating);
 
     const generateImage = async () => {
       // Generate image URL based on name and country
@@ -63,14 +63,13 @@ export const createWorkPlace = createAsyncThunk(
     const image_link = await generateImage(name);
 
     const data = {
-      id: id,
+      id: googleId,
       name: name,
       type: type,
       spot_id: parseInt(spotId),
       image_link,
       adress: adress,
-      rating: parseInt(rating),
-      google_id: googleId,
+      rating: rating,
       longitude: longitude,
       latitude: latitude,
     };
@@ -90,8 +89,7 @@ export const createWorkPlace = createAsyncThunk(
       throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
     }
 
-    const place = await response.json();
-    return createWorkPlaceObject(place);
+    return createWorkPlaceObject(data);
   }
 );
 
