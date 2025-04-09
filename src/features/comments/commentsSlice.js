@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 const url = "https://api.airtable.com/v0/appEifpsElq8TYpAy/comments";
-const token = process.env.REACT_APP_AIRTABLE_API_KEY;
 
 export const createComment = createAsyncThunk(
   "comments/createComment",
@@ -33,7 +31,7 @@ export const createComment = createAsyncThunk(
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: token,
+        Authorization: "XXX",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
@@ -64,7 +62,7 @@ export const loadComments = createAsyncThunk(
 
     const response = await fetch(getUrl, {
       headers: {
-        Authorization: token,
+        Authorization: "XXX",
       },
     });
 

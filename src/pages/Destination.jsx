@@ -2,7 +2,6 @@ import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
-import { loadComments } from "../features/comments/commentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpots } from "../features/spots/spotsSlice";
 import { WorkPlaces } from "../features/workplaces/components/WorkPlaces";
@@ -19,7 +18,6 @@ const Destinations = () => {
 
   useEffect(() => {
     dispatch(loadWorkPlaces(id));
-    dispatch(loadComments(id));
   }, [dispatch, id]);
 
   // const handleButtonClick = (state) => {

@@ -54,16 +54,12 @@ export default [
 
             // General rules
             'no-unused-vars': ['warn', {
-                //varsIgnorePattern: '^(React|Gi[A-Za-z]+|Fa[A-Za-z]+|Md[A-Za-z]+|Io[A-Za-z]+|Bi[A-Za-z]+)$',
                 ignoreRestSiblings: true,
                 argsIgnorePattern: '^_',
                 destructuredArrayIgnorePattern: '^_'
             }],
 
-            // Include rules from plugins
-            //...reactPlugin.configs.recommended.rules,
-            //...reactHooksPlugin.configs.recommended.rules,
-            //...jsxA11yPlugin.configs.recommended.rules,
+
         }
     },
 ];

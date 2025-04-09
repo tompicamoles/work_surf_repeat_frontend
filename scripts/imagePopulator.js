@@ -2,12 +2,13 @@ const generateImage = async (name) => {
   // Generate image URL based on name and country
   const query = ` ${name}  surfing `;
   const url = `https://api.unsplash.com/photos/random?query=${query}`;
-  const token = "Client-ID NqJL9YuQCoBadK9v4WV5LPmiitfKvc2CHPLYbUI6e-Y";
+  const unsplashToken = process.env.REACT_APP_UNSPLASH_TOKEN;
+
 
   try {
     const response = await fetch(url, {
       headers: {
-        Authorization: token,
+        Authorization: unsplashToken,
         Params: {
           query: "surf",
         },
@@ -77,6 +78,8 @@ const getSpots = async () => {
 }
 
 const updateSpotImage = async (id, imgUrl) => {
+  const airtableToken = process.env.REACT_APP_AIRTABLE_API_KEY;
+
 
   const urlWithSpotId = `https://api.airtable.com/v0/appEifpsElq8TYpAy/spots/${id}`;
 
@@ -89,7 +92,7 @@ const updateSpotImage = async (id, imgUrl) => {
   const response = await fetch(urlWithSpotId, {
     method: "PATCH",
     headers: {
-      Authorization: "Bearer patfJs1HcAc8lcLYu.fae0cd9a263d3b89f2828953c2c05c508e71307ca2ba309207feca8f4c8c76ff",
+      Authorization: airtableToken,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
