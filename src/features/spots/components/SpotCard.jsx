@@ -20,7 +20,7 @@ function SpotCard({ id }) {
   // const numberOfLikes = spot.likes.length;
 
   // const handleLikeButton = () => {
-  //   if (isAuthenticated) {
+  //   if (session) {
   //     let newListOfLikes = [...spot.likes];
   //     !spot.likes.includes(user.email)
   //       ? newListOfLikes.push(user.email)
@@ -43,7 +43,7 @@ function SpotCard({ id }) {
   // };
 
   // let userLikedDestination = false;
-  // if (isAuthenticated) {
+  // if (session) {
   //   if (spot.likes.includes(user.email)) {
   //     // We wait to make sure the user is logged in before getting the nickname to prevent errors linked to aysinc
   //     userLikedDestination = true;
@@ -132,14 +132,14 @@ function SpotCard({ id }) {
           >
             <Tooltip
               title={
-                isAuthenticated ? "Like and add to wishlist" : `Log in to like`
+                session ? "Like and add to wishlist" : `Log in to like`
               }
             >
               <Fab
                 size="small"
                 color="secondary"
                 aria-label="add"
-                onClick={() => isAuthenticated && handleLikeButton()}
+                onClick={() => session && handleLikeButton()}
               >
                 <ThumbUpAlt
                   color={userLikedDestination ? "primary" : "disabled"}
@@ -313,10 +313,10 @@ function SpotCard({ id }) {
               <Typography variant="h7" gutterBottom>
                 {spot.country}
               </Typography>
-              <Typography variant="h8" gutterBottom color={"grey"}>
+              {/* <Typography variant="h8" gutterBottom color={"grey"}>
                 {" "}
                 by {spot.creatorName}
-              </Typography>
+              </Typography> */}
             </Grid>
           </Link>
         </Grid>

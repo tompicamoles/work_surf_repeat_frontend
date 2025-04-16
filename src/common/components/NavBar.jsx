@@ -13,10 +13,7 @@ import { Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  selectIsAuthenticated,
-  logoutUser,
-} from "../../features/user/userSlice";
+import { selectSession, signOut } from "../../features/user/userSlice";
 import { LogInButton } from "../../features/user/components/LogInButton";
 // const pages = ["Explore", "Blog"];
 
@@ -24,7 +21,7 @@ function NavBar() {
   const dispatch = useDispatch();
   // const [ setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   // const handleOpenNavMenu = (event) => {
   //   setAnchorElNav(event.currentTarget);
@@ -42,7 +39,7 @@ function NavBar() {
   };
 
   const logOut = () => {
-    dispatch(logoutUser());
+    dispatch(signOut());
   };
 
   return (
@@ -128,7 +125,7 @@ function NavBar() {
               </Button>
             ))}
           </Box> */}
-          {!isAuthenticated ? (
+          {!session ? (
             <Box sx={{ flexGrow: 0 }}>
               {" "}
               <LogInButton context="navBar" />{" "}

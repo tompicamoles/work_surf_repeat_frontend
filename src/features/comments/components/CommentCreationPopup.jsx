@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createComment } from "../commentsSlice";
 import { LogInButton } from "../../user/components/LogInButton";
-import { selectCurrentUser, selectIsAuthenticated } from "../../user/userSlice";
+import { selectCurrentUser, selectSession } from "../../user/userSlice";
 import { useSelector } from "react-redux";
 
 const style = {
@@ -29,9 +29,8 @@ const style = {
 };
 
 export const CommentCreationPopup = ({ id }) => {
-
   const user = useSelector(selectCurrentUser);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   console.log("id in modal", id);
   console.log("user data is:", user);
@@ -105,10 +104,10 @@ export const CommentCreationPopup = ({ id }) => {
         aria-describedby="modal-to-create-Comment"
       >
         <Box component="form" sx={style} onSubmit={submitComment}>
-          {isAuthenticated ? (
+          {session ? (
             <Stack spacing={2} alignItems={"stretch"}>
               <Typography variant="h4">Share your experience</Typography>
-              <Grid item  pb={2} >
+              <Grid item pb={2}>
                 <Typography pb={1} component="legend">
                   Rate your experience:
                 </Typography>

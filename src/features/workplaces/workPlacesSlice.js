@@ -19,7 +19,7 @@ const createWorkPlaceObject = (place) => {
 
 export const createWorkPlace = createAsyncThunk(
   "workPlaces/createWorkPlace",
-  async (workPlaceData) => {
+  async (workPlaceData, { getState }) => {
     const {
       name,
       type,
@@ -37,12 +37,12 @@ export const createWorkPlace = createAsyncThunk(
       // Generate image URL based on name and country
       const query = type;
       const url = `https://api.unsplash.com/photos/random?query=${query}`;
-      const token = process.env.REACT_APP_UNSPLASH_TOKEN;
+      const unsplashToken = process.env.REACT_APP_UNSPLASH_TOKEN;
 
       try {
         const response = await fetch(url, {
           headers: {
-            Authorization: token,
+            Authorization: unsplashToken,
             Params: {},
           },
         });
@@ -74,13 +74,16 @@ export const createWorkPlace = createAsyncThunk(
       latitude: latitude,
     };
 
+    // Get token from state instead of using useSelector
+    const token = getState().user.session?.access_token;
+
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/workplaces`, {
       method: "POST",
       headers: {
         "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      credentials: "include",
       body: JSON.stringify(data),
     });
 

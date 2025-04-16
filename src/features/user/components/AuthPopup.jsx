@@ -1,65 +1,21 @@
-import { useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Stack,
-  Alert,
-} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  loginUser,
-  signupUser,
-  selectError,
-  selectIsLoading,
-} from "../userSlice";
+import { Box, Modal } from "@mui/material";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import { supabase } from "../../../tierApi/supabase";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { selectSession } from "../userSlice";
 
 const AuthPopup = ({ isOpen, onClose }) => {
-  const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  const isLoading = useSelector(selectIsLoading);
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
+  const session = useSelector(selectSession);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (isLogin) {
-        await dispatch(
-          loginUser({
-            email: formData.email,
-            password: formData.password,
-          })
-        ).unwrap();
-      } else {
-        await dispatch(
-          signupUser({
-            email: formData.email,
-            password: formData.password,
-            name: formData.name,
-          })
-        ).unwrap();
-      }
-      onClose(); // Close the modal on success
-    } catch (err) {
-      // Error handling is managed by Redux
-      console.error("Authentication error:", err);
+  // Close modal when session changes to a valid session
+  useEffect(() => {
+    if (session) {
+      onClose();
     }
-  };
+  }, [session, onClose]);
 
   const style = {
     position: "absolute",
@@ -82,73 +38,12 @@ const AuthPopup = ({ isOpen, onClose }) => {
       aria-labelledby="auth-modal"
       aria-describedby="authentication-form"
     >
-      <Box component="form" sx={style} onSubmit={handleSubmit}>
-        <Stack spacing={2}>
-          {error && <Alert severity="error">{error}</Alert>}
-          <Typography variant="h4" color="primary">
-            {isLogin ? "Log In" : "Sign Up"}
-          </Typography>
-
-          <TextField
-            label="Email"
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-            fullWidth
-          />
-
-          <TextField
-            label="Password"
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-            fullWidth
-          />
-
-          {!isLogin && (
-            <TextField
-              label="Name"
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              fullWidth
-            />
-          )}
-
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            size="large"
-            disabled={isLoading}
-          >
-            {isLoading ? "Processing..." : isLogin ? "Log In" : "Sign Up"}
-          </Button>
-
-          <Box textAlign="center">
-            <Typography variant="body2" display="inline">
-              {isLogin
-                ? "Don't have an account? "
-                : "Already have an account? "}
-            </Typography>
-            <Button
-              onClick={() => setIsLogin(!isLogin)}
-              color="primary"
-              sx={{ textTransform: "none" }}
-            >
-              {isLogin ? "Sign Up" : "Log In"}
-            </Button>
-          </Box>
-        </Stack>
+      <Box sx={style}>
+        <Auth
+          supabaseClient={supabase}
+          appearance={{ theme: ThemeSupa }}
+          providers={[]}
+        />
       </Box>
     </Modal>
   );

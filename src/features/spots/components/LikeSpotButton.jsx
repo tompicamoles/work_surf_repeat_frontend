@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpots, likeSpot } from "../spotsSlice";
 import {
-  selectIsAuthenticated,
+  selectSession,
   selectCurrentUser,
 } from "../../../features/user/userSlice";
 
@@ -16,22 +16,21 @@ function LikeSpotButton({ id }) {
 
   const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   const spot = useSelector(selectSpots)[id];
   const numberOfLikes = spot.totalLikes;
 
   const handleLikeButton = () => {
-    if (isAuthenticated) {
+    if (session) {
       dispatch(likeSpot(id));
     } else {
       setIsAuthPopupOpen(true);
     }
   };
 
-  let userLikedDestination =
-    isAuthenticated && spot.likeUserIds?.includes(user.id);
-  // if (isAuthenticated) {
+  let userLikedDestination = session && spot.likeUserIds?.includes(user.id);
+  // if (session) {
   //   // if (spot.likes.includes(user.email)) {
   //   if (false) {
   //     // We wait to make sure the user is logged in before getting the nickname to prevent errors linked to aysinc
@@ -41,9 +40,7 @@ function LikeSpotButton({ id }) {
 
   return (
     <>
-      <Tooltip
-        title={isAuthenticated ? "Like and add to wishlist" : `Log in to like`}
-      >
+      <Tooltip title={session ? "Like and add to wishlist" : `Log in to like`}>
         <Fab
           size="small"
           color="secondary"

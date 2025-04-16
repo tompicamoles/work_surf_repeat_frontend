@@ -47,7 +47,7 @@ const Destinations = () => {
             minHeight: { xs: 150, sm: 300 },
           }}
         >
-          <Typography
+          {/* <Typography
             variant="subtitle2"
             color={"secondary"}
             sx={{
@@ -57,7 +57,7 @@ const Destinations = () => {
           >
             {" "}
             Destination submitted by {spot.creatorName}
-          </Typography>
+          </Typography> */}
         </Grid>
         <Grid container item xs={12} alignItems={"center"} gap={2}>
           <Typography

@@ -14,6 +14,7 @@ export const LogInButton = ({ context }) => {
       >
         Log In
       </Button>
+
       <AuthPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
     </>
   );

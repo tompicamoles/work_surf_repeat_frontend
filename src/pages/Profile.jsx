@@ -6,14 +6,11 @@ import { Link as RouterLink } from "react-router-dom";
 import Spots from "../features/spots/components/Spots";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../features/spots/spotsSlice";
-import {
-  selectIsAuthenticated,
-  selectCurrentUser,
-} from "../features/user/userSlice";
+import { selectSession, selectCurrentUser } from "../features/user/userSlice";
 
 export const Profile = () => {
   const user = useSelector(selectCurrentUser);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   console.log("user info:", user);
   const navigate = useNavigate();
@@ -30,7 +27,7 @@ export const Profile = () => {
   );
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!session) {
       navigate({
         pathname: "/",
       });
@@ -38,7 +35,7 @@ export const Profile = () => {
   }, []);
 
   return (
-    isAuthenticated && (
+    session && (
       <Grid container p={3}>
         <Grid item xs={12}>
           <Typography

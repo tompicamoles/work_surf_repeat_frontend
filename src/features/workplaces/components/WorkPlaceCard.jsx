@@ -100,7 +100,7 @@ function WorkPlaceCard({ type, id }) {
             </Typography>
           </Fab>
         </Grid> */}
-        <Typography variant="caption"> by {place.creatorName}</Typography>
+        {/* <Typography variant="caption"> by {place.creatorName}</Typography> */}
       </Grid>
       <Grid item xs={12}>
         <Divider />

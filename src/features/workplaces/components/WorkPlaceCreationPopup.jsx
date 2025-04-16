@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createWorkPlace, selectWorkPlaces } from "../workPlacesSlice";
 import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../../user/userSlice";
+import { selectSession } from "../../user/userSlice";
 import { LogInButton } from "../../user/components/LogInButton";
 import { GoogleMapsWorkspaceIdFinder } from "./forms/GoogleMapsWorkspaceIdFinder";
 import { WorkPlaceGoogleInfo } from "./forms/WorkPlaceGoogleInfo";
@@ -38,7 +38,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   const workPlaces = useSelector(selectWorkPlaces);
   console.log("work places are:", workPlaces);
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   });
 
   const handleOpen = () => {
-    if (!isAuthenticated) {
+    if (!session) {
       setIsAuthPopupOpen(true);
     } else {
       setIsCreationPopupOpen(true);
@@ -149,7 +149,7 @@ export const WorkPlaceCreationPopup = ({ id }) => {
         aria-describedby="modal-to-create-workPlace"
       >
         <Box component="form" sx={style} onSubmit={createPlace}>
-          {isAuthenticated ? (
+          {session ? (
             <Stack spacing={2} alignItems={"stretch"}>
               <Typography variant="h4">Submit work place</Typography>
               <FormControl sx={{ m: 1, width: 300 }}>

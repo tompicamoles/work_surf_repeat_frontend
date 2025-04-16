@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { generateImage } from "../../tierApi/unsplash"; 
+import { generateImage } from "../../tierApi/unsplash";
 import { getGeolocation } from "../../tierApi/googleMapsApi";
+
+
 
 const createSpotObject = (spot) => {
   return {
@@ -25,14 +27,13 @@ const createSpotObject = (spot) => {
 
 export const createSpot = createAsyncThunk(
   "spots/createSpot",
-  async (spotData) => {
+  async (spotData, { getState }) => {
     const {
       name,
       country,
       wifiQuality,
       hasCoworking,
       hasColiving,
-  
     } = spotData;
 
     const image_link = await generateImage(name, country);
@@ -42,7 +43,6 @@ export const createSpot = createAsyncThunk(
     const longitude = geolocation.longitude;
 
     const data = {
-
       name,
       country,
       image_link,
@@ -51,16 +51,18 @@ export const createSpot = createAsyncThunk(
       has_coliving: hasColiving,
       latitude,
       longitude,
-
     };
+
+    // Get token from state instead of using useSelector
+    const token = getState().user.session?.access_token;
 
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots`, {
       method: "POST",
       headers: {
         "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      credentials: "include",
       body: JSON.stringify(data),
     });
 
@@ -121,15 +123,21 @@ export const loadSpots = createAsyncThunk(
 
 export const likeSpot = createAsyncThunk(
   "spots/likeSpot",
-  async (spotId) => {
+  async (spotId, { getState }) => {
+    console.log("trying to like,");
 
+    // Get token from state instead of using useSelector
+    const token = getState().user.session?.access_token;
+
+    console.log("am i broken");
 
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`, {
       method: "post",
       headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      credentials: "include",
     });
 
     const json = await response.json();

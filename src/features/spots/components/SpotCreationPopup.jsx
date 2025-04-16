@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSpots, createSpot } from "../spotsSlice";
-import { selectIsAuthenticated } from "../../user/userSlice";
+import { selectSession } from "../../user/userSlice";
 import AuthPopup from "../../user/components/AuthPopup";
 import {
   TextField,
@@ -17,7 +17,6 @@ import {
 
 import { CountrySelect } from "./formComponents/CountrySelect";
 import WifiRating from "./formComponents/WifiRating";
-import LifeCost from "./formComponents/LifeCost";
 
 const style = {
   position: "absolute",
@@ -36,7 +35,7 @@ const style = {
 function SpotCreationPopup() {
   let spots = useSelector(selectSpots);
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const session = useSelector(selectSession);
 
   const dispatch = useDispatch();
 
@@ -44,7 +43,7 @@ function SpotCreationPopup() {
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
 
   const handleOpen = () => {
-    if (!isAuthenticated) {
+    if (!session) {
       setIsAuthPopupOpen(true);
     } else {
       setIsCreationPopupOpen(true);
@@ -210,12 +209,12 @@ function SpotCreationPopup() {
               value={formData.wifiQuality}
               handleInputChange={handleInputChange}
             />
-            <Typography component="legend">Life cost:</Typography>
+            {/* <Typography component="legend">Life cost:</Typography>
             <LifeCost
               context="popup"
               handleInputChange={handleInputChange}
               value={formData.lifeCost}
-            ></LifeCost>
+            ></LifeCost> */}
 
             {/* <MonthSelector
                 context="popup"
