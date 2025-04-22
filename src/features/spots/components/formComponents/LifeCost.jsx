@@ -3,11 +3,11 @@ import { AttachMoney } from "@mui/icons-material";
 import { useState } from "react";
 
 const lifeCostLabels = {
-  1: "Penny Pinching Paradise",
-  2: "Budget Busters",
-  3: "Cost of Living: A Fun Adventure",
-  4: "Living on a Shoestring",
-  5: "Luxury Living on a Budget",
+  1: "Very cheap",
+  2: "Cheap",
+  3: "Average",
+  4: "Expensive",
+  5: "Very expensive",
 };
 
 const LifeCost = ({ value, handleInputChange, context }) => {
