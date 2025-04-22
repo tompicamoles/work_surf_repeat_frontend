@@ -47,7 +47,7 @@ function WorkPlaceCard({ type, id }) {
           </Grid>
           <Grid item container justifyContent="flex-start" sm={11}>
             <Typography
-              multiline={true}
+              multiline="true"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
               {" "}

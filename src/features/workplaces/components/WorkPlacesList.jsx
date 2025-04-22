@@ -55,7 +55,7 @@ function WorkPlacesList({ type }) {
         {Object.entries(workPlaces)
           .slice(0, visibleCount)
           .map(([id]) => (
-            <WorkPlaceCard type={type} id={id} />
+            <WorkPlaceCard type={type} id={id} key={id} />
           ))}
         <Grid item container justifyContent={"flex-end"}>
           <Button

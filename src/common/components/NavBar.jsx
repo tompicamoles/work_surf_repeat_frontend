@@ -48,7 +48,6 @@ function NavBar() {
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {" "}
           <Link
-            item
             component={RouterLink}
             to="/"
             color="inherit"

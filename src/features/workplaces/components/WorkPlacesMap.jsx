@@ -29,7 +29,7 @@ export default function WorkPlacesMap({ id }) {
             const workPlace = workPlaces[category][id];
             const workPlacePosition = [workPlace.latitude, workPlace.longitude];
             return (
-              <Marker icon={surfIcon} position={workPlacePosition}>
+              <Marker icon={surfIcon} position={workPlacePosition} key={id}>
                 <Popup>{workPlace.name}</Popup>
               </Marker>
             );
