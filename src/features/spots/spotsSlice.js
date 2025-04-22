@@ -108,7 +108,6 @@ export const loadSpots = createAsyncThunk(
       headers: {
         "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
-        "credentials": "include"
       }
     });
 
