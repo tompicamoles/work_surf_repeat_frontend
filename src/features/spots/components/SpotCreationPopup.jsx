@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSpots, createSpot } from "../spotsSlice";
 import { selectSession } from "../../user/userSlice";
@@ -44,6 +44,8 @@ function SpotCreationPopup() {
   const [isCreationPopupOpen, setIsCreationPopupOpen] = useState(false);
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleOpen = () => {
     if (!session) {
@@ -66,6 +68,8 @@ function SpotCreationPopup() {
         // lifeCost: null,
       });
       setErrorMessage("");
+      setSelectedFile(null);
+      setPreviewUrl(null);
       setIsCreationPopupOpen(false);
     }
   };
@@ -155,7 +159,12 @@ function SpotCreationPopup() {
       //submittedBy: user.email,
       //creatorName: user.nickname,
       //likes: [user.email],
+      selectedFile: selectedFile, // Add selectedFile to spotData
     };
+
+    if (selectedFile) {
+      console.log("Selected file name:", selectedFile.name);
+    }
 
     try {
       const resultAction = await dispatch(createSpot(spotData)).unwrap();
@@ -179,6 +188,27 @@ function SpotCreationPopup() {
       setErrorMessage(errorMsg);
     }
   };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      const preview = URL.createObjectURL(file);
+      setPreviewUrl(preview);
+    } else {
+      setSelectedFile(null);
+      setPreviewUrl(null);
+    }
+  };
+
+  useEffect(() => {
+    // Revoke the object URL to avoid memory leaks
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   return (
     <Box>
@@ -247,6 +277,31 @@ function SpotCreationPopup() {
               handleInputChange={handleInputChange}
               disabled={isLoading}
             />
+
+            <Button variant="contained" component="label">
+              Upload Image
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </Button>
+            {previewUrl && (
+              <Box
+                component="img"
+                sx={{
+                  height: 100,
+                  width: "auto",
+                  maxHeight: { xs: 233, md: 167 },
+                  maxWidth: { xs: 350, md: 250 },
+                  alignSelf: "center",
+                }}
+                alt="Selected image preview"
+                src={previewUrl}
+              />
+            )}
+
             {/* <Typography component="legend">Life cost:</Typography>
             <LifeCost
               context="popup"
