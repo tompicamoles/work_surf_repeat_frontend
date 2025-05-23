@@ -10,7 +10,7 @@ export const wifiLabels = {
   5: "Fastest wifi you'll ever get (> 100 Mbps).",
 };
 
-const WifiRating = ({ value, handleInputChange, context }) => {
+const WifiRating = ({ value, handleInputChange, context, disabled }) => {
   const [hover, setHover] = useState(-1);
 
   function getLabelText(value) {
@@ -35,6 +35,7 @@ const WifiRating = ({ value, handleInputChange, context }) => {
         }}
         value={value}
         onChange={handleInputChange}
+        disabled={disabled}
       />
       {context === "popup" && (
         <Typography variant="body2" sx={{ ml: 2 }}>

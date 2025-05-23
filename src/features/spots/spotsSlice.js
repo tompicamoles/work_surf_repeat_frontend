@@ -27,51 +27,63 @@ const createSpotObject = (spot) => {
 
 export const createSpot = createAsyncThunk(
   "spots/createSpot",
-  async (spotData, { getState }) => {
-    const {
-      name,
-      country,
-      wifiQuality,
-      hasCoworking,
-      hasColiving,
-    } = spotData;
+  async (spotData, { getState, rejectWithValue }) => {
+    try {
+      const {
+        name,
+        country,
+        wifiQuality,
+        hasCoworking,
+        hasColiving,
+      } = spotData;
 
-    const image_link = await generateImage(name, country);
+      const image_link = await generateImage(name, country);
 
-    const geolocation = await getGeolocation(name, country);
-    const latitude = geolocation.latitude;
-    const longitude = geolocation.longitude;
+      const geolocation = await getGeolocation(name, country);
+      const latitude = geolocation.latitude;
+      const longitude = geolocation.longitude;
 
-    const data = {
-      name,
-      country,
-      image_link,
-      wifi_quality: parseInt(wifiQuality),
-      has_coworking: hasCoworking,
-      has_coliving: hasColiving,
-      latitude,
-      longitude,
-    };
+      const data = {
+        name,
+        country,
+        image_link,
+        wifi_quality: parseInt(wifiQuality),
+        has_coworking: hasCoworking,
+        has_coliving: hasColiving,
+        latitude,
+        longitude,
+      };
 
-    // Get token from state instead of using useSelector
-    const token = getState().user.session?.access_token;
+      // Get token from state instead of using useSelector
+      const token = getState().user.session?.access_token;
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots`, {
-      method: "POST",
-      headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data),
-    });
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots`, {
+        method: "POST",
+        headers: {
+          "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+      });
 
-    const spot = await response.json();
+      const responseData = await response.json();
 
-    // get spot ID and Create new spot object in the current slice
-    const newSpot = createSpotObject(spot);
+      // Check if the response indicates an error
+      if (!response.ok) {
+        return rejectWithValue(responseData);
+      }
 
-    return newSpot;
+      // get spot ID and Create new spot object in the current slice
+      const newSpot = createSpotObject(responseData);
+
+      return newSpot;
+    } catch (error) {
+      console.error("API error:", error);
+      return rejectWithValue({
+        message: error.message || "Failed to create spot. Please try again."
+      });
+    }
   }
 );
 

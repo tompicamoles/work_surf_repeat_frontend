@@ -13,6 +13,8 @@ import {
   Modal,
   Switch,
   Stack,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 
 import { CountrySelect } from "./formComponents/CountrySelect";
@@ -34,13 +36,14 @@ const style = {
 
 function SpotCreationPopup() {
   let spots = useSelector(selectSpots);
-
+  const isLoading = useSelector((state) => state.spots.isLoadingSpotCreation);
   const session = useSelector(selectSession);
 
   const dispatch = useDispatch();
 
   const [isCreationPopupOpen, setIsCreationPopupOpen] = useState(false);
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleOpen = () => {
     if (!session) {
@@ -50,17 +53,21 @@ function SpotCreationPopup() {
     }
   };
   const handleClose = () => {
-    setFormData({
-      name: "",
-      country: null,
-      // level: [],
-      surfSeason: [],
-      wifiQuality: null,
-      hasCoworking: false,
-      hasColiving: false,
-      // lifeCost: null,
-    });
-    setIsCreationPopupOpen(false);
+    // Only close if not currently loading
+    if (!isLoading) {
+      setFormData({
+        name: "",
+        country: null,
+        // level: [],
+        surfSeason: [],
+        wifiQuality: null,
+        hasCoworking: false,
+        hasColiving: false,
+        // lifeCost: null,
+      });
+      setErrorMessage("");
+      setIsCreationPopupOpen(false);
+    }
   };
 
   const [formData, setFormData] = useState({
@@ -119,16 +126,19 @@ function SpotCreationPopup() {
     }));
   };
 
-  const createDestination = (event) => {
+  const createDestination = async (event) => {
     event.preventDefault();
+    setErrorMessage("");
 
     if (checkAlreadyExisting() === true) {
-      alert(`${formData.name}, ${formData.country} has been created already`);
+      setErrorMessage(
+        `${formData.name}, ${formData.country} has been created already`
+      );
       return;
     }
 
     if (!formData.wifiQuality) {
-      alert("Please fill Wifi Qualify");
+      setErrorMessage("Please fill Wifi Quality");
       return;
     }
 
@@ -146,9 +156,28 @@ function SpotCreationPopup() {
       //creatorName: user.nickname,
       //likes: [user.email],
     };
-    dispatch(createSpot(spotData));
 
-    handleClose();
+    try {
+      const resultAction = await dispatch(createSpot(spotData)).unwrap();
+      // Only close if the action was successful
+      handleClose();
+    } catch (error) {
+      console.error("Create spot error:", error);
+      // Extract message from error response based on different possible formats
+      let errorMsg = "Failed to create spot. Please try again.";
+
+      if (typeof error === "string") {
+        errorMsg = error;
+      } else if (error?.data?.message) {
+        errorMsg = error.data.message;
+      } else if (error?.success === false && error?.message) {
+        errorMsg = error.message;
+      } else if (error?.message) {
+        errorMsg = error.message;
+      }
+
+      setErrorMessage(errorMsg);
+    }
   };
 
   return (
@@ -178,6 +207,12 @@ function SpotCreationPopup() {
               Submit a spot
             </Typography>
 
+            {errorMessage && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {errorMessage}
+              </Alert>
+            )}
+
             <TextField
               label="Spot Name"
               placeholder="Name"
@@ -187,12 +222,14 @@ function SpotCreationPopup() {
               value={formData.name}
               onChange={handleInputChange}
               required
+              disabled={isLoading}
             />
 
             <CountrySelect
               value={formData.country}
               context="popup"
               handleOtherInputChange={handleOtherInputChange}
+              disabled={isLoading}
             />
 
             {/* <LevelSelector
@@ -208,6 +245,7 @@ function SpotCreationPopup() {
               context="popup"
               value={formData.wifiQuality}
               handleInputChange={handleInputChange}
+              disabled={isLoading}
             />
             {/* <Typography component="legend">Life cost:</Typography>
             <LifeCost
@@ -229,6 +267,7 @@ function SpotCreationPopup() {
                     id="hasCoworking"
                     name="hasCoworking"
                     onChange={handleInputChange}
+                    disabled={isLoading}
                   />
                 }
                 label="Has Coworking"
@@ -241,14 +280,19 @@ function SpotCreationPopup() {
                     name="hasColiving"
                     id="hasColiving"
                     onChange={handleInputChange}
+                    disabled={isLoading}
                   />
                 }
                 label="Has Coliving"
               />
             </FormGroup>
 
-            <Button type="submit" variant="contained">
-              Save destination
+            <Button type="submit" variant="contained" disabled={isLoading}>
+              {isLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Save destination"
+              )}
             </Button>
           </Stack>
         </Box>

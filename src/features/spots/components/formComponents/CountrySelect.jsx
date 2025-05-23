@@ -2,7 +2,12 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { getCountriesList } from "../../../../common/utils/countriesData";
 
-export function CountrySelect({ value, handleOtherInputChange, context }) {
+export function CountrySelect({
+  value,
+  handleOtherInputChange,
+  context,
+  disabled,
+}) {
   const countries = getCountriesList();
 
   return (
@@ -14,11 +19,13 @@ export function CountrySelect({ value, handleOtherInputChange, context }) {
       id="country"
       options={countries}
       autoHighlight
+      disabled={disabled}
       renderInput={(params) => (
         <TextField
           required={context === "popup" && true}
           {...params}
           label="country"
+          disabled={disabled}
         />
       )}
     />
