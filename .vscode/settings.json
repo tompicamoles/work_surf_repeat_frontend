@@ -1,36 +1,39 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.removeUnusedImports": "explicit"
+    "source.organizeImports": "explicit",
+    "source.fixAll.eslint": "explicit"
   },
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "editor.formatOnType": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#fbf4f4",
-    "activityBar.background": "#fbf4f4",
+    "activityBar.activeBackground": "#ddfab7",
+    "activityBar.background": "#ddfab7",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#5bc35b",
+    "activityBarBadge.background": "#4cabf3",
     "activityBarBadge.foreground": "#15202b",
     "commandCenter.border": "#15202b99",
-    "sash.hoverBorder": "#fbf4f4",
-    "statusBar.background": "#efcdce",
+    "sash.hoverBorder": "#ddfab7",
+    "statusBar.background": "#c6f688",
     "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#e3a6a8",
-    "statusBarItem.remoteBackground": "#efcdce",
+    "statusBarItem.hoverBackground": "#aff259",
+    "statusBarItem.remoteBackground": "#c6f688",
     "statusBarItem.remoteForeground": "#15202b",
-    "titleBar.activeBackground": "#efcdce",
+    "titleBar.activeBackground": "#c6f688",
     "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveBackground": "#efcdce99",
+    "titleBar.inactiveBackground": "#c6f68899",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#efcdce"
+  "peacock.color": "#c6f688"
 }

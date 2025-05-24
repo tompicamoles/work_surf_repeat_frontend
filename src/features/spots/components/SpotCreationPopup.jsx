@@ -55,17 +55,14 @@ function SpotCreationPopup() {
     }
   };
   const handleClose = () => {
-    // Only close if not currently loading
     if (!isLoading) {
       setFormData({
         name: "",
         country: null,
-        // level: [],
         surfSeason: [],
         wifiQuality: null,
         hasCoworking: false,
         hasColiving: false,
-        // lifeCost: null,
       });
       setErrorMessage("");
       setSelectedFile(null);
@@ -77,29 +74,30 @@ function SpotCreationPopup() {
   const [formData, setFormData] = useState({
     name: "",
     country: null,
-    // level: [],
     surfSeason: [],
     wifiQuality: null,
     hasCoworking: false,
     hasColiving: false,
-    // lifeCost: null,
   });
 
-  const checkAlreadyExisting = () => {
-    console.log("running checkAlreadyExistingSpot");
+  useEffect(() => {
+    // Revoke the object URL to avoid memory leaks
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
+  const checkAlreadyExisting = () => {
     let destinationExists = false;
-    // Iterate over the keys of the spots object
     for (let key in spots) {
-      // Check if the search parameter is included in the name or country
       if (
         spots[key].name.toLowerCase().includes(formData.name.toLowerCase()) &&
         spots[key].country
           .toLowerCase()
           .includes(formData.country.toLowerCase())
       ) {
-        // If it matches, add the spot to the filteredSpots array
-        console.log(key, "was already created");
         return true;
       }
     }
@@ -109,7 +107,6 @@ function SpotCreationPopup() {
 
   const handleInputChange = (e) => {
     const { name, value, checked } = e.target;
-    // Check if the input is a checkbox
     if (name === "hasCoworking" || name === "hasColiving") {
       setFormData((prevData) => ({
         ...prevData,
@@ -132,7 +129,6 @@ function SpotCreationPopup() {
 
   const createDestination = async (event) => {
     event.preventDefault();
-    setErrorMessage("");
 
     if (checkAlreadyExisting() === true) {
       setErrorMessage(
@@ -146,28 +142,17 @@ function SpotCreationPopup() {
       return;
     }
 
-    console.log("country to send", formData.country);
     const spotData = {
       name: formData.name,
       country: formData.country,
-      // level: formData.level,
-      //surfSeason: getCountrySurfSeason(formData.country),
       wifiQuality: formData.wifiQuality,
       hasCoworking: formData.hasCoworking,
       hasColiving: formData.hasColiving,
-      //lifeCost: getCountryLifecost(formData.country),
-      //submittedBy: user.email,
-      //creatorName: user.nickname,
-      //likes: [user.email],
-      selectedFile: selectedFile, // Add selectedFile to spotData
+      selectedFile: selectedFile,
     };
 
-    if (selectedFile) {
-      console.log("Selected file name:", selectedFile.name);
-    }
-
     try {
-      const resultAction = await dispatch(createSpot(spotData)).unwrap();
+      await dispatch(createSpot(spotData)).unwrap();
       // Only close if the action was successful
       handleClose();
     } catch (error) {
@@ -200,15 +185,6 @@ function SpotCreationPopup() {
       setPreviewUrl(null);
     }
   };
-
-  useEffect(() => {
-    // Revoke the object URL to avoid memory leaks
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
 
   return (
     <Box>

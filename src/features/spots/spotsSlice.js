@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { generateImage } from "../../tierApi/unsplash";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getGeolocation } from "../../tierApi/googleMapsApi";
 import { uploadSpotImage } from "../../tierApi/supabase"; // Import the new function
+import { generateImage } from "../../tierApi/unsplash";
 
 const createSpotObject = (spot) => {
   return {
@@ -19,7 +19,7 @@ const createSpotObject = (spot) => {
     longitude: parseFloat(spot.longitude),
     likeUserIds: spot.like_user_ids ?? [],
     totalLikes: spot.total_likes ?? 0,
-    creatorName: spot.creator_name
+    creatorName: spot.creator_name,
   };
 };
 
@@ -38,30 +38,49 @@ export const createSpot = createAsyncThunk(
     let image_link = null;
 
     if (selectedFile) {
-      console.log("createSpot: selectedFile found, attempting to upload:", selectedFile.name);
+      console.log(
+        "createSpot: selectedFile found, attempting to upload:",
+        selectedFile.name
+      );
       try {
         image_link = await uploadSpotImage(selectedFile);
         if (image_link) {
-          console.log("createSpot: Image successfully uploaded to Supabase. URL:", image_link);
+          console.log(
+            "createSpot: Image successfully uploaded to Supabase. URL:",
+            image_link
+          );
         } else {
           // This case handles if uploadSpotImage returns null (e.g. due to an internal error or failed URL retrieval)
-          console.log("createSpot: Supabase upload returned null. Falling back to Unsplash.");
+          console.log(
+            "createSpot: Supabase upload returned null. Falling back to Unsplash."
+          );
         }
       } catch (uploadError) {
         // This case handles if uploadSpotImage throws an error
-        console.error("createSpot: Error during Supabase image upload. Falling back to Unsplash.", uploadError);
+        console.error(
+          "createSpot: Error during Supabase image upload. Falling back to Unsplash.",
+          uploadError
+        );
         // image_link remains null, will be handled by the next block
       }
     }
 
     // Fallback to Unsplash if no file was selected, or if Supabase upload failed (image_link is still null)
     if (!image_link) {
-      console.log("createSpot: Generating image using Unsplash for", name, ",", country);
+      console.log(
+        "createSpot: Generating image using Unsplash for",
+        name,
+        ",",
+        country
+      );
       try {
         image_link = await generateImage(name, country);
         console.log("createSpot: Unsplash image generated. URL:", image_link);
       } catch (unsplashError) {
-        console.error("createSpot: Error generating image with Unsplash.", unsplashError);
+        console.error(
+          "createSpot: Error generating image with Unsplash.",
+          unsplashError
+        );
         // image_link will remain null if Unsplash also fails. The backend should handle this.
       }
     }
@@ -83,19 +102,34 @@ export const createSpot = createAsyncThunk(
 
     const token = getState().user.session?.access_token;
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots`, {
-      method: "POST",
-      headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data),
-    });
+    console.log("posting spot now");
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_API_URL}/spots`,
+        {
+          method: "POST",
+          headers: {
+            "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      console.log("the response is", response);
 
-    const spot = await response.json();
-    const newSpot = createSpotObject(spot);
-    return newSpot;
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw responseData;
+      }
+
+      const newSpot = createSpotObject(responseData);
+      return newSpot;
+    } catch (error) {
+      console.error("Error creating spot:", error);
+      throw error; // This is critical - rethrow the error so Redux can handle it
+    }
   }
 );
 
@@ -108,28 +142,30 @@ export const loadSpots = createAsyncThunk(
       hasCoworking,
       wifiQuality,
       country,
-      surfSeason = []
+      surfSeason = [],
     } = filters || {};
 
     const queryParams = new URLSearchParams();
-    if (lifeCost) queryParams.append('lifeCost', lifeCost);
-    if (hasColiving) queryParams.append('hasColiving', hasColiving);
-    if (hasCoworking) queryParams.append('hasCoworking', hasCoworking);
-    if (wifiQuality) queryParams.append('wifiQuality', wifiQuality);
-    if (country) queryParams.append('country', country);
+    if (lifeCost) queryParams.append("lifeCost", lifeCost);
+    if (hasColiving) queryParams.append("hasColiving", hasColiving);
+    if (hasCoworking) queryParams.append("hasCoworking", hasCoworking);
+    if (wifiQuality) queryParams.append("wifiQuality", wifiQuality);
+    if (country) queryParams.append("country", country);
     if (surfSeason && surfSeason.length) {
-      surfSeason.forEach(season => queryParams.append('surfSeason', season));
+      surfSeason.forEach((season) => queryParams.append("surfSeason", season));
     }
 
     const queryString = queryParams.toString();
-    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots${queryString ? `?${queryString}` : ''}`;
+    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots${
+      queryString ? `?${queryString}` : ""
+    }`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
         "Content-Type": "application/json",
-      }
+      },
     });
 
     const json = await response.json();
@@ -145,14 +181,17 @@ export const likeSpot = createAsyncThunk(
   "spots/likeSpot",
   async (spotId, { getState }) => {
     const token = getState().user.session?.access_token;
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`, {
-      method: "post",
-      headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/like`,
+      {
+        method: "post",
+        headers: {
+          "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const json = await response.json();
     const status = response.status;
@@ -213,11 +252,12 @@ export const spotsSlice = createSlice({
         state.failedToLikeSpot = false;
         const { spotId, status, userId } = action.payload;
         const spot = state.spots[spotId];
-        if (spot) { // Ensure spot exists before trying to modify it
+        if (spot) {
+          // Ensure spot exists before trying to modify it
           if (status === 201) {
             spot.likeUserIds.push(userId);
           } else {
-            spot.likeUserIds = spot.likeUserIds.filter(id => id !== userId);
+            spot.likeUserIds = spot.likeUserIds.filter((id) => id !== userId);
           }
           spot.totalLikes = spot.likeUserIds.length;
         }

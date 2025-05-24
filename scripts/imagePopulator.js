@@ -100,28 +100,9 @@ const updateSpotImage = async (id, imgUrl) => {
 
   const json = await response.json();
 
-  console.log(json);
 
   ;
 };
-
-
-
-
-// const updateSpots = async () => {
-//   try {
-//       const spots = await getSpots();
-//       Object.entries(spots).forEach(async([id, spot]) =>  {
-//         console.log("getting image for " , spot.name)
-//           const imageUrl = await generateImage(spot.name)
-//           updateSpotImage(id, imageUrl)
-
-//       });
-//   } catch (error) {
-//       console.error("Error displaying spots:", error);
-//   }
-// }
-
 
 
 const updateSpots = async () => {

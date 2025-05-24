@@ -1,18 +1,17 @@
 import {
   Box,
   Button,
+  Grid,
   Modal,
   Stack,
-  Typography,
-  Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createComment } from "../commentsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { LogInButton } from "../../user/components/LogInButton";
 import { selectCurrentUser, selectSession } from "../../user/userSlice";
-import { useSelector } from "react-redux";
+import { createComment } from "../commentsSlice";
 
 const style = {
   position: "absolute",
@@ -32,8 +31,6 @@ export const CommentCreationPopup = ({ id }) => {
   const user = useSelector(selectCurrentUser);
   const session = useSelector(selectSession);
 
-  console.log("id in modal", id);
-  console.log("user data is:", user);
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);

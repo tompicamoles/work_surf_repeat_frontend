@@ -8,11 +8,8 @@ import { SpotCardSkeleton } from "./SpotCardSkeleton";
 
 const Spots = ({ context }) => {
   const user = useSelector(selectCurrentUser);
-  console.log("love");
 
   let spots = useSelector(selectSpots);
-
-  console.log("spots in component", spots);
 
   const [searchParams] = useSearchParams();
 
@@ -24,18 +21,15 @@ const Spots = ({ context }) => {
 
     // Iterate over the keys of the spots object
     for (let key in spots) {
-      console.log(key);
       // Check if the search parameter is included in the name or country
       if (
         spots[key].name.toLowerCase().includes(spotSearch.toLowerCase()) ||
         spots[key].country.toLowerCase().includes(spotSearch.toLowerCase())
       ) {
         // If it matches, add the spot to the filteredSpots array
-        console.log(key, "is matching search");
         filteredSpots[key] = spots[key];
       }
     }
-    console.log(filteredSpots);
     return filteredSpots;
   }
 
@@ -48,11 +42,9 @@ const Spots = ({ context }) => {
 
     // Iterate over the keys of the spots object
     for (let key in spots) {
-      console.log(key);
       // Check if the search parameter is included in the name or country
       if (spots[key].likeUserIds.includes(user.id)) {
         // If it matches, add the spot to the filteredSpots array
-        console.log(key, "is liked by user");
         filteredSpots[key] = spots[key];
       }
     }
