@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectSpots, createSpot } from "../spotsSlice";
-import { selectSession } from "../../user/userSlice";
-import AuthPopup from "../../user/components/AuthPopup";
+import { Delete, PhotoCamera } from "@mui/icons-material";
 import {
-  TextField,
-  FormGroup,
-  FormControlLabel,
+  Alert,
   Box,
   Button,
-  Typography,
-  Modal,
-  Switch,
-  Stack,
   CircularProgress,
-  Alert,
+  FormControlLabel,
+  FormGroup,
+  Modal,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
 } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import AuthPopup from "../../user/components/AuthPopup";
+import { selectSession } from "../../user/userSlice";
+import { createSpot, selectSpots } from "../spotsSlice";
 
 import { CountrySelect } from "./formComponents/CountrySelect";
 import WifiRating from "./formComponents/WifiRating";
@@ -46,6 +47,7 @@ function SpotCreationPopup() {
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleOpen = () => {
     if (!session) {
@@ -67,6 +69,9 @@ function SpotCreationPopup() {
       setErrorMessage("");
       setSelectedFile(null);
       setPreviewUrl(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       setIsCreationPopupOpen(false);
     }
   };
@@ -177,12 +182,42 @@ function SpotCreationPopup() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setErrorMessage("Please select a valid image file");
+        // Reset the file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        return;
+      }
+
+      // Validate file size (e.g., max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrorMessage("Image file size must be less than 5MB");
+        // Reset the file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        return;
+      }
+
       setSelectedFile(file);
       const preview = URL.createObjectURL(file);
       setPreviewUrl(preview);
+      setErrorMessage(""); // Clear any previous errors
     } else {
       setSelectedFile(null);
       setPreviewUrl(null);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    // Reset the file input value
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -254,15 +289,49 @@ function SpotCreationPopup() {
               disabled={isLoading}
             />
 
-            <Button variant="contained" component="label">
-              Upload Image
+            <Button
+              variant="outlined"
+              component="label"
+              disabled={isLoading}
+              startIcon={<PhotoCamera />}
+              sx={{
+                mb: 1,
+                borderStyle: "dashed",
+                borderWidth: 2,
+                py: 1.5,
+                color: "text.secondary",
+                borderColor: "divider",
+                "&:hover": {
+                  borderColor: "primary.main",
+                  backgroundColor: "action.hover",
+                },
+              }}
+            >
+              {selectedFile
+                ? `Selected: ${selectedFile.name}`
+                : "Upload Image (Optional)"}
               <input
+                ref={fileInputRef}
                 type="file"
                 hidden
                 accept="image/*"
                 onChange={handleFileChange}
               />
             </Button>
+
+            {selectedFile && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleRemoveImage}
+                disabled={isLoading}
+                startIcon={<Delete />}
+                sx={{ mb: 1 }}
+              >
+                Remove Image
+              </Button>
+            )}
+
             {previewUrl && (
               <Box
                 component="img"
@@ -272,24 +341,14 @@ function SpotCreationPopup() {
                   maxHeight: { xs: 233, md: 167 },
                   maxWidth: { xs: 350, md: 250 },
                   alignSelf: "center",
+                  border: "1px solid #ddd",
+                  borderRadius: 1,
                 }}
                 alt="Selected image preview"
                 src={previewUrl}
               />
             )}
 
-            {/* <Typography component="legend">Life cost:</Typography>
-            <LifeCost
-              context="popup"
-              handleInputChange={handleInputChange}
-              value={formData.lifeCost}
-            ></LifeCost> */}
-
-            {/* <MonthSelector
-                context="popup"
-                handleInputChange={handleInputChange}
-                surfSeason={formData.surfSeason}
-              /> */}
             <FormGroup>
               <FormControlLabel
                 control={

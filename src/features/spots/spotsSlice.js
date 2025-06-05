@@ -38,52 +38,22 @@ export const createSpot = createAsyncThunk(
     let image_link = null;
 
     if (selectedFile) {
-      console.log(
-        "createSpot: selectedFile found, attempting to upload:",
-        selectedFile.name
-      );
       try {
-        image_link = await uploadSpotImage(selectedFile);
-        if (image_link) {
-          console.log(
-            "createSpot: Image successfully uploaded to Supabase. URL:",
-            image_link
-          );
-        } else {
-          // This case handles if uploadSpotImage returns null (e.g. due to an internal error or failed URL retrieval)
-          console.log(
-            "createSpot: Supabase upload returned null. Falling back to Unsplash."
-          );
+        image_link = await uploadSpotImage(selectedFile, name, country);
+        if (!image_link) {
+          // Fallback to Unsplash if upload failed
+          image_link = await generateImage(name, country);
         }
-      } catch (uploadError) {
-        // This case handles if uploadSpotImage throws an error
-        console.error(
-          "createSpot: Error during Supabase image upload. Falling back to Unsplash.",
-          uploadError
-        );
-        // image_link remains null, will be handled by the next block
+      } catch (error) {
+        console.error("Image upload failed, trying Unsplash fallback:", error);
+        try {
+          image_link = await generateImage(name, country);
+        } catch (unsplashError) {
+          console.error("Unsplash fallback also failed:", unsplashError);
+        }
       }
     }
-
-    // Fallback to Unsplash if no file was selected, or if Supabase upload failed (image_link is still null)
-    if (!image_link) {
-      console.log(
-        "createSpot: Generating image using Unsplash for",
-        name,
-        ",",
-        country
-      );
-      try {
-        image_link = await generateImage(name, country);
-        console.log("createSpot: Unsplash image generated. URL:", image_link);
-      } catch (unsplashError) {
-        console.error(
-          "createSpot: Error generating image with Unsplash.",
-          unsplashError
-        );
-        // image_link will remain null if Unsplash also fails. The backend should handle this.
-      }
-    }
+    // If no file was selected, don't generate an image - leave image_link as null
 
     const geolocation = await getGeolocation(name, country);
     const latitude = geolocation.latitude;
@@ -128,7 +98,7 @@ export const createSpot = createAsyncThunk(
       return newSpot;
     } catch (error) {
       console.error("Error creating spot:", error);
-      throw error; // This is critical - rethrow the error so Redux can handle it
+      throw error;
     }
   }
 );
