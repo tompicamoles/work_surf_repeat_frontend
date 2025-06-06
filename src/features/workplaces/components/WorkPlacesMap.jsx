@@ -1,5 +1,5 @@
 import { Icon } from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSelector } from "react-redux";
 import { selectSpots } from "../../spots/spotsSlice";
@@ -38,21 +38,4 @@ export default function WorkPlacesMap({ id }) {
       </MarkerClusterGroup>
     </MapContainer>
   );
-
-  // return (
-  //   <div style={{ height: "100vh", width: "100%" }}>
-  //     <Map
-  //       defaultZoom={15}
-  //       defaultCenter={spotPosition}
-  //       mapId={process.env.REACT_APP_MAP_API}
-  //       disableDefaultUI
-  //     >
-  //       {Object.keys(workPlaces).map((category) =>
-  //         Object.keys(workPlaces[category]).map((id) => (
-  //           <WorkPlaceMarker key={id} {...workPlaces[category][id]} />
-  //         ))
-  //       )}
-  //     </Map>
-  //   </div>
-  // );
 }

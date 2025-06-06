@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getGeolocation } from "../../tierApi/googleMapsApi";
 import { uploadSpotImage } from "../../tierApi/supabase"; // Import the new function
-import { generateImage } from "../../tierApi/unsplash";
 
 const createSpotObject = (spot) => {
   return {
@@ -32,7 +31,7 @@ export const createSpot = createAsyncThunk(
       wifiQuality,
       hasCoworking,
       hasColiving,
-      selectedFile, // selectedFile is now expected in spotData
+      selectedFile,
     } = spotData;
 
     let image_link = null;
@@ -40,20 +39,10 @@ export const createSpot = createAsyncThunk(
     if (selectedFile) {
       try {
         image_link = await uploadSpotImage(selectedFile, name, country);
-        if (!image_link) {
-          // Fallback to Unsplash if upload failed
-          image_link = await generateImage(name, country);
-        }
       } catch (error) {
-        console.error("Image upload failed, trying Unsplash fallback:", error);
-        try {
-          image_link = await generateImage(name, country);
-        } catch (unsplashError) {
-          console.error("Unsplash fallback also failed:", unsplashError);
-        }
+        console.error("Image upload failed:", error);
       }
     }
-    // If no file was selected, don't generate an image - leave image_link as null
 
     const geolocation = await getGeolocation(name, country);
     const latitude = geolocation.latitude;
@@ -62,7 +51,7 @@ export const createSpot = createAsyncThunk(
     const data = {
       name,
       country,
-      image_link, // This will be from Supabase, Unsplash, or null
+      image_link, // This will be from Supabase or null
       wifi_quality: parseInt(wifiQuality),
       has_coworking: hasCoworking,
       has_coliving: hasColiving,

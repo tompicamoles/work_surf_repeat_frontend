@@ -1,24 +1,24 @@
 import {
   Box,
   Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
   Modal,
+  Select,
   Stack,
   Typography,
-  MenuItem,
-  FormControl,
-  Select,
-  InputLabel,
-  Grid,
 } from "@mui/material";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createWorkPlace, selectWorkPlaces } from "../workPlacesSlice";
-import { useSelector } from "react-redux";
-import { selectSession } from "../../user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import AuthPopup from "../../user/components/AuthPopup";
 import { LogInButton } from "../../user/components/LogInButton";
+import { selectSession } from "../../user/userSlice";
+import { createWorkPlace, selectWorkPlaces } from "../workPlacesSlice";
 import { GoogleMapsWorkspaceIdFinder } from "./forms/GoogleMapsWorkspaceIdFinder";
 import { WorkPlaceGoogleInfo } from "./forms/WorkPlaceGoogleInfo";
-import AuthPopup from "../../user/components/AuthPopup";
 
 const style = {
   position: "absolute",
@@ -138,82 +138,84 @@ export const WorkPlaceCreationPopup = ({ id }) => {
   };
 
   return (
-    <Box>
-      <Button onClick={handleOpen} variant="contained">
-        Recommand a place to work form
-      </Button>
-      <Modal
-        open={isCreationPopupOpen}
-        onClose={handleClose}
-        aria-labelledby="WorkPlace-creation-modal"
-        aria-describedby="modal-to-create-workPlace"
-      >
-        <Box component="form" sx={style} onSubmit={createPlace}>
-          {session ? (
-            <Stack spacing={2} alignItems={"stretch"}>
-              <Typography variant="h4">Submit work place</Typography>
-              <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel required id="type">
-                  Type
-                </InputLabel>
-                <Select
-                  id="type"
-                  label="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                >
-                  {["café", "coworking", "coliving"].map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {formData.type && (
-                <GoogleMapsWorkspaceIdFinder
-                  onChange={(event, value) => {
-                    saveGoogleId(event, value);
-                    if (value?.place_id) {
-                      setIsAlreadyExisting(
-                        checkIfWorkPlaceAlreadyExists(
-                          formData.type,
-                          value.place_id
-                        )
-                      );
-                    }
-                  }}
-                  id={id}
-                />
-              )}
-              {formData.googleId !== "" && !isAlreadyExisting && (
-                <WorkPlaceGoogleInfo
-                  id={formData.googleId}
-                  savePlaceDetails={savePlaceDetails}
-                  formData={formData}
-                />
-              )}
-              {formData.googleId !== "" && isAlreadyExisting && (
-                <> ⚠️Spot already existing ⚠️</>
-              )}
-              <Button type="submit" variant="contained">
-                Submit work place
-              </Button>
-            </Stack>
-          ) : (
-            <Grid container direction="column" alignItems="center">
-              <Typography variant="h6" gutterBottom>
-                You must logged in to submit a new spot
-              </Typography>
-              <LogInButton />
-            </Grid>
-          )}
-        </Box>
-      </Modal>
-      <AuthPopup
-        isOpen={isAuthPopupOpen}
-        onClose={() => setIsAuthPopupOpen(false)}
-      />
-    </Box>
+    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}>
+      <Box>
+        <Button onClick={handleOpen} variant="contained">
+          Recommand a place to work form
+        </Button>
+        <Modal
+          open={isCreationPopupOpen}
+          onClose={handleClose}
+          aria-labelledby="WorkPlace-creation-modal"
+          aria-describedby="modal-to-create-workPlace"
+        >
+          <Box component="form" sx={style} onSubmit={createPlace}>
+            {session ? (
+              <Stack spacing={2} alignItems={"stretch"}>
+                <Typography variant="h4">Submit work place</Typography>
+                <FormControl sx={{ m: 1, width: 300 }}>
+                  <InputLabel required id="type">
+                    Type
+                  </InputLabel>
+                  <Select
+                    id="type"
+                    label="type"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                  >
+                    {["café", "coworking", "coliving"].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {formData.type && (
+                  <GoogleMapsWorkspaceIdFinder
+                    onChange={(event, value) => {
+                      saveGoogleId(event, value);
+                      if (value?.place_id) {
+                        setIsAlreadyExisting(
+                          checkIfWorkPlaceAlreadyExists(
+                            formData.type,
+                            value.place_id
+                          )
+                        );
+                      }
+                    }}
+                    id={id}
+                  />
+                )}
+                {formData.googleId !== "" && !isAlreadyExisting && (
+                  <WorkPlaceGoogleInfo
+                    id={formData.googleId}
+                    savePlaceDetails={savePlaceDetails}
+                    formData={formData}
+                  />
+                )}
+                {formData.googleId !== "" && isAlreadyExisting && (
+                  <> ⚠️ This work place already exists ⚠️</>
+                )}
+                <Button type="submit" variant="contained">
+                  Submit work place
+                </Button>
+              </Stack>
+            ) : (
+              <Grid container direction="column" alignItems="center">
+                <Typography variant="h6" gutterBottom>
+                  You must logged in to submit a new spot
+                </Typography>
+                <LogInButton />
+              </Grid>
+            )}
+          </Box>
+        </Modal>
+        <AuthPopup
+          isOpen={isAuthPopupOpen}
+          onClose={() => setIsAuthPopupOpen(false)}
+        />
+      </Box>
+    </APIProvider>
   );
 };
