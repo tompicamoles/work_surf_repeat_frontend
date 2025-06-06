@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getGeolocation } from "../../tierApi/googleMapsApi";
-import { uploadSpotImage } from "../../tierApi/supabase"; // Import the new function
+import { uploadImage } from "../../tierApi/supabase"; // Import the generic function
 
 const createSpotObject = (spot) => {
   return {
@@ -38,15 +37,11 @@ export const createSpot = createAsyncThunk(
 
     if (selectedFile) {
       try {
-        image_link = await uploadSpotImage(selectedFile, name, country);
+        image_link = await uploadImage(selectedFile, "spot", name, country);
       } catch (error) {
         console.error("Image upload failed:", error);
       }
     }
-
-    const geolocation = await getGeolocation(name, country);
-    const latitude = geolocation.latitude;
-    const longitude = geolocation.longitude;
 
     const data = {
       name,
@@ -55,8 +50,6 @@ export const createSpot = createAsyncThunk(
       wifi_quality: parseInt(wifiQuality),
       has_coworking: hasCoworking,
       has_coliving: hasColiving,
-      latitude,
-      longitude,
     };
 
     const token = getState().user.session?.access_token;

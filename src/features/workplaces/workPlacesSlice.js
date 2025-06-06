@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { uploadImage } from "../../tierApi/supabase";
 
 const createWorkPlaceObject = (place) => {
   return {
@@ -10,10 +11,14 @@ const createWorkPlaceObject = (place) => {
     creatorName: place.creator_name,
     adress: place.adress,
     rating: place.rating,
-    likes: place.likes ? (typeof place.likes === 'string' ? place.likes.split(",") : place.likes) : [],
+    likes: place.likes
+      ? typeof place.likes === "string"
+        ? place.likes.split(",")
+        : place.likes
+      : [],
     image_link: place.image_link,
     longitude: parseFloat(place.longitude),
-    latitude: parseFloat(place.latitude)
+    latitude: parseFloat(place.latitude),
   };
 };
 
@@ -29,38 +34,21 @@ export const createWorkPlace = createAsyncThunk(
       googleId,
       longitude,
       latitude,
+      selectedFile,
     } = workPlaceData;
 
     console.log("place rating from slice:", rating);
 
-    const generateImage = async () => {
-      // Generate image URL based on name and country
-      const query = type;
-      const url = `https://api.unsplash.com/photos/random?query=${query}`;
-      const unsplashToken = process.env.REACT_APP_UNSPLASH_TOKEN;
+    let image_link = null;
 
+    // Handle user uploaded image
+    if (selectedFile) {
       try {
-        const response = await fetch(url, {
-          headers: {
-            Authorization: unsplashToken,
-            Params: {},
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch image");
-        }
-
-        const data = await response.json();
-        const imgUrl = data.urls.regular;
-        return imgUrl;
+        image_link = await uploadImage(selectedFile, "workplace", name, type);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error; // You can handle or propagate the error as needed
+        console.error("Image upload failed:", error);
       }
-    };
-
-    const image_link = await generateImage(name);
+    }
 
     const data = {
       id: googleId,
@@ -77,35 +65,48 @@ export const createWorkPlace = createAsyncThunk(
     // Get token from state instead of using useSelector
     const token = getState().user.session?.access_token;
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/workplaces`, {
-      method: "POST",
-      headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/workplaces`,
+      {
+        method: "POST",
+        headers: {
+          "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const responseData = await response.json();
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: "Unknown error occurred" }));
-      throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: "Unknown error occurred" }));
+      throw new Error(
+        errorData.message || `HTTP error! Status: ${response.status}`
+      );
     }
 
-    return createWorkPlaceObject(data);
+    const newWorkPlace = createWorkPlaceObject(responseData);
+    return newWorkPlace;
   }
 );
 
 export const loadWorkPlaces = createAsyncThunk(
   "workPlaces/loadWorkPlaces",
   async (spotId) => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/workplaces`, {
-      method: "GET",
-      headers: {
-        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/spots/${spotId}/workplaces`,
+      {
+        method: "GET",
+        headers: {
+          "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await response.json();
     console.log("workplace json is:", json);

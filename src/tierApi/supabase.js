@@ -7,37 +7,42 @@ export const supabase = createClient(
   process.env.REACT_APP_SUPABASE_ANON_KEY
 );
 
-export const uploadSpotImage = async (
+// Generic image upload function
+export const uploadImage = async (
   file,
-  spotName = "",
-  spotCountry = ""
+  type = "spot", // "spot" or "workplace"
+  name = "",
+  secondaryInfo = "" // country for spots, type for workplaces
 ) => {
   if (!file) return null;
 
-  // Create filename from spot name and country
+  // Create filename based on type
   const extension = file.name.split(".").pop().toLowerCase();
-  const nameSlug = slugify(spotName, {
+  const nameSlug = slugify(name, {
     lower: true,
     strict: true,
     replacement: "_",
   });
-  const countrySlug = slugify(spotCountry, {
+  const secondarySlug = slugify(secondaryInfo, {
     lower: true,
     strict: true,
     replacement: "_",
   });
 
   const filename =
-    nameSlug && countrySlug
-      ? `${nameSlug}_${countrySlug}.${extension}`
-      : `spot_${Date.now()}.${extension}`;
+    nameSlug && secondarySlug
+      ? `${nameSlug}_${secondarySlug}.${extension}`
+      : `${type}_${Date.now()}.${extension}`;
 
   const filePath = `public/${filename}`;
+
+  // Determine bucket name based on type
+  const bucketName = type === "workplace" ? "workplace-images" : "spot-images";
 
   try {
     // Upload file
     const { error: uploadError } = await supabase.storage
-      .from("spot-images")
+      .from(bucketName)
       .upload(filePath, file, { cacheControl: "3600", upsert: false });
 
     if (uploadError) throw uploadError;
@@ -45,11 +50,11 @@ export const uploadSpotImage = async (
     // Get public URL
     const {
       data: { publicUrl },
-    } = supabase.storage.from("spot-images").getPublicUrl(filePath);
+    } = supabase.storage.from(bucketName).getPublicUrl(filePath);
 
     return publicUrl;
   } catch (error) {
-    console.error("Image upload failed:", error.message);
+    console.error(`${type} image upload failed:`, error.message);
     return null;
   }
 };
