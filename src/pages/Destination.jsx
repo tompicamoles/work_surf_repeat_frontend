@@ -1,12 +1,14 @@
 import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Comments } from "../features/comments/components/Comments";
+import DestinationSummary from "../features/spots/components/DestinationSummary";
+import LikeSpotButton from "../features/spots/components/LikeSpotButton";
+import SurfSeasonIcons from "../features/spots/components/SurfSeasonIcons";
 import { selectSpots } from "../features/spots/spotsSlice";
 import { WorkPlaces } from "../features/workplaces/components/WorkPlaces";
-import { Comments } from "../features/comments/components/Comments";
-import LikeSpotButton from "../features/spots/components/LikeSpotButton";
+import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
 
 const Destinations = () => {
   let { id } = useParams();
@@ -45,8 +47,21 @@ const Destinations = () => {
             backgroundRepeat: "no-repeat",
             backgroundImage: `url(${spot.image_link})`,
             minHeight: { xs: 150, sm: 300 },
+            position: "relative",
           }}
         >
+          {/* Surf Season Icons positioned in bottom-right corner */}
+          <Grid
+            item
+            sx={{
+              position: "absolute",
+              bottom: 16,
+              right: 16,
+            }}
+          >
+            <SurfSeasonIcons surfSeason={spot.surfSeason} />
+          </Grid>
+
           {/* <Typography
             variant="subtitle2"
             color={"secondary"}
@@ -73,6 +88,12 @@ const Destinations = () => {
           </Typography>
           <LikeSpotButton id={id} />
         </Grid>
+
+        {/* Summary Section - Only show on sm+ screens */}
+        <Grid item xs={12} sx={{ display: { xs: "none", sm: "block" } }}>
+          <DestinationSummary summary={spot.summary} />
+        </Grid>
+
         {/* <Grid item container xs={12}>
           <Button
             variant="text"

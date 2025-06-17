@@ -18,6 +18,7 @@ const createSpotObject = (spot) => {
     likeUserIds: spot.like_user_ids ?? [],
     totalLikes: spot.total_likes ?? 0,
     creatorName: spot.creator_name,
+    summary: spot.summary,
   };
 };
 
