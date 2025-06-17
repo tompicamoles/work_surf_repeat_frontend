@@ -1,16 +1,16 @@
-import { Typography, Grid, Button, Divider } from "@mui/material";
-import WorkPlaceCard from "./WorkPlaceCard";
-import { selectWorkPlaces } from "../workPlacesSlice";
-import { useSelector } from "react-redux";
+import { Button, Divider, Grid, Typography } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectWorkPlaces } from "../workPlacesSlice";
+import WorkPlaceCard from "./WorkPlaceCard";
 
 function WorkPlacesList({ type }) {
   const workPlaces = useSelector(selectWorkPlaces)[type];
 
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   const handleShowMore = () => {
-    setVisibleCount((prevCount) => prevCount + 5);
+    setVisibleCount((prevCount) => prevCount + 3);
   };
 
   const titles = {

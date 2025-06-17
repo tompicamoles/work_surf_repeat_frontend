@@ -1,9 +1,12 @@
-import { Grid, Typography } from "@mui/material";
+import { AttachMoney, Wifi } from "@mui/icons-material";
+import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Comments } from "../features/comments/components/Comments";
 import DestinationSummary from "../features/spots/components/DestinationSummary";
+import { lifeCostLabels } from "../features/spots/components/formComponents/LifeCost";
+import { wifiLabels } from "../features/spots/components/formComponents/WifiRating";
 import LikeSpotButton from "../features/spots/components/LikeSpotButton";
 import SurfSeasonIcons from "../features/spots/components/SurfSeasonIcons";
 import { selectSpots } from "../features/spots/spotsSlice";
@@ -50,6 +53,76 @@ const Destinations = () => {
             position: "relative",
           }}
         >
+          {/* Wifi and Life Cost indicators positioned in bottom-left corner */}
+          <Grid
+            item
+            sx={{
+              position: "absolute",
+              bottom: 16,
+              left: 16,
+              display: { xs: "none", sm: "flex" },
+              gap: 2,
+            }}
+          >
+            {/* Wifi Quality */}
+            <Tooltip title={`Wifi quality: ${wifiLabels[spot.wifiQuality]}`}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(4px)",
+                  borderRadius: 1.5,
+                  px: 1.5,
+                  py: 1,
+                  transition: "all 0.2s ease",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                    transform: "scale(1.1)",
+                  },
+                }}
+              >
+                {[...Array(5)].map((_, index) => (
+                  <Wifi
+                    key={index}
+                    sx={{ fontSize: 16 }}
+                    color={index < spot.wifiQuality ? "primary" : "disabled"}
+                  />
+                ))}
+              </Box>
+            </Tooltip>
+
+            {/* Life Cost */}
+            <Tooltip title={`Life cost: ${lifeCostLabels[spot.lifeCost]}`}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(4px)",
+                  borderRadius: 1.5,
+                  px: 1.5,
+                  py: 1,
+                  transition: "all 0.2s ease",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                    transform: "scale(1.1)",
+                  },
+                }}
+              >
+                {[...Array(5)].map((_, index) => (
+                  <AttachMoney
+                    key={index}
+                    sx={{ fontSize: 16 }}
+                    color={index < spot.lifeCost ? "primary" : "disabled"}
+                  />
+                ))}
+              </Box>
+            </Tooltip>
+          </Grid>
+
           {/* Surf Season Icons positioned in bottom-right corner */}
           <Grid
             item
