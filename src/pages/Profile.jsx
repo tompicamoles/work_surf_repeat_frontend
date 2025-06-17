@@ -1,12 +1,11 @@
 import { Grid, Link, Typography } from "@mui/material";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-import Spots from "../features/spots/components/Spots";
 import { useSelector } from "react-redux";
+import Spots from "../features/spots/components/Spots";
 import { selectSpots } from "../features/spots/spotsSlice";
-import { selectSession, selectCurrentUser } from "../features/user/userSlice";
+import { selectCurrentUser, selectSession } from "../features/user/userSlice";
 
 export const Profile = () => {
   const user = useSelector(selectCurrentUser);
