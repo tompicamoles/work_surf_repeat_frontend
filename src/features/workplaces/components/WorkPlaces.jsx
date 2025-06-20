@@ -10,7 +10,12 @@ export const WorkPlaces = ({ id }) => {
     <>
       {" "}
       <Grid item lg={7} xs={12} id="workPlacesLists" minHeight={500}>
-        <Grid item container justifyContent={"flex-end"} sx={{ mb: 2 }}>
+        <Grid
+          item
+          container
+          justifyContent={"flex-end"}
+          sx={{ mb: 2, paddingRight: 2 }}
+        >
           <WorkPlaceCreationPopup id={id} />
         </Grid>
 
