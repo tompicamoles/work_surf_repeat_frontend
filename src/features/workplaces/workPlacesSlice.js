@@ -6,19 +6,16 @@ const createWorkPlaceObject = (place) => {
     id: place.id,
     name: place.name,
     type: place.type,
-    spotId: place.spot_id || place.destination_id,
+    spotId: place.spot_id,
     submittedBy: place.submitted_by,
     creatorName: place.creator_name,
     adress: place.adress,
-    rating: place.rating,
-    likes: place.likes
-      ? typeof place.likes === "string"
-        ? place.likes.split(",")
-        : place.likes
-      : [],
     image_link: place.image_link,
     longitude: parseFloat(place.longitude),
     latitude: parseFloat(place.latitude),
+    totalRatings: parseInt(place.total_ratings),
+    averageRating: parseFloat(place.average_rating),
+    ratings: place.ratings || [],
   };
 };
 
@@ -31,13 +28,12 @@ export const createWorkPlace = createAsyncThunk(
       spotId,
       adress,
       rating,
+      comment,
       googleId,
       longitude,
       latitude,
       selectedFile,
     } = workPlaceData;
-
-    console.log("place rating from slice:", rating);
 
     let image_link = null;
 
@@ -58,6 +54,7 @@ export const createWorkPlace = createAsyncThunk(
       image_link,
       adress: adress,
       rating: rating,
+      comment: comment,
       longitude: longitude,
       latitude: latitude,
     };
@@ -109,7 +106,6 @@ export const loadWorkPlaces = createAsyncThunk(
     );
 
     const json = await response.json();
-    console.log("workplace json is:", json);
 
     const workPlacesData = json.reduce(
       (workPlaces, place) => {
@@ -133,6 +129,48 @@ export const loadWorkPlaces = createAsyncThunk(
   }
 );
 
+export const submitWorkPlaceRating = createAsyncThunk(
+  "workPlaces/submitWorkPlaceRating",
+  async (ratingData, { getState }) => {
+    const { type, workPlaceId, rating, comment } = ratingData;
+
+    const data = {
+      type: type,
+      work_place_id: workPlaceId,
+      rating: rating,
+      comment: comment,
+    };
+
+    // Get token from state
+    const token = getState().user.session?.access_token;
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/workplaces/${workPlaceId}/ratings`,
+      {
+        method: "POST",
+        headers: {
+          "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: "Unknown error occurred" }));
+      throw new Error(
+        errorData.message || `HTTP error! Status: ${response.status}`
+      );
+    }
+
+    const responseData = await response.json();
+    return { type, workPlaceId, rating: responseData };
+  }
+);
+
 export const workPlacesSlice = createSlice({
   name: "workPlaces",
   initialState: {
@@ -141,6 +179,8 @@ export const workPlacesSlice = createSlice({
     failedToLoadWorkPlaces: false,
     isLoadingWorkPlaceCreation: false,
     failedTocreateWorkPlace: true,
+    isLoadingRatingSubmission: false,
+    failedToSubmitRating: false,
   },
   //   reducers: {},
   extraReducers: (builder) => {
@@ -173,6 +213,29 @@ export const workPlacesSlice = createSlice({
         state.workPlaces[action.payload.type][action.payload.id] =
           action.payload;
         console.log("new spot created:", action.payload);
+      })
+      .addCase(submitWorkPlaceRating.pending, (state) => {
+        state.isLoadingRatingSubmission = true;
+        state.failedToSubmitRating = false;
+      })
+      .addCase(submitWorkPlaceRating.rejected, (state) => {
+        state.isLoadingRatingSubmission = false;
+        state.failedToSubmitRating = true;
+      })
+      .addCase(submitWorkPlaceRating.fulfilled, (state, action) => {
+        state.isLoadingRatingSubmission = false;
+        state.failedToSubmitRating = false;
+        const { type, workPlaceId, rating } = action.payload;
+
+        state.workPlaces[type][workPlaceId].ratings.push(rating);
+
+        state.workPlaces[type][workPlaceId].totalRatings =
+          state.workPlaces[type][workPlaceId].ratings.length;
+
+        const ratings = state.workPlaces[type][workPlaceId].ratings;
+        const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
+        state.workPlaces[type][workPlaceId].averageRating =
+          sum / ratings.length;
       });
   },
 });

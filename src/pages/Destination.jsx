@@ -1,9 +1,8 @@
 import { AttachMoney, Wifi } from "@mui/icons-material";
 import { Box, Grid, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Comments } from "../features/comments/components/Comments";
 import DestinationSummary from "../features/spots/components/DestinationSummary";
 import { lifeCostLabels } from "../features/spots/components/formComponents/LifeCost";
 import { wifiLabels } from "../features/spots/components/formComponents/WifiRating";
@@ -15,7 +14,6 @@ import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
 
 const Destinations = () => {
   let { id } = useParams();
-  const [buttonState, setButtonState] = useState("work");
 
   const spot = useSelector(selectSpots)[id];
   console.log("loadedspot : ", spot);
@@ -24,11 +22,6 @@ const Destinations = () => {
   useEffect(() => {
     dispatch(loadWorkPlaces(id));
   }, [dispatch, id]);
-
-  // const handleButtonClick = (state) => {
-  //   state === "work" ? setButtonState("work") : setButtonState("comments");
-  //   console.log(buttonState);
-  // };
 
   if (!spot) {
     return <Typography variant="h6">Loading...</Typography>;
@@ -167,45 +160,7 @@ const Destinations = () => {
           <DestinationSummary summary={spot.summary} />
         </Grid>
 
-        {/* <Grid item container xs={12}>
-          <Button
-            variant="text"
-            sx={{
-              color:
-                buttonState === "work"
-                  ? theme.palette.primary.main
-                  : theme.palette.primary.light,
-              "&:hover": {
-                color: buttonState === "comments" && theme.palette.primary.dark,
-              },
-            }}
-            onClick={() => {
-              handleButtonClick("work");
-            }}
-          >
-            Where to work
-          </Button>
-          <Divider orientation="vertical" variant="middle" flexItem />
-          <Button
-            variant="text"
-            sx={{
-              color:
-                buttonState === "comments"
-                  ? theme.palette.primary.main
-                  : theme.palette.primary.light,
-              "&:hover": {
-                color: buttonState === "comments" && theme.palette.primary.dark,
-              },
-            }}
-            onClick={() => {
-              handleButtonClick("comments");
-            }}
-          >
-            Comments
-          </Button>
-        </Grid> */}
-
-        {buttonState === "work" ? <WorkPlaces id={id} /> : <Comments id={id} />}
+        <WorkPlaces id={id} />
       </Grid>
     );
   }

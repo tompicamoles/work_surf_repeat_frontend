@@ -1,17 +1,22 @@
-import { useEffect } from "react";
+import { Typography } from "@mui/material";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import { Rating, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 export const WorkPlaceGoogleInfo = ({ id, savePlaceDetails, formData }) => {
-  const places = useMapsLibrary("places");
+  const googlePlaces = useMapsLibrary("places");
 
-  const saveDetails = (placeId) => {
-    const service = new places.PlacesService(document.createElement("div")); // it is mandatory to pass a "map" as an argument for some wierd reasons
-    service.getDetails({ placeId }, (place, status) => {
-      if (status === places.PlacesServiceStatus.OK) {
-        savePlaceDetails(place);
+  const saveDetails = (googlePlaceId) => {
+    const service = new googlePlaces.PlacesService(
+      document.createElement("div")
+    ); // it is mandatory to pass a "map" as an argument for some wierd reasons
+    service.getDetails(
+      { placeId: googlePlaceId },
+      (googlePlaceData, status) => {
+        if (status === googlePlaces.PlacesServiceStatus.OK) {
+          savePlaceDetails(googlePlaceData);
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {
@@ -22,7 +27,6 @@ export const WorkPlaceGoogleInfo = ({ id, savePlaceDetails, formData }) => {
     <>
       <Typography variant="h5"> {formData.name} </Typography>
       <Typography variant="h7">{formData.adress}</Typography>
-      <Rating name="rating" value={formData.rating} precision={0.5} readOnly />
     </>
   );
 };

@@ -1,15 +1,19 @@
-import { Delete, PhotoCamera } from "@mui/icons-material";
+import { Add, Delete, Google, PhotoCamera } from "@mui/icons-material";
 import {
   Alert,
   Box,
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Modal,
+  Rating,
   Select,
   Stack,
+  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { APIProvider } from "@vis.gl/react-google-maps";
@@ -57,7 +61,8 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     type: "",
     image: "",
     adress: "",
-    rating: 3,
+    rating: 0,
+    comment: "",
     googleId: "",
     latitude: null,
     longitude: null,
@@ -86,7 +91,8 @@ export const WorkPlaceCreationPopup = ({ id }) => {
       type: "",
       image: "",
       adress: "",
-      rating: 3,
+      rating: 0,
+      comment: "",
       googleId: "",
       latitude: null,
       longitude: null,
@@ -109,13 +115,6 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     }));
   };
 
-  //   const handleOtherInputChange = (key, value) => {
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [key]: value,
-  //     }));
-  //   };
-
   const saveGoogleId = (_event, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -123,15 +122,16 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     }));
   };
 
-  const savePlaceDetails = (place) => {
-    console.log("place rating from google:", place.rating);
+  const saveGooglePlaceDetails = (googlePlaceData) => {
+    console.log("place rating from google:", googlePlaceData.rating);
     setFormData((prevData) => ({
       ...prevData,
-      name: place.name,
-      adress: place.formatted_address,
-      rating: place.rating,
-      longitude: place.geometry.location.lng(),
-      latitude: place.geometry.location.lat(),
+      name: googlePlaceData.name,
+      adress: googlePlaceData.formatted_address,
+      googleRating: googlePlaceData.rating,
+      rating: googlePlaceData.rating,
+      longitude: googlePlaceData.geometry.location.lng(),
+      latitude: googlePlaceData.geometry.location.lat(),
     }));
   };
 
@@ -190,6 +190,21 @@ export const WorkPlaceCreationPopup = ({ id }) => {
       return;
     }
 
+    if (formData.rating === 0) {
+      setErrorMessage("Please select a rating before submitting");
+      return;
+    }
+
+    if (!formData.type) {
+      setErrorMessage("Please select a workplace type");
+      return;
+    }
+
+    if (!formData.googleId) {
+      setErrorMessage("Please select a place from the search results");
+      return;
+    }
+
     dispatch(
       createWorkPlace({
         ...formData,
@@ -201,11 +216,41 @@ export const WorkPlaceCreationPopup = ({ id }) => {
     handleClose();
   };
 
+  // Check if form is valid for submit button
+  const isFormValid =
+    formData.type &&
+    formData.googleId &&
+    formData.rating > 0 &&
+    !isAlreadyExisting;
+
   return (
     <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}>
       <Box>
-        <Button onClick={handleOpen} variant="contained">
-          Recommand a place to work form
+        <Button
+          onClick={handleOpen}
+          variant="outlined"
+          startIcon={<Add />}
+          sx={{
+            borderRadius: 25,
+            px: 3,
+            py: 1.5,
+            textTransform: "none",
+            fontSize: "0.875rem",
+            fontWeight: 500,
+            borderColor: "primary.main",
+            color: "primary.main",
+            backgroundColor: "background.paper",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            "&:hover": {
+              backgroundColor: "primary.main",
+              color: "white",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              transform: "translateY(-1px)",
+            },
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          Add New Place
         </Button>
         <Modal
           open={isCreationPopupOpen}
@@ -258,76 +303,144 @@ export const WorkPlaceCreationPopup = ({ id }) => {
                     id={id}
                   />
                 )}
-                {formData.googleId !== "" && !isAlreadyExisting && (
-                  <WorkPlaceGoogleInfo
-                    id={formData.googleId}
-                    savePlaceDetails={savePlaceDetails}
-                    formData={formData}
-                  />
-                )}
-                {formData.googleId !== "" && isAlreadyExisting && (
+                {formData.googleId && isAlreadyExisting && (
                   <> ⚠️ This work place already exists ⚠️</>
+                )}
+                {formData.googleId && !isAlreadyExisting && (
+                  <>
+                    <WorkPlaceGoogleInfo
+                      id={formData.googleId}
+                      savePlaceDetails={saveGooglePlaceDetails}
+                      formData={formData}
+                    />
+
+                    <Box>
+                      <Typography component="legend" gutterBottom>
+                        Your Rating *
+                      </Typography>
+                      <Box display="flex" alignItems="center">
+                        <Rating
+                          value={formData.rating}
+                          onChange={(_, newValue) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              rating: newValue || 0,
+                            }));
+                          }}
+                          size="large"
+                          precision={0.5}
+                          sx={{
+                            "& .MuiRating-iconFilled": {
+                              color: "primary.main",
+                            },
+                            "& .MuiRating-iconEmpty": {
+                              color: "grey.300",
+                            },
+                            "& .MuiRating-iconHover": {
+                              color: "primary.main",
+                            },
+                          }}
+                        />
+                        <Tooltip
+                          title={`Get rating from google (${formData.googleRating} / 5)`}
+                        >
+                          <IconButton
+                            onClick={() => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                rating: formData.googleRating,
+                              }));
+                            }}
+                          >
+                            <Google />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Box>
+                    <Typography component="legend" gutterBottom>
+                      Your experience review
+                    </Typography>
+                    <TextField
+                      label={`Share your experience with the community`}
+                      multiline
+                      rows={4}
+                      value={formData.comment}
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          comment: e.target.value,
+                        }));
+                      }}
+                      placeholder="Share your experience at this place..."
+                      fullWidth
+                      variant="outlined"
+                    />
+
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      startIcon={<PhotoCamera />}
+                      sx={{
+                        mb: 1,
+                        borderStyle: "dashed",
+                        borderWidth: 2,
+                        py: 1.5,
+                        color: "text.secondary",
+                        borderColor: "divider",
+                        "&:hover": {
+                          borderColor: "primary.main",
+                          backgroundColor: "action.hover",
+                        },
+                      }}
+                    >
+                      {selectedFile
+                        ? `Selected: ${selectedFile.name}`
+                        : "Upload Image (Optional)"}
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={handleFileChange}
+                      />
+                    </Button>
+
+                    {selectedFile && (
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={handleRemoveImage}
+                        startIcon={<Delete />}
+                        sx={{ mb: 1 }}
+                      >
+                        Remove Image
+                      </Button>
+                    )}
+
+                    {previewUrl && (
+                      <Box
+                        component="img"
+                        sx={{
+                          height: 100,
+                          width: "auto",
+                          maxHeight: { xs: 233, md: 167 },
+                          maxWidth: { xs: 350, md: 250 },
+                          alignSelf: "center",
+                          border: "1px solid #ddd",
+                          borderRadius: 1,
+                        }}
+                        alt="Selected image preview"
+                        src={previewUrl}
+                      />
+                    )}
+                  </>
                 )}
 
                 <Button
-                  variant="outlined"
-                  component="label"
-                  startIcon={<PhotoCamera />}
-                  sx={{
-                    mb: 1,
-                    borderStyle: "dashed",
-                    borderWidth: 2,
-                    py: 1.5,
-                    color: "text.secondary",
-                    borderColor: "divider",
-                    "&:hover": {
-                      borderColor: "primary.main",
-                      backgroundColor: "action.hover",
-                    },
-                  }}
+                  type="submit"
+                  variant="contained"
+                  disabled={!isFormValid}
                 >
-                  {selectedFile
-                    ? `Selected: ${selectedFile.name}`
-                    : "Upload Image (Optional)"}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    hidden
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </Button>
-
-                {selectedFile && (
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={handleRemoveImage}
-                    startIcon={<Delete />}
-                    sx={{ mb: 1 }}
-                  >
-                    Remove Image
-                  </Button>
-                )}
-
-                {previewUrl && (
-                  <Box
-                    component="img"
-                    sx={{
-                      height: 100,
-                      width: "auto",
-                      maxHeight: { xs: 233, md: 167 },
-                      maxWidth: { xs: 350, md: 250 },
-                      alignSelf: "center",
-                      border: "1px solid #ddd",
-                      borderRadius: 1,
-                    }}
-                    alt="Selected image preview"
-                    src={previewUrl}
-                  />
-                )}
-
-                <Button type="submit" variant="contained">
                   Submit work place
                 </Button>
               </Stack>
