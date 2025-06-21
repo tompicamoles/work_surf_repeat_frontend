@@ -1,4 +1,4 @@
-import { Delete, PhotoCamera } from "@mui/icons-material";
+import { Add, Delete, PhotoCamera } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -224,12 +224,31 @@ function SpotCreationPopup() {
   return (
     <Box>
       <Button
-        variant="contained"
-        color="primary"
-        aria-label="add"
         onClick={handleOpen}
+        variant="outlined"
+        startIcon={<Add />}
+        sx={{
+          borderRadius: 25,
+          px: 3,
+          py: 1.5,
+          marginBottom: 2,
+          textTransform: "none",
+          fontSize: "0.875rem",
+          fontWeight: 500,
+          borderColor: "primary.main",
+          color: "primary.main",
+          backgroundColor: "background.paper",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          "&:hover": {
+            backgroundColor: "primary.main",
+            color: "white",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            transform: "translateY(-1px)",
+          },
+          transition: "all 0.2s ease-in-out",
+        }}
       >
-        Add a new destination
+        Add New Destination
       </Button>
       {/* <Fab color="primary" aria-label="add" onClick={handleOpen}>
         <AddIcon />

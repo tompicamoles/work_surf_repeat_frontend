@@ -132,7 +132,13 @@ export const loadWorkPlaces = createAsyncThunk(
 export const submitWorkPlaceRating = createAsyncThunk(
   "workPlaces/submitWorkPlaceRating",
   async (ratingData, { getState }) => {
-    const { type, workPlaceId, rating, comment } = ratingData;
+    const {
+      type,
+      workPlaceId,
+      rating,
+      comment,
+      isEditMode = false,
+    } = ratingData;
 
     const data = {
       type: type,
@@ -147,7 +153,7 @@ export const submitWorkPlaceRating = createAsyncThunk(
     const response = await fetch(
       `${process.env.REACT_APP_BACKEND_API_URL}/workplaces/${workPlaceId}/ratings`,
       {
-        method: "POST",
+        method: isEditMode ? "PUT" : "POST", // Use PUT for updates, POST for creates
         headers: {
           "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
           "Content-Type": "application/json",
@@ -167,7 +173,7 @@ export const submitWorkPlaceRating = createAsyncThunk(
     }
 
     const responseData = await response.json();
-    return { type, workPlaceId, rating: responseData };
+    return { type, workPlaceId, rating: responseData, isEditMode };
   }
 );
 
@@ -225,17 +231,30 @@ export const workPlacesSlice = createSlice({
       .addCase(submitWorkPlaceRating.fulfilled, (state, action) => {
         state.isLoadingRatingSubmission = false;
         state.failedToSubmitRating = false;
-        const { type, workPlaceId, rating } = action.payload;
+        const { type, workPlaceId, rating, isEditMode } = action.payload;
 
-        state.workPlaces[type][workPlaceId].ratings.push(rating);
+        // Handle both create and update cases
+        const ratingIndex = isEditMode
+          ? state.workPlaces[type][workPlaceId].ratings.findIndex(
+              (r) => r.user_id === rating.user_id
+            )
+          : -1;
 
-        state.workPlaces[type][workPlaceId].totalRatings =
-          state.workPlaces[type][workPlaceId].ratings.length;
+        if (ratingIndex !== -1) {
+          // Update existing rating
+          state.workPlaces[type][workPlaceId].ratings[ratingIndex] = rating;
+        } else {
+          // Add new rating (either creating new or existing not found)
+          state.workPlaces[type][workPlaceId].ratings.push(rating);
+        }
 
+        // Recalculate totals and average
         const ratings = state.workPlaces[type][workPlaceId].ratings;
+        state.workPlaces[type][workPlaceId].totalRatings = ratings.length;
+
         const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
         state.workPlaces[type][workPlaceId].averageRating =
-          sum / ratings.length;
+          ratings.length > 0 ? sum / ratings.length : 0;
       });
   },
 });

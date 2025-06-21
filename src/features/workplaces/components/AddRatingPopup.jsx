@@ -8,11 +8,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { submitWorkPlaceRating } from "../workPlacesSlice";
 
-const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
+const AddRatingPopup = ({
+  open,
+  onClose,
+  workPlaceId,
+  placeName,
+  type,
+  isEditMode = false,
+  existingRating = null,
+  existingComment = "",
+}) => {
   const dispatch = useDispatch();
   const { isLoadingRatingSubmission, failedToSubmitRating } = useSelector(
     (state) => state.workPlaces
@@ -22,6 +31,18 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
+
+  // Pre-fill form when in edit mode
+  useEffect(() => {
+    if (isEditMode && open) {
+      setRating(existingRating || 0);
+      setComment(existingComment || "");
+    } else if (!isEditMode && open) {
+      // Reset form when opening in create mode
+      setRating(0);
+      setComment("");
+    }
+  }, [isEditMode, existingRating, existingComment, open]);
 
   const modalStyle = {
     position: "absolute",
@@ -42,8 +63,8 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
       return;
     }
 
-    if (rating === 0) {
-      setError("Please select a rating");
+    if (rating < 1) {
+      setError("Please select a rating (minimum 1 star)");
       return;
     }
 
@@ -56,6 +77,7 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
           workPlaceId,
           rating,
           comment: comment.trim() || null,
+          isEditMode, // Pass edit mode to the thunk
         })
       ).unwrap();
 
@@ -64,7 +86,9 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
       setComment("");
       onClose();
     } catch (error) {
-      setError(error.message || "Failed to submit rating");
+      setError(
+        error.message || `Failed to ${isEditMode ? "update" : "submit"} rating`
+      );
     }
   };
 
@@ -80,7 +104,7 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
       <Box sx={modalStyle}>
         <Stack spacing={3}>
           <Typography variant="h5" component="h2" gutterBottom>
-            Rate {placeName}
+            {isEditMode ? "Edit Your Rating for" : "Rate"} {placeName}
           </Typography>
 
           {error && (
@@ -91,7 +115,8 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
 
           {failedToSubmitRating && (
             <Alert severity="error">
-              Failed to submit rating. Please try again.
+              Failed to {isEditMode ? "update" : "submit"} rating. Please try
+              again.
             </Alert>
           )}
 
@@ -101,7 +126,10 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
             </Typography>
             <Rating
               value={rating}
-              onChange={(_, newValue) => setRating(newValue)}
+              onChange={(_, newValue) => {
+                // Ensure rating is at least 1 (prevent 0 or null ratings)
+                setRating(newValue && newValue >= 1 ? newValue : 1);
+              }}
               size="large"
               precision={0.5}
               sx={{
@@ -136,9 +164,11 @@ const AddRatingPopup = ({ open, onClose, workPlaceId, placeName, type }) => {
             <Button
               onClick={handleSubmit}
               variant="contained"
-              disabled={isLoadingRatingSubmission || rating === 0}
+              disabled={isLoadingRatingSubmission || rating < 1}
             >
-              {isLoadingRatingSubmission ? "Submitting..." : "Submit Rating"}
+              {isLoadingRatingSubmission
+                ? `${isEditMode ? "Updating" : "Submitting"}...`
+                : `${isEditMode ? "Update" : "Submit"} Rating`}
             </Button>
           </Box>
         </Stack>
