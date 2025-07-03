@@ -1,4 +1,4 @@
-import { Add, Delete, PhotoCamera } from "@mui/icons-material";
+import { Add, Delete, PhotoCamera, Surfing } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -227,6 +227,7 @@ function SpotCreationPopup() {
         onClick={handleOpen}
         variant="outlined"
         startIcon={<Add />}
+        endIcon={<Surfing />}
         sx={{
           borderRadius: 25,
           px: 3,

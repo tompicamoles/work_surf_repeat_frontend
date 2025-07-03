@@ -103,7 +103,9 @@ export const WorkPlaceComments = ({
                         fontSize: { xs: "0.75rem", sm: "0.875rem" },
                       }}
                     >
-                      {rating.user_id}
+                      {rating.user_nickname
+                        ? rating.user_nickname
+                        : "Anonymous"}
                     </Typography>
                     {isUserRating && (
                       <Chip

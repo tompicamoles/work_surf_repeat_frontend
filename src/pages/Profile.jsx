@@ -43,7 +43,7 @@ export const Profile = () => {
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             {" "}
-            Welcome {user.name}!
+            Welcome {user.nickname}!
           </Typography>
           <Typography
             variant="h4"
@@ -51,7 +51,7 @@ export const Profile = () => {
             sx={{ display: { xs: "block", sm: "none" } }}
           >
             {" "}
-            Hi {user.name}!
+            Hi {user.nickname}!
           </Typography>
         </Grid>
 
