@@ -1,24 +1,28 @@
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import {
   Box,
   Button,
   FormControlLabel,
   FormGroup,
   Grid,
+  Paper,
   Stack,
   Switch,
   Typography,
 } from "@mui/material";
-import { Paper } from "@mui/material";
 import { useState } from "react";
-import WifiRating from "../../features/spots/components/formComponents/WifiRating";
+import { useDispatch } from "react-redux";
+import { CountrySelect } from "../../features/spots/components/formComponents/CountrySelect";
 import LifeCost from "../../features/spots/components/formComponents/LifeCost";
 import MonthSelector from "../../features/spots/components/formComponents/MonthSelector";
-import { CountrySelect } from "../../features/spots/components/formComponents/CountrySelect";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { useDispatch } from "react-redux";
-import { loadSpots } from "../../features/spots/spotsSlice";
+import WifiRating from "../../features/spots/components/formComponents/WifiRating";
+import {
+  loadSpots,
+  resetPagination,
+  setCurrentFilters,
+} from "../../features/spots/spotsSlice";
 
-function SideBar({setFilterButton}) {
+function SideBar({ setFilterButton }) {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState({
@@ -56,12 +60,18 @@ function SideBar({setFilterButton}) {
 
   const filterResults = (event) => {
     event.preventDefault();
-    setFilterButton(false)
-    dispatch(loadSpots(filters))
+    setFilterButton(false);
+
+    // Reset pagination and set new filters
+    dispatch(resetPagination());
+    dispatch(setCurrentFilters(filters));
+
+    // Load first page with new filters
+    dispatch(loadSpots({ filters, page: 1, limit: 12 }));
   };
 
   const resetFilters = () => {
-    setFilters({
+    const emptyFilters = {
       country: null,
       level: [],
       surfSeason: [],
@@ -69,10 +79,17 @@ function SideBar({setFilterButton}) {
       hasCoworking: false,
       hasColiving: false,
       lifeCost: null,
-    })
+    };
 
-    dispatch(loadSpots());
-    setFilterButton(false)
+    setFilters(emptyFilters);
+
+    // Reset pagination and clear filters
+    dispatch(resetPagination());
+    dispatch(setCurrentFilters({}));
+
+    // Load first page without filters
+    dispatch(loadSpots({ filters: {}, page: 1, limit: 12 }));
+    setFilterButton(false);
   };
 
   return (

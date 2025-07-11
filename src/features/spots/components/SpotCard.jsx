@@ -1,15 +1,15 @@
-import { Link as RouterLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Box, Grid, Paper, Typography, Link, Tooltip } from "@mui/material";
-import { Wifi, AttachMoney, LaptopMac, House } from "@mui/icons-material";
+import { AttachMoney, House, LaptopMac, Wifi } from "@mui/icons-material";
+import { Box, Grid, Link, Paper, Tooltip, Typography } from "@mui/material";
+import { FaSnowman, FaSun } from "react-icons/fa";
 import { GiMapleLeaf, GiSprout } from "react-icons/gi";
-import { FaSun, FaSnowman } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 
-import { selectSpots } from "../spotsSlice";
 import { displayListOfMonths } from "../../../common/utils/utils";
+import { selectSpots } from "../spotsSlice";
 
-import { wifiLabels } from "./formComponents/WifiRating";
 import { lifeCostLabels } from "./formComponents/LifeCost";
+import { wifiLabels } from "./formComponents/WifiRating";
 import LikeSpotButton from "./LikeSpotButton";
 
 function SpotCard({ id }) {

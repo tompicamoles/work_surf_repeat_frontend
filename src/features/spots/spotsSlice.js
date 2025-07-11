@@ -88,7 +88,7 @@ export const createSpot = createAsyncThunk(
 
 export const loadSpots = createAsyncThunk(
   "spots/loadSpots",
-  async (filters = {}) => {
+  async ({ filters = {}, page = 1, limit = 12 } = {}) => {
     const {
       lifeCost,
       hasColiving,
@@ -99,6 +99,12 @@ export const loadSpots = createAsyncThunk(
     } = filters || {};
 
     const queryParams = new URLSearchParams();
+
+    // Pagination parameters
+    queryParams.append("page", page.toString());
+    queryParams.append("limit", limit.toString());
+
+    // Filter parameters
     if (lifeCost) queryParams.append("lifeCost", lifeCost);
     if (hasColiving) queryParams.append("hasColiving", hasColiving);
     if (hasCoworking) queryParams.append("hasCoworking", hasCoworking);
@@ -109,9 +115,7 @@ export const loadSpots = createAsyncThunk(
     }
 
     const queryString = queryParams.toString();
-    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots${
-      queryString ? `?${queryString}` : ""
-    }`;
+    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots?${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -122,11 +126,117 @@ export const loadSpots = createAsyncThunk(
     });
 
     const json = await response.json();
-    const cardsData = json.reduce((spots, spot) => {
-      spots[spot.id] = createSpotObject(spot);
-      return spots;
+
+    // Assume backend returns { spots: [...], totalCount: number, hasMore: boolean }
+    const spots = json.spots || json; // Fallback for current API structure
+    const totalCount = json.totalCount || spots.length;
+    const hasMore =
+      json.hasMore !== undefined ? json.hasMore : spots.length === limit;
+
+    const cardsData = spots.reduce((acc, spot) => {
+      acc[spot.id] = createSpotObject(spot);
+      return acc;
     }, {});
-    return cardsData;
+
+    return {
+      spots: cardsData,
+      page,
+      hasMore,
+      totalCount,
+      isFirstLoad: page === 1,
+    };
+  }
+);
+
+export const loadMoreSpots = createAsyncThunk(
+  "spots/loadMoreSpots",
+  async (_, { getState }) => {
+    const state = getState();
+    const { currentPage, currentFilters, hasMore } = state.spots;
+
+    console.log("📄 loadMoreSpots called with state:", {
+      currentPage,
+      hasMore,
+    });
+
+    // Prevent loading if no more data available
+    if (!hasMore) {
+      console.log("⏹️ loadMoreSpots blocked: no more data available");
+      return { spots: {}, page: currentPage, hasMore: false, totalCount: 0 };
+    }
+
+    const nextPage = currentPage + 1;
+    const limit = 12;
+
+    console.log(`🔄 Loading page ${nextPage} with limit ${limit}`);
+
+    // Make direct API call for next page
+    const queryParams = new URLSearchParams();
+
+    // Pagination parameters
+    queryParams.append("page", nextPage.toString());
+    queryParams.append("limit", limit.toString());
+
+    // Apply current filters
+    const {
+      lifeCost,
+      hasColiving,
+      hasCoworking,
+      wifiQuality,
+      country,
+      surfSeason = [],
+    } = currentFilters || {};
+
+    if (lifeCost) queryParams.append("lifeCost", lifeCost);
+    if (hasColiving) queryParams.append("hasColiving", hasColiving);
+    if (hasCoworking) queryParams.append("hasCoworking", hasCoworking);
+    if (wifiQuality) queryParams.append("wifiQuality", wifiQuality);
+    if (country) queryParams.append("country", country);
+    if (surfSeason && surfSeason.length) {
+      surfSeason.forEach((season) => queryParams.append("surfSeason", season));
+    }
+
+    const queryString = queryParams.toString();
+    const url = `${process.env.REACT_APP_BACKEND_API_URL}/spots?${queryString}`;
+
+    console.log("🌐 Making API request to:", url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "x-api-key": process.env.REACT_APP_BACKEND_API_KEY,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const json = await response.json();
+
+    console.log("📬 loadMoreSpots API response:", json);
+
+    // Handle response structure
+    const spots = json.spots || json;
+    const totalCount = json.totalCount || spots.length;
+    const hasMoreSpots =
+      json.hasMore !== undefined ? json.hasMore : spots.length === limit;
+
+    const cardsData = spots.reduce((acc, spot) => {
+      acc[spot.id] = createSpotObject(spot);
+      return acc;
+    }, {});
+
+    console.log("✅ loadMoreSpots returning:", {
+      spotsCount: Object.keys(cardsData).length,
+      page: nextPage,
+      hasMore: hasMoreSpots,
+      totalCount,
+    });
+
+    return {
+      spots: cardsData,
+      page: nextPage,
+      hasMore: hasMoreSpots,
+      totalCount,
+    };
   }
 );
 
@@ -163,6 +273,23 @@ export const spotsSlice = createSlice({
     failedToCreateSpot: false,
     isLoadingLikeSpot: false,
     failedToLikeSpot: false,
+    // Pagination state
+    currentPage: 0,
+    hasMore: true,
+    isLoadingMore: false,
+    totalCount: 0,
+    currentFilters: {},
+  },
+  reducers: {
+    resetPagination: (state) => {
+      state.currentPage = 0;
+      state.hasMore = true;
+      state.spots = {};
+      state.totalCount = 0;
+    },
+    setCurrentFilters: (state, action) => {
+      state.currentFilters = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -177,7 +304,38 @@ export const spotsSlice = createSlice({
       .addCase(loadSpots.fulfilled, (state, action) => {
         state.isLoadingSpots = false;
         state.failedToLoadSpots = false;
-        state.spots = action.payload;
+
+        const { spots, page, hasMore, totalCount, isFirstLoad } =
+          action.payload;
+
+        if (isFirstLoad) {
+          // Replace spots for first load or new filters
+          state.spots = spots;
+        } else {
+          // Append spots for pagination
+          state.spots = { ...state.spots, ...spots };
+        }
+
+        state.currentPage = page;
+        state.hasMore = hasMore;
+        state.totalCount = totalCount;
+      })
+      .addCase(loadMoreSpots.pending, (state) => {
+        state.isLoadingMore = true;
+      })
+      .addCase(loadMoreSpots.rejected, (state) => {
+        state.isLoadingMore = false;
+      })
+      .addCase(loadMoreSpots.fulfilled, (state, action) => {
+        state.isLoadingMore = false;
+
+        const { spots, page, hasMore, totalCount } = action.payload;
+
+        // Append new spots
+        state.spots = { ...state.spots, ...spots };
+        state.currentPage = page;
+        state.hasMore = hasMore;
+        state.totalCount = totalCount;
       })
       .addCase(createSpot.pending, (state) => {
         state.isLoadingSpotCreation = true;
@@ -191,6 +349,7 @@ export const spotsSlice = createSlice({
         state.isLoadingSpotCreation = false;
         state.failedToCreateSpot = false;
         state.spots[action.payload.id] = action.payload;
+        state.totalCount += 1;
       })
       .addCase(likeSpot.pending, (state) => {
         state.isLoadingLikeSpot = true;
@@ -206,19 +365,26 @@ export const spotsSlice = createSlice({
         const { spotId, status, userId } = action.payload;
         const spot = state.spots[spotId];
         if (spot) {
-          // Ensure spot exists before trying to modify it
           if (status === 201) {
+            // Liked
             spot.likeUserIds.push(userId);
-          } else {
+            spot.totalLikes += 1;
+          } else if (status === 200) {
+            // Unliked
             spot.likeUserIds = spot.likeUserIds.filter((id) => id !== userId);
+            spot.totalLikes -= 1;
           }
-          spot.totalLikes = spot.likeUserIds.length;
         }
       });
   },
 });
 
+export const { resetPagination, setCurrentFilters } = spotsSlice.actions;
 export const selectSpots = (state) => state.spots.spots;
+export const selectHasMore = (state) => state.spots.hasMore;
+export const selectIsLoadingMore = (state) => state.spots.isLoadingMore;
+export const selectCurrentPage = (state) => state.spots.currentPage;
+export const selectTotalCount = (state) => state.spots.totalCount;
 export const failedToLoadSpots = (state) => state.spots.failedToLoadSpots;
 export const isLoadingSpots = (state) => state.spots.isLoadingSpots;
 
