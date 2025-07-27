@@ -7,6 +7,7 @@ import { selectCurrentUser } from "../../user/userSlice";
 import {
   isLoadingSpots,
   loadMoreSpots,
+  selectDisplayedSpotsCount,
   selectHasMore,
   selectIsLoadingMore,
   selectSpots,
@@ -22,6 +23,7 @@ const Spots = ({ context }) => {
   const isLoading = useSelector(isLoadingSpots);
   const hasMore = useSelector(selectHasMore);
   const isLoadingMore = useSelector(selectIsLoadingMore);
+  const displayedCount = useSelector(selectDisplayedSpotsCount);
 
   const [searchParams] = useSearchParams();
   const spotSearch = searchParams.get("spot");
@@ -69,43 +71,21 @@ const Spots = ({ context }) => {
     spots = filterLikedSpots();
   }
 
-  // Load more spots when sentinel comes into view or button is clicked
+  // Load more spots - now just reveals more from already-loaded data
   const handleLoadMore = useCallback(() => {
-    console.log("🚀 handleLoadMore called", {
-      hasMore,
-      isLoadingMore,
-      isLoading,
-    });
     if (hasMore && !isLoadingMore && !isLoading) {
-      console.log("✅ Dispatching loadMoreSpots");
       dispatch(loadMoreSpots());
-    } else {
-      console.log("❌ Load more blocked:", {
-        hasMore,
-        isLoadingMore,
-        isLoading,
-      });
     }
-  }, [dispatch, hasMore, isLoadingMore, isLoading]);
+  }, [dispatch, hasMore, isLoadingMore, isLoading, displayedCount]);
 
   // Set up Intersection Observer for infinite scrolling
   useEffect(() => {
-    console.log("🔍 Setting up Intersection Observer", {
-      spotSearch,
-      context,
-      showInfiniteScroll: !spotSearch && !context,
-    });
-
     // Only enable auto-loading for non-filtered views
     if (spotSearch || context) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        console.log("👀 Intersection Observer triggered", {
-          isIntersecting: entry.isIntersecting,
-          intersectionRatio: entry.intersectionRatio,
-        });
         // When sentinel element becomes visible, load more
         if (entry.isIntersecting) {
           handleLoadMore();
@@ -120,26 +100,26 @@ const Spots = ({ context }) => {
     );
 
     if (sentinelRef.current) {
-      console.log("📍 Observing sentinel element");
       observer.observe(sentinelRef.current);
-    } else {
-      console.log("⚠️ Sentinel element not found");
     }
 
     return () => {
       if (sentinelRef.current) {
-        console.log("🧹 Cleaning up observer");
         observer.unobserve(sentinelRef.current);
       }
     };
   }, [handleLoadMore, spotSearch, context]);
 
   const showInfiniteScroll = !spotSearch && !context;
-  const spotsArray = Object.entries(spots);
+  const spotsArray = Object.entries(spots)
+    .map(([id, spot]) => spot) // Extract just the spot objects
+    .sort((a, b) => b.totalLikes - a.totalLikes) // Sort by popularity (highest first)
+    .slice(0, displayedCount);
 
   // 🐛 DEBUG: Log current state
   console.log("📊 Current Spots state:", {
     spotsCount: spotsArray.length,
+    displayedCount,
     hasMore,
     isLoadingMore,
     isLoading,
@@ -172,9 +152,9 @@ const Spots = ({ context }) => {
                 <SpotCardSkeleton />
               </Grid>
             ))
-          : spotsArray.map(([id]) => (
+          : spotsArray.map((spot) => (
               <Grid
-                key={id}
+                key={spot.id}
                 item
                 container
                 xs={12}
@@ -188,7 +168,7 @@ const Spots = ({ context }) => {
                   maxHeight: 300,
                 }}
               >
-                <SpotCard id={id} />
+                <SpotCard id={spot.id} />
               </Grid>
             ))}
       </Grid>

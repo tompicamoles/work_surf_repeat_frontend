@@ -67,7 +67,7 @@ function SideBar({ setFilterButton }) {
     dispatch(setCurrentFilters(filters));
 
     // Load first page with new filters
-    dispatch(loadSpots({ filters, page: 1, limit: 12 }));
+    dispatch(loadSpots({ filters }));
   };
 
   const resetFilters = () => {
@@ -88,7 +88,7 @@ function SideBar({ setFilterButton }) {
     dispatch(setCurrentFilters({}));
 
     // Load first page without filters
-    dispatch(loadSpots({ filters: {}, page: 1, limit: 12 }));
+    dispatch(loadSpots());
     setFilterButton(false);
   };
 

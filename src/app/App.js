@@ -31,7 +31,7 @@ export default function App() {
 
   useEffect(() => {
     // Load first page of spots without filters on app initialization
-    dispatch(loadSpots({ filters: {}, page: 1, limit: 12 }));
+    dispatch(loadSpots());
     dispatch(checkAuth());
 
     const {
