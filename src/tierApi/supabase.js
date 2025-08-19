@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import imageCompression from "browser-image-compression";
 import slugify from "slugify";
 
 // Create Supabase client
@@ -16,34 +17,49 @@ export const uploadImage = async (
 ) => {
   if (!file) return null;
 
-  // Create filename based on type
-  const extension = file.name.split(".").pop().toLowerCase();
-  const nameSlug = slugify(name, {
-    lower: true,
-    strict: true,
-    replacement: "_",
-  });
-  const secondarySlug = slugify(secondaryInfo, {
-    lower: true,
-    strict: true,
-    replacement: "_",
-  });
-
-  const filename =
-    nameSlug && secondarySlug
-      ? `${nameSlug}_${secondarySlug}.${extension}`
-      : `${type}_${Date.now()}.${extension}`;
-
-  const filePath = `public/${filename}`;
-
-  // Determine bucket name based on type
-  const bucketName = type === "workplace" ? "workplace-images" : "spot-images";
-
   try {
+    const compressionOptions = {
+      maxSizeMB: 0.8, // Compress to max 800KB (down from 5MB limit)
+      maxWidthOrHeight: 1920, // Max dimension for high-quality display
+      useWebWorker: true, // Prevents UI blocking during compression
+      fileType: "image/jpeg", // JPEG is most efficient for photos
+      initialQuality: 0.85, // High quality that balances size vs quality
+    };
+
+    // Compress the image
+    const compressedFile = await imageCompression(file, compressionOptions);
+
+    // Create filename based on type
+    const extension = file.name.split(".").pop().toLowerCase();
+    const nameSlug = slugify(name, {
+      lower: true,
+      strict: true,
+      replacement: "_",
+    });
+    const secondarySlug = slugify(secondaryInfo, {
+      lower: true,
+      strict: true,
+      replacement: "_",
+    });
+
+    const filename =
+      nameSlug && secondarySlug
+        ? `${nameSlug}_${secondarySlug}.${extension}`
+        : `${type}_${Date.now()}.${extension}`;
+
+    const filePath = `public/${filename}`;
+
+    // Determine bucket name based on type
+    const bucketName =
+      type === "workplace" ? "workplace-images" : "spot-images";
+
     // Upload file
     const { error: uploadError } = await supabase.storage
       .from(bucketName)
-      .upload(filePath, file, { cacheControl: "3600", upsert: false });
+      .upload(filePath, compressedFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
 
     if (uploadError) throw uploadError;
 
