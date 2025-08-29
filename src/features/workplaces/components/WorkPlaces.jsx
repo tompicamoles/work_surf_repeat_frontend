@@ -19,9 +19,9 @@ export const WorkPlaces = ({ id }) => {
           <WorkPlaceCreationPopup id={id} />
         </Grid>
 
-        <WorkPlacesList type="café" />
-        <WorkPlacesList type="coworking" />
-        <WorkPlacesList type="coliving" />
+        <WorkPlacesList type="café" spotId={id} />
+        <WorkPlacesList type="coworking" spotId={id} />
+        <WorkPlacesList type="coliving" spotId={id} />
       </Grid>
       <Grid item container xs={12} lg={5}>
         <WorkPlacesMap id={id} />

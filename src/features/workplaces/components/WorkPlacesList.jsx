@@ -1,10 +1,12 @@
-import { Button, Divider, Grid, Typography } from "@mui/material";
+import { Business, Coffee, Home } from "@mui/icons-material";
+import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectWorkPlaces } from "../workPlacesSlice";
 import WorkPlaceCard from "./WorkPlaceCard";
+import { WorkPlaceCreationPopup } from "./WorkPlaceCreationPopup";
 
-function WorkPlacesList({ type }) {
+function WorkPlacesList({ type, spotId }) {
   const workPlaces = useSelector(selectWorkPlaces)[type];
 
   const [visibleCount, setVisibleCount] = useState(3);
@@ -19,20 +21,83 @@ function WorkPlacesList({ type }) {
     coliving: "Colivings",
   };
 
+  const emptyStateText = {
+    café: "Found a café with great WiFi and coffee? Share it with fellow remote workers.",
+    coworking:
+      "Know a productive coworking space? Help other nomads find their ideal workspace.",
+    coliving:
+      "Discovered an amazing coliving? Share it and help nomads find their next home base.",
+  };
+
+  // Icon mapping for different workplace types
+  const iconMap = {
+    café: Coffee,
+    coworking: Business,
+    coliving: Home,
+  };
+
   let title = titles[type];
+  const IconComponent = iconMap[type] || Business;
   console.log(type, workPlaces);
 
-  if (!workPlaces) {
-    <Typography p={3} variant="h6">
-      Loading...
-    </Typography>;
-  } else if (Object.keys(workPlaces).length === 0) {
+  if (Object.keys(workPlaces).length === 0) {
     return (
-      <Grid container p={2}>
-        <Typography variant="h6" paddingBottom={1}>
-          Be first to recommand {title}.
+      <Grid container sx={{ p: 3 }}>
+        <Typography variant="h6" sx={{ mb: 3, width: "100%" }}>
+          {title}
         </Typography>
-        <Grid item xs={12}>
+
+        {/* Enhanced Empty State */}
+        <Grid
+          item
+          xs={12}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+              textAlign: "center",
+              justifyContent: "center",
+              py: 3,
+            }}
+          >
+            <Box
+              sx={{
+                p: 2,
+                borderRadius: "50%",
+                backgroundColor: "rgba(5, 102, 141, 0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconComponent
+                sx={{
+                  fontSize: 30,
+                  color: "primary.main",
+                  opacity: 0.7,
+                }}
+              />
+            </Box>
+
+            <Typography
+              variant="body1"
+              align="start"
+              sx={{
+                color: "text.secondary",
+              }}
+            >
+              {emptyStateText[type]}
+            </Typography>
+          </Box>
+          {<WorkPlaceCreationPopup id={spotId} />}
+        </Grid>
+
+        <Grid item xs={12} sx={{ mt: 3 }}>
           <Divider />
         </Grid>
       </Grid>
