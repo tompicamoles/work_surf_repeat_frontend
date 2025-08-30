@@ -3,10 +3,10 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSelector } from "react-redux";
 import { selectSpot } from "../../spots/spotsSlice";
-import { selectWorkPlaces } from "../workPlacesSlice";
+import { selectAllWorkPlacesForMap } from "../workPlacesSlice";
 
 export default function WorkPlacesMap({ id }) {
-  const workPlaces = useSelector(selectWorkPlaces);
+  const workPlaces = useSelector(selectAllWorkPlacesForMap);
   const spot = useSelector((state) => selectSpot(state, id));
 
   // Defensive programming - handle loading state

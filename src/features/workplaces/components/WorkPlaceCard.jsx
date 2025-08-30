@@ -10,16 +10,21 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectWorkPlaces } from "../workPlacesSlice";
+import { selectWorkPlaceById } from "../workPlacesSlice";
 import AddRatingPopup from "./AddRatingPopup";
 import { WorkPlaceComments } from "./WorkPlaceComments";
 
 function WorkPlaceCard({ type, id }) {
-  const place = useSelector(selectWorkPlaces)[type][id];
+  const place = useSelector((state) => selectWorkPlaceById(state, type, id));
   const session = useSelector((state) => state.user.session);
   const [showComments, setShowComments] = useState(false);
   const [ratingPopupOpen, setRatingPopupOpen] = useState(false);
   const [editingRating, setEditingRating] = useState(null);
+
+  // Defensive programming - handle case where place might not exist
+  if (!place) {
+    return <div>Workplace not found</div>;
+  }
 
   // Use real data from the place object
   const commentedRatings = place.ratings.filter((rating) => rating.comment);

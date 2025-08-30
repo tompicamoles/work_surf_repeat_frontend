@@ -21,7 +21,7 @@ const createSpotObject = (spot) => {
     longitude: parseFloat(spot.longitude),
     likeUserIds: spot.like_user_ids ?? [],
     totalLikes: parseInt(spot.total_likes) ?? 0,
-    sortKey: spot.total_likes ?? 0,
+    sortKey: parseInt(spot.total_likes) ?? 0,
     creatorName: spot.creator_name,
     summary: spot.summary,
   };
@@ -295,9 +295,7 @@ export const spotsSlice = createSlice({
           if (status === 201) {
             // Liked
             spot.likeUserIds.push(userId);
-            console.log("spot.totalLikes before increment", spot.totalLikes);
             spot.totalLikes += 1;
-            console.log("spot.totalLikes after increment", spot.totalLikes);
           } else if (status === 200) {
             // Unliked
             spot.likeUserIds = spot.likeUserIds.filter((id) => id !== userId);

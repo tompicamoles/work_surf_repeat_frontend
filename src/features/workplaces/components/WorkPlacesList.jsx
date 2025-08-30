@@ -2,14 +2,17 @@ import { Business, Coffee, Home } from "@mui/icons-material";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectWorkPlaces } from "../workPlacesSlice";
+import { selectWorkPlacesArrayByType } from "../workPlacesSlice";
 import WorkPlaceCard from "./WorkPlaceCard";
 import { WorkPlaceCreationPopup } from "./WorkPlaceCreationPopup";
 
 function WorkPlacesList({ type, spotId }) {
-  const workPlaces = useSelector(selectWorkPlaces)[type];
-
   const [visibleCount, setVisibleCount] = useState(3);
+
+  // Use the defensive selector - no more manual defensive programming needed!
+  const workPlacesArray = useSelector((state) =>
+    selectWorkPlacesArrayByType(state, type)
+  );
 
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 3);
@@ -38,9 +41,6 @@ function WorkPlacesList({ type, spotId }) {
 
   let title = titles[type];
   const IconComponent = iconMap[type] || Business;
-  console.log(type, workPlaces);
-
-  const workPlacesArray = Object.entries(workPlaces) || [];
 
   if (workPlacesArray.length === 0) {
     return (
@@ -119,8 +119,8 @@ function WorkPlacesList({ type, spotId }) {
           </Typography>
         </Grid>
 
-        {workPlacesArray.slice(0, visibleCount).map(([id]) => (
-          <WorkPlaceCard type={type} id={id} key={id} />
+        {workPlacesArray.slice(0, visibleCount).map((workplace) => (
+          <WorkPlaceCard type={type} id={workplace.id} key={workplace.id} />
         ))}
         <Grid item container justifyContent={"flex-end"}>
           <Button

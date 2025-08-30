@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { uploadImage } from "../../tierApi/supabase";
 
 const createWorkPlaceObject = (place) => {
@@ -260,6 +264,35 @@ export const workPlacesSlice = createSlice({
 });
 
 export const selectWorkPlaces = (state) => state.workPlaces.workPlaces;
+
+export const selectWorkPlacesArrayByType = createSelector(
+  [selectWorkPlaces, (state, type) => type],
+  (workPlaces, type) => {
+    return Object.entries(workPlaces?.[type] || {})
+      .map(([_id, workplace]) => workplace)
+      .sort((a, b) => b.averageRating - a.averageRating);
+  }
+);
+
+// Selector for getting a specific workplace by type and id
+export const selectWorkPlaceById = createSelector(
+  [selectWorkPlaces, (state, type) => type, (state, type, id) => id],
+  (workPlaces, type, id) => {
+    return workPlaces?.[type]?.[id] || null;
+  }
+);
+
+// Selector for getting all workplaces in a safe format for mapping
+export const selectAllWorkPlacesForMap = createSelector(
+  [selectWorkPlaces],
+  (workPlaces) => {
+    const categories = ["café", "coworking", "coliving"];
+    return categories.reduce((acc, category) => {
+      acc[category] = workPlaces?.[category] || {};
+      return acc;
+    }, {});
+  }
+);
 export const failedToLoadWorkPlaces = (state) =>
   state.workPlaces.failedToLoadWorkPlaces;
 export const isLoadingWorkPlaces = (state) =>
