@@ -24,9 +24,9 @@ function WorkPlacesList({ type, spotId }) {
   const emptyStateText = {
     café: "Found a café with great WiFi and coffee? Share it with fellow remote workers.",
     coworking:
-      "Know a productive coworking space? Help other nomads find their ideal workspace.",
+      "Know a productive coworking space? Help fellow remote workers find their ideal workspace.",
     coliving:
-      "Discovered an amazing coliving? Share it and help nomads find their next home base.",
+      "Discovered an amazing coliving? Share it and help fellow remote workers find their next home base.",
   };
 
   // Icon mapping for different workplace types
@@ -40,7 +40,9 @@ function WorkPlacesList({ type, spotId }) {
   const IconComponent = iconMap[type] || Business;
   console.log(type, workPlaces);
 
-  if (Object.keys(workPlaces).length === 0) {
+  const workPlacesArray = Object.entries(workPlaces) || [];
+
+  if (workPlacesArray.length === 0) {
     return (
       <Grid container sx={{ p: 3 }}>
         <Typography variant="h6" sx={{ mb: 3, width: "100%" }}>
@@ -117,11 +119,9 @@ function WorkPlacesList({ type, spotId }) {
           </Typography>
         </Grid>
 
-        {Object.entries(workPlaces)
-          .slice(0, visibleCount)
-          .map(([id]) => (
-            <WorkPlaceCard type={type} id={id} key={id} />
-          ))}
+        {workPlacesArray.slice(0, visibleCount).map(([id]) => (
+          <WorkPlaceCard type={type} id={id} key={id} />
+        ))}
         <Grid item container justifyContent={"flex-end"}>
           <Button
             sx={{ marginTop: -2 }}

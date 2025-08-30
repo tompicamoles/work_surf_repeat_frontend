@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { uploadImage } from "../../tierApi/supabase"; // Import the generic function
 
 const createSpotObject = (spot) => {
@@ -16,7 +20,8 @@ const createSpotObject = (spot) => {
     latitude: parseFloat(spot.latitude),
     longitude: parseFloat(spot.longitude),
     likeUserIds: spot.like_user_ids ?? [],
-    totalLikes: spot.total_likes ?? 0,
+    totalLikes: parseInt(spot.total_likes) ?? 0,
+    sortKey: spot.total_likes ?? 0,
     creatorName: spot.creator_name,
     summary: spot.summary,
   };
@@ -290,7 +295,9 @@ export const spotsSlice = createSlice({
           if (status === 201) {
             // Liked
             spot.likeUserIds.push(userId);
+            console.log("spot.totalLikes before increment", spot.totalLikes);
             spot.totalLikes += 1;
+            console.log("spot.totalLikes after increment", spot.totalLikes);
           } else if (status === 200) {
             // Unliked
             spot.likeUserIds = spot.likeUserIds.filter((id) => id !== userId);
@@ -305,7 +312,16 @@ export const { resetPagination, setCurrentFilters, resetDisplayedCount } =
   spotsSlice.actions;
 
 // Selectors
-export const selectSpots = (state) => state.spots.spots;
+
+export const selectSpots = createSelector(
+  [(state) => state.spots.spots],
+  (spots) => {
+    return Object.entries(spots)
+      .map(([_id, spot]) => spot) // Extract just the spot objects
+      .sort((a, b) => b.sortKey - a.sortKey); // Sort by popularity (highest first)
+  }
+);
+export const selectSpot = (state, spotId) => state.spots?.spots?.[spotId];
 export const selectDisplayedSpotsCount = (state) =>
   state.spots.displayedSpotsCount;
 export const selectHasMore = (state) => state.spots.hasMore;

@@ -2,12 +2,18 @@ import { Icon } from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSelector } from "react-redux";
-import { selectSpots } from "../../spots/spotsSlice";
+import { selectSpot } from "../../spots/spotsSlice";
 import { selectWorkPlaces } from "../workPlacesSlice";
 
 export default function WorkPlacesMap({ id }) {
   const workPlaces = useSelector(selectWorkPlaces);
-  const spot = useSelector(selectSpots)[id];
+  const spot = useSelector((state) => selectSpot(state, id));
+
+  // Defensive programming - handle loading state
+  if (!spot) {
+    return <div>Loading map...</div>;
+  }
+
   const spotPosition = [spot.latitude, spot.longitude];
 
   const surfIcon = new Icon({
@@ -18,7 +24,7 @@ export default function WorkPlacesMap({ id }) {
   return (
     <MapContainer
       center={spotPosition}
-      zoom={14}
+      zoom={12}
       style={{ height: "50vh", width: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

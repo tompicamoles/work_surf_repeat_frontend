@@ -111,10 +111,7 @@ const Spots = ({ context }) => {
   }, [handleLoadMore, spotSearch, context]);
 
   const showInfiniteScroll = !spotSearch && !context;
-  const spotsArray = Object.entries(spots)
-    .map(([id, spot]) => spot) // Extract just the spot objects
-    .sort((a, b) => b.totalLikes - a.totalLikes) // Sort by popularity (highest first)
-    .slice(0, displayedCount);
+  const spotsArray = spots.slice(0, displayedCount);
 
   // 🐛 DEBUG: Log current state
   console.log("📊 Current Spots state:", {

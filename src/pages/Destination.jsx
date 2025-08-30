@@ -8,14 +8,14 @@ import { lifeCostLabels } from "../features/spots/components/formComponents/Life
 import { wifiLabels } from "../features/spots/components/formComponents/WifiRating";
 import LikeSpotButton from "../features/spots/components/LikeSpotButton";
 import SurfSeasonIcons from "../features/spots/components/SurfSeasonIcons";
-import { selectSpots } from "../features/spots/spotsSlice";
+import { selectSpot } from "../features/spots/spotsSlice";
 import { WorkPlaces } from "../features/workplaces/components/WorkPlaces";
 import { loadWorkPlaces } from "../features/workplaces/workPlacesSlice";
 
 const Destinations = () => {
   let { id } = useParams();
 
-  const spot = useSelector(selectSpots)[id];
+  const spot = useSelector((state) => selectSpot(state, id));
   console.log("loadedspot : ", spot);
   const dispatch = useDispatch();
 

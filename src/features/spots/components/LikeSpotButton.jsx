@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectSpots, likeSpot } from "../spotsSlice";
+import { selectSpot, likeSpot } from "../spotsSlice";
+
 import {
   selectSession,
   selectCurrentUser,
 } from "../../../features/user/userSlice";
 
-import { Typography, Fab, Tooltip } from "@mui/material";
+import { Typography, Fab, Tooltip, CircularProgress } from "@mui/material";
 import { ThumbUpAlt } from "@mui/icons-material";
 
 import AuthPopup from "../../../features/user/components/AuthPopup";
@@ -18,8 +19,18 @@ function LikeSpotButton({ id }) {
   const user = useSelector(selectCurrentUser);
   const session = useSelector(selectSession);
 
-  const spot = useSelector(selectSpots)[id];
-  const numberOfLikes = spot.totalLikes;
+  const spot = useSelector((state) => selectSpot(state, id));
+
+  // Defensive programming - handle loading state
+  if (!spot) {
+    return (
+      <Fab size="small" color="secondary" disabled>
+        <CircularProgress size={16} />
+      </Fab>
+    );
+  }
+
+  const numberOfLikes = spot.totalLikes || 0;
 
   const handleLikeButton = () => {
     if (session) {
@@ -30,13 +41,6 @@ function LikeSpotButton({ id }) {
   };
 
   let userLikedDestination = session && spot.likeUserIds?.includes(user.id);
-  // if (session) {
-  //   // if (spot.likes.includes(user.email)) {
-  //   if (false) {
-  //     // We wait to make sure the user is logged in before getting the nickname to prevent errors linked to aysinc
-  //     userLikedDestination = true;
-  //   }
-  // }
 
   return (
     <>

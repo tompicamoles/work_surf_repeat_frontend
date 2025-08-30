@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
 import { displayListOfMonths } from "../../../common/utils/utils";
-import { selectSpots } from "../spotsSlice";
+import { selectSpot } from "../spotsSlice";
 
 import { lifeCostLabels } from "./formComponents/LifeCost";
 import { wifiLabels } from "./formComponents/WifiRating";
@@ -15,7 +15,26 @@ import LikeSpotButton from "./LikeSpotButton";
 function SpotCard({ id }) {
   // const dispatch = useDispatch();
 
-  const spot = useSelector(selectSpots)[id];
+  const spot = useSelector((state) => selectSpot(state, id));
+
+  // Defensive programming - handle loading state
+  if (!spot) {
+    return (
+      <Grid item container>
+        <Paper
+          sx={{
+            display: "flex",
+            minHeight: 200,
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography color="text.secondary">Loading spot...</Typography>
+        </Paper>
+      </Grid>
+    );
+  }
 
   // const numberOfLikes = spot.likes.length;
 

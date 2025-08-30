@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { selectSpots } from "../../../spots/spotsSlice";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getCountryCode } from "../../../../common/utils/countriesData";
+import { selectSpot } from "../../../spots/spotsSlice";
 
 export const GoogleMapsWorkspaceIdFinder = ({ onChange, id }) => {
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const places = useMapsLibrary("places");
-  const spot = useSelector(selectSpots)[id];
+  const spot = useSelector(selectSpot(id));
   const countryCode = getCountryCode(spot.country);
 
   useEffect(() => {
