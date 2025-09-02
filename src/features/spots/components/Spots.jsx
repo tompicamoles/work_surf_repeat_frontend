@@ -32,19 +32,12 @@ const Spots = ({ context }) => {
   const sentinelRef = useRef(null);
 
   function filterSpotsByNameOrCountry() {
-    let filteredSpots = {};
+    const filteredSpots = spots.filter(
+      (spot) =>
+        spot.name.toLowerCase().includes(spotSearch.toLowerCase()) ||
+        spot.country.toLowerCase().includes(spotSearch.toLowerCase())
+    );
 
-    // Iterate over the keys of the spots object
-    for (let key in spots) {
-      // Check if the search parameter is included in the name or country
-      if (
-        spots[key].name.toLowerCase().includes(spotSearch.toLowerCase()) ||
-        spots[key].country.toLowerCase().includes(spotSearch.toLowerCase())
-      ) {
-        // If it matches, add the spot to the filteredSpots array
-        filteredSpots[key] = spots[key];
-      }
-    }
     return filteredSpots;
   }
 
@@ -53,17 +46,10 @@ const Spots = ({ context }) => {
   }
 
   function filterLikedSpots() {
-    let filteredSpots = {};
+    const filteredSpots = spots.filter((spot) =>
+      spot.likeUserIds.includes(user.id)
+    );
 
-    // Iterate over the keys of the spots object
-    for (let key in spots) {
-      // Check if the search parameter is included in the name or country
-      if (spots[key].likeUserIds.includes(user.id)) {
-        // If it matches, add the spot to the filteredSpots array
-        filteredSpots[key] = spots[key];
-      }
-    }
-    console.log(filteredSpots);
     return filteredSpots;
   }
 

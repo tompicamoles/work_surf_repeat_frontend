@@ -36,39 +36,6 @@ function SpotCard({ id }) {
     );
   }
 
-  // const numberOfLikes = spot.likes.length;
-
-  // const handleLikeButton = () => {
-  //   if (session) {
-  //     let newListOfLikes = [...spot.likes];
-  //     !spot.likes.includes(user.email)
-  //       ? newListOfLikes.push(user.email)
-  //       : (newListOfLikes = newListOfLikes.filter(
-  //           (like) => like !== user.email
-  //         ));
-  //     newListOfLikes.length === 0 && newListOfLikes.push("tom");
-
-  //     const likeData = {
-  //       id: id,
-  //       likes: newListOfLikes,
-  //     };
-
-  //     dispatch(likeSpot(likeData));
-  //   } else {
-  //     alert(
-  //       "you must log in to like a spot and add it to your liked spots list"
-  //     );
-  //   }
-  // };
-
-  // let userLikedDestination = false;
-  // if (session) {
-  //   if (spot.likes.includes(user.email)) {
-  //     // We wait to make sure the user is logged in before getting the nickname to prevent errors linked to aysinc
-  //     userLikedDestination = true;
-  //   }
-  // }
-
   return (
     <Grid item container>
       <Paper
@@ -142,33 +109,6 @@ function SpotCard({ id }) {
             <LikeSpotButton id={id} />
           </Grid>
 
-          {/* <Grid
-            item
-            container
-            xs={6}
-            alignContent={"flex-start"}
-            justifyContent="flex-end"
-          >
-            <Tooltip
-              title={
-                session ? "Like and add to wishlist" : `Log in to like`
-              }
-            >
-              <Fab
-                size="small"
-                color="secondary"
-                aria-label="add"
-                onClick={() => session && handleLikeButton()}
-              >
-                <ThumbUpAlt
-                  color={userLikedDestination ? "primary" : "disabled"}
-                />
-                <Typography marginLeft={-1} marginTop={2.5} color="black">
-                  {numberOfLikes}
-                </Typography>
-              </Fab>
-            </Tooltip>
-          </Grid> */}
           <Grid
             container
             item
@@ -235,57 +175,6 @@ function SpotCard({ id }) {
               </Box>
             </Tooltip>
           </Grid>
-          {/* <Grid
-            item
-            container
-            xs={6}
-            alignItems={"flex-end"}
-            alignContent={"flex-end"}
-            justifyContent="flex-end"
-          >
-            <Tooltip
-              title={`Waves suitable for ${commaSeparator(
-                spot.level
-              )} surfers.`}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "15%",
-                  borderRadius: 1.5,
-                  p: 1,
-                  bgcolor: "secondary.main",
-                  m: 0.5,
-                }}
-              >
-                <GiWaveSurfer
-                  size={17}
-                  color={
-                    spot.level.includes("Beginner")
-                      ? "#05668D"
-                      : "rgba(74,74,74,0.38)"
-                  }
-                />
-                <GiWaveSurfer
-                  size={20}
-                  color={
-                    spot.level.includes("Intermediate")
-                      ? "#05668D"
-                      : "rgba(74,74,74,0.38)"
-                  }
-                />
-                <GiWaveSurfer
-                  size={23}
-                  color={
-                    spot.level.includes("Advanced")
-                      ? "#05668D"
-                      : "rgba(74,74,74,0.38)"
-                  }
-                />
-              </Box>
-            </Tooltip>
-          </Grid> */}
         </Grid>
       </Paper>
       <Grid item container p={0.5} marginBottom={1} alignContent={"flex-start"}>
@@ -332,10 +221,6 @@ function SpotCard({ id }) {
               <Typography variant="h7" gutterBottom>
                 {spot.country}
               </Typography>
-              {/* <Typography variant="h8" gutterBottom color={"grey"}>
-                {" "}
-                by {spot.creatorName}
-              </Typography> */}
             </Grid>
           </Link>
         </Grid>

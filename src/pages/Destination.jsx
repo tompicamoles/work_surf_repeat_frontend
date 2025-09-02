@@ -127,18 +127,6 @@ const Destinations = () => {
           >
             <SurfSeasonIcons surfSeason={spot.surfSeason} />
           </Grid>
-
-          {/* <Typography
-            variant="subtitle2"
-            color={"secondary"}
-            sx={{
-              textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5) ",
-              padding: { xs: 1, sm: 3 },
-            }}
-          >
-            {" "}
-            Destination submitted by {spot.creatorName}
-          </Typography> */}
         </Grid>
         <Grid container item xs={12} alignItems={"center"} gap={2}>
           <Typography
