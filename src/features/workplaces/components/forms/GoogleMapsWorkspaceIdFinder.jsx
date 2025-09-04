@@ -9,7 +9,7 @@ export const GoogleMapsWorkspaceIdFinder = ({ onChange, id }) => {
   const [predictions, setPredictions] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const places = useMapsLibrary("places");
-  const spot = useSelector(selectSpot(id));
+  const spot = useSelector((state) => selectSpot(state, id));
   const countryCode = getCountryCode(spot.country);
 
   useEffect(() => {
